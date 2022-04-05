@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 05, 2022 at 05:57 PM
+-- Generation Time: Apr 05, 2022 at 06:12 PM
 -- Server version: 10.6.7-MariaDB-log
 -- PHP Version: 7.4.28
 
@@ -48,7 +48,7 @@ CREATE TABLE `books` (
   `cover_image` varchar(255) DEFAULT NULL,
   `quantity_rented` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `UPDATED_AT` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
@@ -62,7 +62,7 @@ CREATE TABLE `book_authors` (
   `authors_author_id` int(11) NOT NULL,
   `books_book_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp()
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
@@ -73,9 +73,9 @@ CREATE TABLE `book_authors` (
 
 CREATE TABLE `genres` (
   `genre_id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL DEFAULT 'no genre',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp()
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
@@ -102,7 +102,7 @@ CREATE TABLE `rental_list_books` (
   `books_book_id` int(11) NOT NULL,
   `rental_lists_rental_list_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp()
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
@@ -134,7 +134,7 @@ CREATE TABLE `user_relationships` (
   `users2_user_id` int(11) NOT NULL,
   `type` varchar(30) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp()
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
@@ -147,7 +147,7 @@ CREATE TABLE `wish_lists` (
   `wish_list_id` int(11) NOT NULL,
   `users_user_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp()
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
@@ -161,7 +161,7 @@ CREATE TABLE `wish_list_books` (
   `wish_lists_wish_list_id` int(11) NOT NULL,
   `books_book_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp()
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
