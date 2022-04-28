@@ -152,9 +152,6 @@ CREATE TABLE wish_list_books (
 );
 
 
-SET FOREIGN_KEY_CHECKS=1;
-COMMIT;
-
 -- --------------------------------------------------------
 
 --
@@ -288,3 +285,7 @@ VALUES (6, 3),
 (10, 3),
 (10, 5),
 (10, 8);
+
+
+SET FOREIGN_KEY_CHECKS=1;
+COMMIT;
