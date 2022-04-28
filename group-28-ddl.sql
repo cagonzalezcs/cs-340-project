@@ -100,8 +100,6 @@ CREATE TABLE user_roles (
 -- Table structure for table users
 --
 
--- TODO HERE
-
 CREATE TABLE users (
   id int(11) NOT NULL AUTO_INCREMENT,
   user_role_id int(11) NOT NULL,
@@ -183,11 +181,11 @@ VALUES ('Non-Ficton'),
 ('Comedy'),
 ('Drama');
 
+-- --------------------------------------------------------
+
 --
 -- Insert Books
 -- 
-
--- --------------------------------------------------------
 
 INSERT INTO books (title, genre_id, isbn, cover_image, quantity_available, quantity_rented) 
 VALUES ('lobortis vel dapibus at diam nam tristique tortor eu', 4, '488010340-3', 'http://dummyimage.com/220x.png/dddddd/000000', 13, 10),
@@ -201,11 +199,11 @@ VALUES ('lobortis vel dapibus at diam nam tristique tortor eu', 4, '488010340-3'
 ('auctor gravida sem praesent id', 3, '363704582-6', 'http://dummyimage.com/209x.png/ff4444/ffffff', 15, 11),
 ('in est risus auctor sed tristique in tempus sit', 1, '663570720-4', 'http://dummyimage.com/218x.png/5fa2dd/ffffff', 12, 11);
 
+-- --------------------------------------------------------
+
 --
 -- Insert Book Authors
 -- 
-
--- --------------------------------------------------------
 
 INSERT INTO book_authors (book_id, author_id)
 VALUES (1, 1),
@@ -221,11 +219,11 @@ VALUES (1, 1),
 (9, 1),
 (10, 2);
 
+-- --------------------------------------------------------
+
 --
 -- Insert User Roles
 -- 
-
--- --------------------------------------------------------
 
 INSERT INTO user_roles (type)
 VALUES ('admin'),
@@ -233,11 +231,11 @@ VALUES ('admin'),
 ('sales'),
 ('customer');
 
+-- --------------------------------------------------------
+
 --
 -- Insert User
 -- 
-
--- --------------------------------------------------------
 
 INSERT INTO users (user_role_id, first_name, last_name, email, address_line_1, address_line_2, city, state, password) 
 VALUES (1, 'Baryram', 'Basil', 'bbasil0@thetimes.co.uk', '6 Farwell Trail', NULL, 'New York City', 'New York', 'ai2lYKdzx'),
@@ -251,11 +249,11 @@ VALUES (1, 'Baryram', 'Basil', 'bbasil0@thetimes.co.uk', '6 Farwell Trail', NULL
 (4, 'Waverly', 'Wellbeloved', 'wwellbeloved8@sogou.com', '096 Coleman Trail', NULL, 'Oklahoma City', 'Oklahoma', 'k5eyFr'),
 (4, 'Pauly', 'Guidotti', 'pguidotti9@ucoz.ru', '49 Debs Center', NULL, 'Grand Rapids', 'Michigan', 'k5Wr95');
 
+-- --------------------------------------------------------
+
 --
 -- Insert Rental List Books
 -- 
-
--- --------------------------------------------------------
 
 INSERT INTO rental_list_books (user_id, book_id) 
 VALUES (6, 9),
@@ -269,11 +267,11 @@ VALUES (6, 9),
 (10, 10),
 (10, 6);
 
+-- --------------------------------------------------------
+
 --
 -- Insert Wish List Books
 -- 
-
--- --------------------------------------------------------
 
 INSERT INTO wish_list_books (user_id, book_id) 
 VALUES (6, 3),
