@@ -1,6 +1,45 @@
 {
+    "env": {
+        "browser": true,
+        "es2021": true,
+        "node": true
+    },
     "extends": [
-    "some-other-config-you-use",
-    "prettier"
-]
+        "eslint:recommended",
+        "plugin:vue/vue3-recommended",
+        "plugin:import/recommended",
+        "prettier"
+    ],
+    "parser": "@babel/eslint-parser",
+    "parserOptions": {
+        "requireConfigFile": false
+    },
+    "plugins": ["vue", "html", "import", "prettier"],
+    "rules": {
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
+        "eol-last": [
+            "error",
+            "always"
+        ]
+    },
+    "overrides": [
+        {
+            "files": ["**/*.vue"],
+            "parser": "vue-eslint-parser",
+            "parserOptions": {
+                "parser": "@babel/eslint-parser"
+            }
+        }
+    ]
 }
