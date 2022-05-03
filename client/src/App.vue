@@ -1,5 +1,4 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue';
 import { reactive, onMounted } from 'vue';
 
 const state = reactive({
@@ -31,11 +30,19 @@ function setFirstAuthor(author) {
 </script>
  
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <div class="placeholder-message">
-    First Author in the DB is: {{ state.author }}
-  </div>
-  <HelloWorld msg="Hello Vue 3 + Vite" />
+  <!-- This nav element might be abstracted to a different component later.
+   When routing to established routes, use the router-link component with a
+    to attribute. -->
+  <nav>
+    <router-link to='/' style='margin-right: 10px'>Login</router-link>
+    <router-link to='/register'>Register</router-link>
+  </nav>
+
+  <!-- Router View is the component that renders routes based on what is
+   configured within src/routes/index.js -->
+  <router-view></router-view>
+
+  <h2>The first author pulled from the database is {{state.author}}</h2>
 </template>
 
 <style>
