@@ -10,8 +10,8 @@
         "plugin:import/recommended",
         "prettier"
     ],
-    "parser": "@babel/eslint-parser",
     "parserOptions": {
+        "ecmaVersion": 13,
         "requireConfigFile": false
     },
     "plugins": ["vue", "html", "import", "prettier"],
@@ -38,7 +38,7 @@
             "files": ["**/*.vue"],
             "parser": "vue-eslint-parser",
             "parserOptions": {
-                "parser": "@babel/eslint-parser"
+                "ecmaVersion": 13
             }
         }
     ]
