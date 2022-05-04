@@ -15,47 +15,47 @@
             <th>birth_date</th>
             <th>books</th>
             <th></th>
-            <th><a href="#" onClick="newAuthor()">Add Author</a></th>
+            <th><a href="#">Add Author</a></th>
         </tr>
         <tr>
             <td>1</td>
             <td>Adiana Pavlishchev</td>
             <td>2020-07-11</td>
-            <td><a href="#" onClick="viewBookAuthors('this.Author_ID')">View All Titles</a></td>
-            <td><a href="#" onClick="updateAuthor('this.Author_ID')">Edit</a></td>
-            <td><a href="#" onclick="deleteAuthor('this.Author_ID')">Delete</a></td>
+            <td><a href="#">View All Titles</a></td>
+            <td><a href="#">Edit</a></td>
+            <td><a href="#">Delete</a></td>
         </tr>
         <tr>
             <td>2</td>
             <td>Perren Benzi</td>
             <td>2020-11-16</td>
-            <td><a href="#" onClick="viewBookAuthors('this.Author_ID')">View All Titles</a></td>
-            <td><a href="#" onClick="updateAuthor('this.Author_ID')">Edit</a></td>
-            <td><a href="#" onclick="deleteAuthor('this.Author_ID')">Delete</a></td>
+            <td><a href="#">View All Titles</a></td>
+            <td><a href="#">Edit</a></td>
+            <td><a href="#">Delete</a></td>
         </tr>
         <tr>
             <td>3</td>
             <td>Berne Yele</td>
             <td>2019-03-22</td>
-            <td><a href="#" onClick="viewBookAuthors('this.Author_ID')">View All Titles</a></td>
-            <td><a href="#" onClick="updateAuthor('this.Author_ID')">Edit</a></td>
-            <td><a href="#" onclick="deleteAuthor('this.Author_ID')">Delete</a></td>
+            <td><a href="#">View All Titles</a></td>
+            <td><a href="#">Edit</a></td>
+            <td><a href="#">Delete</a></td>
         </tr>
         <tr>
             <td>4</td>
             <td>Robbi Feild</td>
             <td>2020-01-06</td>
-            <td><a href="#" onClick="viewBookAuthors('this.Author_ID')">View All Titles</a></td>
-            <td><a href="#" onClick="updateAuthor('this.Author_ID')">Edit</a></td>
-            <td><a href="#" onclick="deleteAuthor('this.Author_ID')">Delete</a></td>
+            <td><a href="#">View All Titles</a></td>
+            <td><a href="#">Edit</a></td>
+            <td><a href="#">Delete</a></td>
         </tr>
         <tr>
             <td>5</td>
             <td>Thomasin Seakin</td>
             <td>2019-08-11</td>
-            <td><a href="#" onClick="viewBookAuthors('this.Author_ID')">View All Titles</a></td>
-            <td><a href="#" onClick="updateAuthor('this.Author_ID')">Edit</a></td>
-            <td><a href="#" onclick="deleteAuthor('this.Author_ID')">Delete</a></td>
+            <td><a href="#">View All Titles</a></td>
+            <td><a href="#">Edit</a></td>
+            <td><a href="#">Delete</a></td>
         </tr>
     </table>
     </div><!-- browse -->
@@ -68,7 +68,7 @@
             <label> birth_date </label> <input type="date" name="birth_date">
       </fieldset>
           <input class="btn" type="submit" id="addAuthor" value="Add New Author">
-          <input class="btn" type="button" value="Cancel" onClick="browseAuthors()">
+          <input class="btn" type="button" value="Cancel">
 	</form> 
     </div><!-- insert -->
     <p>&nbsp;</p>
@@ -80,7 +80,7 @@
             <label> birth_date </label> <input type="date" name="birth_date" value="2020-07-11">
       </fieldset>
           <input class="btn" type="submit" id="editAuthor" value="Edit Author">
-          <input class="btn" type="button" value="Cancel" onClick="browseAuthors()">
+          <input class="btn" type="button" value="Cancel">
 	</form> 
     </div><!-- update -->
     <p>&nbsp;</p>
@@ -94,30 +94,27 @@
                 <label> <strong>name:</strong> </label> Adiana Pavlishchev       
             </fieldset>
             <input class="btn" type="submit" id="deleteAuthor" value="Delete Author">
-            <input class="btn" type="button" value="cancel" onClick="browseAuthors()">
+            <input class="btn" type="button" value="Cancel">
     </form> 
     </div><!-- delete -->
     <div id="bookAuthorsTable">
         <h1>Books By Author</h1>
-        <p>View All Books Written by the Selected Author</p>
+        <p>View All Books Written by author_id: 1</p>
     </div>
     <div id="viewBookAuthors">
     <table border="1" cellpadding="5" style="margin-left: auto; margin-right: auto;">
         <tr>
             <th>book_id</th>
-            <th>author_id</th>
             <th>title</th>
             <th>isbn</th>
         </tr>
         <tr>
             <td>2</td>
-            <td>1</td>
             <td>bibendum imperdiet nullam orci pede venenatis non sodales sed</td>
             <td>255899754-8</td>
         </tr>
         <tr>
             <td>5</td>
-            <td>1</td>
             <td>nulla ultrices aliquet maecenas</td>
             <td>941228042-4</td>
         </tr>

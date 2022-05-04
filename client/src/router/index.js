@@ -6,6 +6,9 @@ import RolesPage from '../pages/RolesPage.vue';
 import BooksPage from '../pages/BooksPage.vue';
 import AuthorsPage from '../pages/AuthorsPage.vue';
 import GenresPage from '../pages/GenresPage.vue';
+import WishListsPage from '../pages/WishListsPage.vue';
+import RentalListsPage from '../pages/RentalListsPage.vue';
+import SearchBooksPage from '../pages/SearchBooksPage.vue';
 
 const routes = [
   {
@@ -42,6 +45,21 @@ const routes = [
     path: '/genres', 
     name: 'Genres', 
     component: GenresPage,
+  }, 
+  {
+    path: '/wish-lists', 
+    name: 'Wish_Lists', 
+    component: WishListsPage,
+  }, 
+  {
+    path: '/rental-lists', 
+    name: 'Rental_Lists', 
+    component: RentalListsPage,
+  }, 
+  {
+    path: '/search-books', 
+    name: 'Search_Books', 
+    component: SearchBooksPage,
   }
 ];
 const router = createRouter({

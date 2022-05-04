@@ -6,6 +6,8 @@
   <div>
     <h1>Books</h1>
     <p>View All Book Data | Add New Books | Update Books | Delete Books</p>
+    <router-link to='/search-books' style='margin-right: 10px'>Search All Books</router-link>
+    <p>&nbsp;</p>
   </div>
   <div id="browse">
    <table border="1" cellpadding="5" style="margin-left: auto; margin-right: auto;">
@@ -18,7 +20,7 @@
         <th>quantity_available</th>
         <th>quantity_rented</th>
         <th></th>
-        <th><a href="#" onClick="newBook()">Add Book</a></th>
+        <th><a href="#">Add Book</a></th>
       </tr>
       <tr>
         <td>1</td>
@@ -28,8 +30,8 @@
         <td>http://dummyimage.com/220x.png/dddddd/000000</td>
         <td>13</td>
         <td>10</td>
-        <td><a href="#" onClick="updateBook('this.bookID')">Edit</a></td>
-        <td><a href="#" onclick="deleteBook('this.bookID')">Delete</a></td>
+        <td><a href="#">Edit</a></td>
+        <td><a href="#">Delete</a></td>
       </tr>
       <tr>
         <td>2</td>
@@ -39,8 +41,8 @@
         <td>http://dummyimage.com/167x.png/5fa2dd/ffffff</td>
         <td>15</td>
         <td>9</td>
-        <td><a href="#" onClick="updateBook('this.bookID')">Edit</a></td>
-        <td><a href="#" onclick="deleteBook('this.bookID')">Delete</a></td>
+        <td><a href="#">Edit</a></td>
+        <td><a href="#">Delete</a></td>
       </tr>
       <tr>
         <td>3</td>
@@ -50,8 +52,8 @@
         <td>http://dummyimage.com/222x.png/cc0000/ffffff</td>
         <td>17</td>
         <td>11</td>
-        <td><a href="#" onClick="updateBook('this.bookID')">Edit</a></td>
-        <td><a href="#" onclick="deleteBook('this.bookID')">Delete</a></td>
+        <td><a href="#">Edit</a></td>
+        <td><a href="#">Delete</a></td>
       </tr>
       <tr>
         <td>4</td>
@@ -61,8 +63,8 @@
         <td>http://dummyimage.com/234x.png/ff4444/ffffff</td>
         <td>17</td>
         <td>3</td>
-        <td><a href="#" onClick="updateBook('this.bookID')">Edit</a></td>
-        <td><a href="#" onclick="deleteBook('this.bookID')">Delete</a></td>
+        <td><a href="#">Edit</a></td>
+        <td><a href="#">Delete</a></td>
       </tr>
       <tr>
         <td>5</td>
@@ -72,8 +74,8 @@
         <td>http://dummyimage.com/160x.png/ff4444/ffffff</td>
         <td>14</td>
         <td>9</td>
-        <td><a href="#" onClick="updateBook('this.bookID')">Edit</a></td>
-        <td><a href="#" onclick="deleteBook('this.bookID')">Delete</a></td>
+        <td><a href="#">Edit</a></td>
+        <td><a href="#">Delete</a></td>
       </tr>
       <tr>
         <td>6</td>
@@ -83,8 +85,8 @@
         <td>http://dummyimage.com/153x.png/ff4444/ffffff</td>
         <td>20</td>
         <td>7</td>
-        <td><a href="#" onClick="updateBook('this.bookID')">Edit</a></td>
-        <td><a href="#" onclick="deleteBook('this.bookID')">Delete</a></td>
+        <td><a href="#">Edit</a></td>
+        <td><a href="#">Delete</a></td>
       </tr>
       <tr>
         <td>7</td>
@@ -94,8 +96,8 @@
         <td>http://dummyimage.com/203x.png/cc0000/ffffff</td>
         <td>17</td>
         <td>10</td>
-        <td><a href="#" onClick="updateBook('this.bookID')">Edit</a></td>
-        <td><a href="#" onclick="deleteBook('this.bookID')">Delete</a></td>
+        <td><a href="#">Edit</a></td>
+        <td><a href="#">Delete</a></td>
       </tr>
       <tr>
         <td>8</td>
@@ -105,8 +107,8 @@
         <td>http://dummyimage.com/182x.png/dddddd/000000</td>
         <td>13</td>
         <td>6</td>
-        <td><a href="#" onClick="updateBook('this.bookID')">Edit</a></td>
-        <td><a href="#" onclick="deleteBook('this.bookID')">Delete</a></td>
+        <td><a href="#">Edit</a></td>
+        <td><a href="#">Delete</a></td>
       </tr>
       <tr>
         <td>9</td>
@@ -116,8 +118,8 @@
         <td>http://dummyimage.com/209x.png/ff4444/ffffff</td>
         <td>15</td>
         <td>11</td>
-        <td><a href="#" onClick="updateBook('this.bookID')">Edit</a></td>
-        <td><a href="#" onclick="deleteBook('this.bookID')">Delete</a></td>
+        <td><a href="#">Edit</a></td>
+        <td><a href="#">Delete</a></td>
       </tr>
       <tr>
         <td>10</td>
@@ -127,8 +129,8 @@
         <td>http://dummyimage.com/218x.png/5fa2dd/ffffff</td>
         <td>12</td>
         <td>11</td>
-        <td><a href="#" onClick="updateBook('this.bookID')">Edit</a></td>
-        <td><a href="#" onclick="deleteBook('this.bookID')">Delete</a></td>
+        <td><a href="#">Edit</a></td>
+        <td><a href="#">Delete</a></td>
       </tr>
   </table>
   </div><!-- browse -->
@@ -153,7 +155,7 @@
             <label> quantity_rented </label> <input type="text" name="quantity_rented">
       </fieldset>
           <input class="btn" type="submit" id="addBook" value="Add New Book">
-          <input class="btn" type="button" value="Cancel" onClick="browseBooks()">
+          <input class="btn" type="button" value="Cancel">
 	</form> 
   </div><!-- insert -->
     <p>&nbsp;</p>
@@ -177,7 +179,7 @@
             <label> quantity_rented </label> <input type="text" name="quantity_rented" value="10">
       </fieldset>
           <input class="btn" type="submit" id="addBook" value="Update Book">
-          <input class="btn" type="button" value="Cancel" onClick="browseBooks()">
+          <input class="btn" type="button" value="Cancel">
 	</form> 
   </div><!-- update -->
     <p>&nbsp;</p>
@@ -191,7 +193,7 @@
               <label> <strong>title:</strong> </label> lobortis vel dapibus at diam nam tristique tortor ...            
           </fieldset>
           <input class="btn" type="submit" id="DeleteBook" value="Delete Book">
-          <input class="btn" type="button" value="cancel" onClick="browseBooks()">
+          <input class="btn" type="button" value="Cancel">
     </form> 
   </div><!-- delete -->
 </template>
