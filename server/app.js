@@ -4,8 +4,7 @@ import cors from 'cors';
 import { dbPool } from './db/db-connection';
 import dotenv from 'dotenv';
 
-dotenv.config();
-console.log(process.env);
+dotenv.config({ debug: true });
 const app = express();
 app.use(
   cors({
