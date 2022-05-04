@@ -19,6 +19,10 @@ app.get('/', async (req, res) => {
   res.json(rows);
 });
 
+app.get('/test', (req, res) => {
+  res.send('Testing');
+});
+
 if (process.env.PROD) {
   app.listen(4000);
 }
