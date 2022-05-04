@@ -8,6 +8,13 @@ export default defineConfig({
     // vite server configs, for details see [vite doc](https://vitejs.dev/config/#server-host)
     port: 4000,
   },
+  build: {
+    rollupOptions: {
+      output: {
+        inlineDynamicImports: false,
+      },
+    },
+  },
   plugins: [
     ImportMetaEnvPlugin.vite({
       example: '.env.example',
