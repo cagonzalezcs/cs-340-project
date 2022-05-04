@@ -6,7 +6,7 @@ import { dbPool } from './db/db-connection';
 const app = express();
 app.use(
   cors({
-    origin: import.meta.env.CLIENT_URI,
+    origin: process.env.CLIENT_URI,
   })
 );
 const dbQuery = util.promisify(dbPool.query).bind(dbPool);
