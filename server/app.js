@@ -2,7 +2,10 @@ import util from 'util';
 import express from 'express';
 import cors from 'cors';
 import { dbPool } from './db/db-connection';
+import dotenv from 'dotenv';
 
+dotenv.config();
+console.log(process.env);
 const app = express();
 app.use(
   cors({
