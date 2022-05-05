@@ -1,14 +1,18 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import LoginPage from '../pages/LoginPage.vue';
-import RegisterPage from '../pages/RegisterPage.vue';
-import UsersPage from '../pages/UsersPage.vue';
-import RolesPage from '../pages/RolesPage.vue';
-import BooksPage from '../pages/BooksPage.vue';
-import AuthorsPage from '../pages/AuthorsPage.vue';
-import GenresPage from '../pages/GenresPage.vue';
-import WishListsPage from '../pages/WishListsPage.vue';
-import RentalListsPage from '../pages/RentalListsPage.vue';
-import SearchBooksPage from '../pages/SearchBooksPage.vue';
+import LoginPage from '../pages/auth/LoginPage.vue';
+import RegisterPage from '../pages/auth/RegisterPage.vue';
+import ForgotPassword from '../pages/auth/ForgotPasswordPage.vue';
+import CustomerRentalListPage from '../pages/customer/CustomerRentalListPage.vue';
+import CustomerWishListPage from '../pages/customer/CustomerWishListPage.vue';
+import CustomerSearchBooksPage from '../pages/customer/CustomerSearchBooksPage.vue';
+import UsersPage from '../pages/admin/UsersPage.vue';
+import RolesPage from '../pages/admin/RolesPage.vue';
+import BooksPage from '../pages/admin/BooksPage.vue';
+import AuthorsPage from '../pages/admin/AuthorsPage.vue';
+import GenresPage from '../pages/admin/GenresPage.vue';
+import WishListsPage from '../pages/admin/WishListsPage.vue';
+import RentalListsPage from '../pages/admin/RentalListsPage.vue';
+import SearchBooksPage from '../pages/admin/SearchBooksPage.vue';
 
 const routes = [
   {
@@ -22,45 +26,65 @@ const routes = [
     component: RegisterPage,
   },
   {
-    path: '/users', 
-    name: 'Users', 
+    path: '/forgot-password',
+    name: 'Forgot Password',
+    component: ForgotPassword,
+  },
+  {
+    path: '/rental-list',
+    name: 'Customer Rental List',
+    component: CustomerRentalListPage,
+  },
+  {
+    path: '/wish-list',
+    name: 'Customer Wish List',
+    component: CustomerWishListPage,
+  },
+  {
+    path: '/search-books',
+    name: 'Search Books',
+    component: CustomerSearchBooksPage,
+  },
+  {
+    path: '/admin/users',
+    name: 'Users',
     component: UsersPage,
-  }, 
+  },
   {
-    path: '/roles', 
-    name: 'Roles', 
+    path: '/admin/roles',
+    name: 'Roles',
     component: RolesPage,
-  }, 
+  },
   {
-    path: '/books', 
-    name: 'Books', 
+    path: '/admin/books',
+    name: 'Books',
     component: BooksPage,
-  }, 
+  },
   {
-    path: '/authors', 
-    name: 'Authors', 
+    path: '/admin/authors',
+    name: 'Authors',
     component: AuthorsPage,
-  }, 
+  },
   {
-    path: '/genres', 
-    name: 'Genres', 
+    path: '/admin/genres',
+    name: 'Genres',
     component: GenresPage,
-  }, 
+  },
   {
-    path: '/wish-lists', 
-    name: 'Wish_Lists', 
+    path: '/admin/wish-lists',
+    name: 'Wish_Lists',
     component: WishListsPage,
-  }, 
+  },
   {
-    path: '/rental-lists', 
-    name: 'Rental_Lists', 
+    path: '/admin/rental-lists',
+    name: 'Rental_Lists',
     component: RentalListsPage,
-  }, 
+  },
   {
-    path: '/search-books', 
-    name: 'Search_Books', 
+    path: '/admin/search-books',
+    name: 'Search_Books',
     component: SearchBooksPage,
-  }
+  },
 ];
 const router = createRouter({
   history: createWebHistory(),

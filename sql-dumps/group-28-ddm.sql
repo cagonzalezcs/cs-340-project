@@ -1,5 +1,117 @@
 -- Database Manipulation Queries for Novel Pursuits 
 
+-- user queries
+-- Create a user
+INSERT INTO users (user_role_id, first_name, last_name, email, address_line_1, address_line_2, city, state, password)
+VALUES(:user_role_id, :user_first_name, :user_last_name, :user_email, :user_address_line_1, :user_address_line_2, :user_city, :user_state, :user_password),
+
+-- get all users to display on UsersPage.vue
+SELECT
+	users.id,
+    users.user_role_id,
+    users.first_name,
+    users.last_name,
+    users.email,
+    users.address_line_1,
+    users.address_line_2,
+    users.city,
+    users.state
+FROM
+    users;
+
+-- get single User id, email, and password to verify and log user in
+SELECT
+    users.id,
+    users.email,
+    users.password
+FROM
+    users;
+
+-- update single User to handle updates from admin
+UPDATE
+    users
+SET
+    users.user_role_id = :user_role_id_input,
+    users.first_name = :first_name_input,
+    users.last_name = :last_name_input,
+    users.email = :email_input,
+    users.address_line_1 = :address_line_1_input,
+    users.address_line_2 = :address_line_2_input,
+    users.city = :city_input,
+    users.state = :state_input
+WHERE
+        users.id = :user_id_value;
+
+-- Update user password
+UPDATE
+    users
+SET
+    users.password = :password_input
+    WHERE
+            users.id = :user_id_value;
+
+-- delete single User to handle deletion from admin
+DELETE FROM users
+WHERE user.id = :user_id_value;
+
+
+-- user_role queries
+-- get user role to check if the user is an admin or customer
+SELECT
+    user_roles.type,
+    users.id
+FROM user_roles
+         INNER JOIN users ON users.user_role_id = user_roles.id
+WHERE
+        users.id = :user_id_input;
+
+
+
+-- rental_list_books queries
+-- get all rental list books for a user
+SELECT
+    books.id,
+    books.title,
+    books.isbn
+FROM
+    books
+        INNER JOIN rental_list_books ON books.id = rental_list_books.book_id
+        INNER JOIN users ON rental_list_books.user_id = users.id
+WHERE
+        user_id = :user_id_input;
+
+-- add a book to the user's rental list
+INSERT INTO rental_list_books (user_id, book_id)
+VALUES(:user_id_input, :book_id_input);
+
+-- remove a book from the user's rental list
+DELETE FROM rental_list_books
+WHERE rental_list_books.user_id = :user_id_input
+  AND rental_list_books.book_id = :book_id_input;
+
+
+-- wish_list_books queries
+-- get all wish list books for a user
+SELECT
+    books.id,
+    books.title,
+    books.isbn
+FROM
+    books
+        INNER JOIN wish_list_books ON books.id = rental_list_books.book_id
+        INNER JOIN users ON wish_list_books.user_id = users.id
+WHERE
+        user_id = :user_id_input;
+
+-- add a book to the user's wish list
+INSERT INTO wish_list_books (user_id, book_id)
+VALUES(:user_id_input, :book_id_input);
+
+-- remove a book from the user's wish list
+DELETE FROM wish_list_books
+WHERE wish_list_books.user_id = :user_id_input
+  AND wish_list_books.book_id = :book_id_input;
+
 
 
 -- Genre queries 
