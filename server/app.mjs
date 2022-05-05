@@ -4,20 +4,24 @@ import express from 'express';
 import cors from 'cors';
 import { dbPool } from './db/db-connection.mjs';
 
+const BASE_URL = '/api/'
 const app = express();
-app.use(
+const router = express.Router();
+const dbQuery = util.promisify(dbPool.query).bind(dbPool);
+
+app.use(BASE_URL, router);
+router.use(
   cors({
     origin: process.env.CLIENT_URI,
   })
 );
-const dbQuery = util.promisify(dbPool.query).bind(dbPool);
 
-app.get('/', async (req, res) => {
+router.get('/', async (req, res) => {
   const rows = await dbQuery('SELECT * FROM authors LIMIT 1');
   res.json(rows);
 });
 
-app.get('/test', (req, res) => {
+router.get('/test', (req, res) => {
   res.send('Testing');
 });
 
