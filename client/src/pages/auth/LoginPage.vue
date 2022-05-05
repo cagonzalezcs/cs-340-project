@@ -35,7 +35,7 @@ async function onSubmit(formData) {
           <label for='login-username' class='login-form__label'>
             <span class='login-form__label-text'>User Name**</span>
             <input id='login-username' type='text' name='username' class='login-form__input' value='admin' />
-            <small class='login-form__temp-note'>**Note: In this mockup, use the username <em>"admin"</em> to access the admin route. Use any other name to access the client route.</small>
+            <small class='login-form__temp-note'>**Note: In this mockup, use the username <em>"admin"</em> to access the admin route. Use any other name to access the customer route.</small>
           </label>
 
           <label for='login-password' class='login-form__label'>
