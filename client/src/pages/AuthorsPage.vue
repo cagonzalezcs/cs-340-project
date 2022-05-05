@@ -84,7 +84,7 @@
           <input class="btn" type="button" value="Cancel">
 	</form> 
     </div><!-- update -->
-    <p>&nbsp;</p>
+    <br />
     <div id="delete" style="display: block">
     <form method="POST" id="deleteAuthor">
         <legend><strong>Delete Author</strong></legend>
