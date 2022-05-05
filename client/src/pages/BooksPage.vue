@@ -14,7 +14,7 @@
       <tr>
         <th>id</th>
         <th>title</th>
-        <th>genre_id</th>
+        <th>genre</th>
         <th>isbn</th>
         <th>cover_image</th>
         <th>quantity_available</th>
@@ -25,7 +25,7 @@
       <tr>
         <td>1</td>
         <td>lobortis vel dapibus at diam nam tristique tortor ...</td>
-        <td>4</td>
+        <td>Comedy</td>
         <td>488010340-3</td>
         <td>http://dummyimage.com/220x.png/dddddd/000000</td>
         <td>13</td>
@@ -36,7 +36,7 @@
       <tr>
         <td>2</td>
         <td>bibendum imperdiet nullam orci pede venenatis non ...</td>
-        <td>1</td>
+        <td>Non-Fiction</td>
         <td>255899754-8</td>
         <td>http://dummyimage.com/167x.png/5fa2dd/ffffff</td>
         <td>15</td>
@@ -47,7 +47,7 @@
       <tr>
         <td>3</td>
         <td>nisi venenatis tristique fusce</td>
-        <td>3</td>
+        <td>Horror</td>
         <td>930917083-2</td>
         <td>http://dummyimage.com/222x.png/cc0000/ffffff</td>
         <td>17</td>
@@ -58,7 +58,7 @@
       <tr>
         <td>4</td>
         <td>aliquet massa id lobortis convallis tortor risus d...</td>
-        <td>2</td>
+        <td>Fiction</td>
         <td>064063105-3</td>
         <td>http://dummyimage.com/234x.png/ff4444/ffffff</td>
         <td>17</td>
@@ -69,7 +69,7 @@
       <tr>
         <td>5</td>
         <td>nulla ultrices aliquet maecenas</td>
-        <td>4</td>
+        <td>Comedy</td>
         <td>941228042-4</td>
         <td>http://dummyimage.com/160x.png/ff4444/ffffff</td>
         <td>14</td>
@@ -80,7 +80,7 @@
       <tr>
         <td>6</td>
         <td>nulla quisque arcu libero rutrum</td>
-        <td>4</td>
+        <td>Comedy</td>
         <td>711009564-9</td>
         <td>http://dummyimage.com/153x.png/ff4444/ffffff</td>
         <td>20</td>
@@ -91,7 +91,7 @@
       <tr>
         <td>7</td>
         <td>in leo maecenas pulvinar lobortis est phasellus</td>
-        <td>3</td>
+        <td>Horror</td>
         <td>588823922-4</td>
         <td>http://dummyimage.com/203x.png/cc0000/ffffff</td>
         <td>17</td>
@@ -102,7 +102,7 @@
       <tr>
         <td>8</td>
         <td>quisque ut erat curabitur gravida nisi at</td>
-        <td>5</td>
+        <td>Drama</td>
         <td>810394541-2</td>
         <td>http://dummyimage.com/182x.png/dddddd/000000</td>
         <td>13</td>
@@ -113,7 +113,7 @@
       <tr>
         <td>9</td>
         <td>auctor gravida sem praesent id</td>
-        <td>3</td>
+        <td>Horror</td>
         <td>363704582-6</td>
         <td>http://dummyimage.com/209x.png/ff4444/ffffff</td>
         <td>15</td>
@@ -124,7 +124,7 @@
       <tr>
         <td>10</td>
         <td>in est risus auctor sed tristique in tempus sit</td>
-        <td>1</td>
+        <td>Non-Fiction</td>
         <td>663570720-4</td>
         <td>http://dummyimage.com/218x.png/5fa2dd/ffffff</td>
         <td>12</td>
@@ -140,7 +140,7 @@
         <legend><strong>Add Book</strong></legend>
           <fieldset class="fields">
             <label> title </label> <input type="text" name="title">
-            <label> genre_id </label> 
+            <label> genre </label> 
                 <select name="genre_id">
                 <option value="0">&nbsp;</option>
                 <option value="1">Non-Fiction</option>
@@ -164,7 +164,7 @@
         <legend><strong>Update Book</strong></legend>
           <fieldset class="fields">
             <label> title </label> <input type="text" name="title" value="lobortis vel dapibus at diam nam tristique tortor ...	">
-            <label> genre_id </label> 
+            <label> genre </label> 
                 <select name="genre_id">
                 <option value="0">&nbsp;</option>
                 <option value="1">Non-Fiction</option>

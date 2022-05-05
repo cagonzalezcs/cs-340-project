@@ -52,7 +52,7 @@
       <form method="POST" id="addGenre">
         <legend><strong>Add Genre</strong></legend>
             <fieldset class="fields">
-                <label> name </label> <input type="text" name="type">
+                <label> name </label> <input type="text" name="genreName">
             </fieldset>
           <input class="btn" type="submit" id="addGenre" value="Add New Genre">
           <input class="btn" type="button" value="Cancel">
@@ -64,7 +64,7 @@
             <legend><strong>Edit Genre</strong></legend>
             <fieldset class="fields">
                 <input type="hidden" name="genre_ID" id="updateGenre" value="1">
-                <label> name </label> <input type="text" name="type" value="Non-Fiction">
+                <label> name </label> <input type="text" name="genreName" value="Non-Fiction">
             </fieldset>
           <input class="btn" type="submit" id="editGenre" value="Edit Genre">
           <input class="btn" type="button" value="Cancel">
@@ -76,6 +76,7 @@
             <legend><strong>Delete Genre</strong></legend>
             <fieldset class="fields">
                     <p>Are you sure you wish to delete the following?</p>
+                    <p>It will set the Genre on all associated books to NULL</p>
                 <input type="hidden" name="genre_ID" id="deleteGenre" value="1">
                 <label><strong>id:</strong></label> 1
                 <label> <strong>name:</strong> </label> Non-Fiction          

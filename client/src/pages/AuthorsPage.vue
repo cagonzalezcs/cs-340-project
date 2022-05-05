@@ -76,8 +76,9 @@
       <form method="POST" id="updateAuthor">
         <legend><strong>Edit Author</strong></legend>
           <fieldset class="fields">
-            <label> name </label> <input type="text" name="name" value="Adiana Pavlishchev">
-            <label> birth_date </label> <input type="date" name="birth_date" value="2020-07-11">
+                <input type="hidden" name="author_ID" id="updateAuthorID" value="1">
+                <label> name </label> <input type="text" name="name" value="Adiana Pavlishchev">
+                <label> birth_date </label> <input type="date" name="birth_date" value="2020-07-11">
       </fieldset>
           <input class="btn" type="submit" id="editAuthor" value="Edit Author">
           <input class="btn" type="button" value="Cancel">
@@ -89,7 +90,7 @@
         <legend><strong>Delete Author</strong></legend>
             <fieldset class="fields">
                 <p>Are you sure you wish to delete the following?</p>
-                <input type="hidden" name="Author_ID" id="deleteAuthorID" value="1">
+                <input type="hidden" name="author_ID" id="deleteAuthorID" value="1">
                 <label><strong>id:</strong></label> 1
                 <label> <strong>name:</strong> </label> Adiana Pavlishchev       
             </fieldset>
@@ -109,14 +110,19 @@
             <th>isbn</th>
         </tr>
         <tr>
-            <td>2</td>
-            <td>bibendum imperdiet nullam orci pede venenatis non sodales sed</td>
-            <td>255899754-8</td>
+            <td>1</td>
+            <td>lobortis vel dapibus at diam nam tristique tortor ...</td>
+            <td>488010340-3</td>
         </tr>
         <tr>
             <td>5</td>
             <td>nulla ultrices aliquet maecenas</td>
             <td>941228042-4</td>
+        </tr>
+        <tr>
+            <td>9</td>
+            <td>auctor gravida sem praesent id</td>
+            <td>363704582-6</td>
         </tr>
     </table>
     </div><!-- viewBookAuthors -->
