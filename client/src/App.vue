@@ -35,7 +35,12 @@ function setFirstAuthor(author) {
     to attribute. -->
   <nav>
     <router-link to='/' style='margin-right: 10px'>Login</router-link>
-    <router-link to='/register'>Register</router-link>
+    <router-link to='/register' style='margin-right: 10px'>Register</router-link>
+    <router-link to='/admin/users' style='margin-right: 10px'>Users</router-link>
+    <router-link to='/admin/roles' style='margin-right: 10px'>Roles</router-link>
+    <router-link to='/admin/books' style='margin-right: 10px'>Books</router-link>
+    <router-link to='/admin/authors' style='margin-right: 10px'>Authors</router-link>
+    <router-link to='/admin/genres'>Genres</router-link>
   </nav>
 
   <!-- Router View is the component that renders routes based on what is
