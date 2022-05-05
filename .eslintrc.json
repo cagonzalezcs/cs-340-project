@@ -41,5 +41,8 @@
                 "ecmaVersion": 13
             }
         }
-    ]
+    ],
+    "globals": {
+        "defineProps": "readonly"
+    }
 }

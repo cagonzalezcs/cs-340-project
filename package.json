@@ -8,9 +8,7 @@
     "client:dev": "cd client && vite",
     "client:build": "cd client && vite build",
     "client:preview": "cd client && vite preview",
-    "server:dev": "cd server && vite",
-    "server:build": "cd server && vite build",
-    "server:preview": "cd server && vite preview"
+    "server:dev": "cd server && nodemon app.mjs"
   },
   "dependencies": {
     "@swc/core": "^1.2.174",
@@ -43,7 +41,6 @@
     "stylelint-config-standard-scss": "^3.0.0",
     "stylelint-prettier": "^2.0.0",
     "vite": "^2.9.6",
-    "vite-plugin-node": "^0.0.19",
     "vue-eslint-parser": "^8.3.0"
   }
 }

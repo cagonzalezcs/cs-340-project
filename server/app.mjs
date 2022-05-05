@@ -1,10 +1,9 @@
+import 'dotenv/config'
 import util from 'util';
 import express from 'express';
 import cors from 'cors';
-import { dbPool } from './db/db-connection';
-import dotenv from 'dotenv';
+import { dbPool } from './db/db-connection.mjs';
 
-dotenv.config({ debug: true });
 const app = express();
 app.use(
   cors({
@@ -13,7 +12,6 @@ app.use(
 );
 const dbQuery = util.promisify(dbPool.query).bind(dbPool);
 
-// Added code
 app.get('/', async (req, res) => {
   const rows = await dbQuery('SELECT * FROM authors LIMIT 1');
   res.json(rows);
@@ -23,8 +21,6 @@ app.get('/test', (req, res) => {
   res.send('Testing');
 });
 
-if (process.env.PROD) {
-  app.listen(4000);
-}
-
-export const viteNodeApp = app;
+app.listen(process.env.SERVER_PORT, () => {
+  console.log(`Listening to port ${process.env.SERVER_PORT}`);
+});

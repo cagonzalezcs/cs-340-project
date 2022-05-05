@@ -7,7 +7,7 @@ const state = reactive({
 
 onMounted(async () => {
   try {
-    const response = await fetch(import.meta.env.SERVER_URI, {
+    const response = await fetch(import.meta.env.VITE_SERVER_URI, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
