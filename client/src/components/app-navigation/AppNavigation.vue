@@ -16,7 +16,7 @@ async function logUserOut() {
 <template>
   <div class='app-navigation'>
     <div class='app-navigation__logo'>
-      Novel Pursuits Admin Dashboard
+      Novel Pursuits  {{ user.isAdmin ? 'Admin Dashboard' : ''}}
     </div>
 
     <app-navigation-admin v-if='user.isAdmin' class='app-navigation__items' />

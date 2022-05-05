@@ -20,4 +20,7 @@ onMounted(() => {
 </template>
 
 <style>
+#app {
+  padding-bottom: 40px;
+}
 </style>
