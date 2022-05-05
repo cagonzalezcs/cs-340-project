@@ -77,8 +77,8 @@
         <legend><strong>Edit Author</strong></legend>
           <fieldset class="fields">
                 <input type="hidden" name="author_ID" id="updateAuthorID" value="1">
-                <label> name </label> <input type="text" name="name" value="Adiana Pavlishchev">
-                <label> birth_date </label> <input type="date" name="birth_date" value="2020-07-11">
+                <label for="author-name"> name </label> <input id="author-name" type="text" name="name" value="Adiana Pavlishchev">
+                <label for="author-birth-date"> birth_date </label> <input id="author-birth-date" type="date" name="birth_date" value="2020-07-11">
       </fieldset>
           <input class="btn" type="submit" id="editAuthor" value="Edit Author">
           <input class="btn" type="button" value="Cancel">
