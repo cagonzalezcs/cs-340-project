@@ -19,7 +19,7 @@ export const useUserStore = defineStore({
     login(user) {
       this.$patch({
         name: user,
-        isAdmin: user.toLowerCase() === 'admin',
+        isAdmin: user.toLowerCase() === 'admin@admin.com',
         isLoggedIn: true,
       });
     },

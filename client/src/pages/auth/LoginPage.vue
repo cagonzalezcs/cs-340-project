@@ -1,5 +1,4 @@
 <script setup>
-import { onUpdated } from 'vue';
 import router from '../../router';
 import { useUserStore } from '../../stores/user';
 
@@ -8,11 +7,11 @@ const user = useUserStore();
 
 
 async function onSubmit(formData) {
-  if (!formData.target.elements.username.value) {
+  if (!formData.target.elements.email.value) {
     return;
   }
 
-  user.login(formData.target.elements.username.value);
+  user.login(formData.target.elements.email.value);
 
   if (user.isAdmin) {
     await router.push({ path: '/admin/users'});
@@ -32,10 +31,10 @@ async function onSubmit(formData) {
 
       <form action='#' class='login-form' @submit.prevent='onSubmit'>
         <fieldset class='login-form__fields'>
-          <label for='login-username' class='login-form__label'>
-            <span class='login-form__label-text'>User Name**</span>
-            <input id='login-username' type='text' name='username' class='login-form__input' value='admin' />
-            <small class='login-form__temp-note'>**Note: In this mockup, use the username <em>"admin"</em> to access the admin route. Use any other name to access the customer route.</small>
+          <label for='login-email' class='login-form__label'>
+            <span class='login-form__label-text'>Email Address**</span>
+            <input id='login-email' type='email' name='email' class='login-form__input' value='admin@admin.com' />
+            <small class='login-form__temp-note'>**Note: In this mockup, use the email <em>"admin@admin.com"</em> to access the admin route. Use any other name to access the customer route.</small>
           </label>
 
           <label for='login-password' class='login-form__label'>

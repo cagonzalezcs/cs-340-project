@@ -45,9 +45,6 @@ const routes = [
     name: 'Search Books',
     component: CustomerSearchBooksPage,
   },
-  // Search Books
-  // View Wish List
-  // View Rental List
   {
     path: '/admin/users',
     name: 'Users',
