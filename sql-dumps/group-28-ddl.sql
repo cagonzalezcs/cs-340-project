@@ -53,7 +53,7 @@ CREATE TABLE books (
   id int(11) NOT NULL AUTO_INCREMENT,
   title varchar(255) NOT NULL,
   genre_id int(11) NOT NULL,
-  isbn varchar(255) DEFAULT NULL,
+  isbn varchar(20) DEFAULT NULL,
   cover_image varchar(255) DEFAULT NULL,
   quantity_available int(11) NOT NULL,
   quantity_rented int(11) NOT NULL,
