@@ -7,7 +7,7 @@
     <h1>All Wish Lists</h1>
     <p>Manage Wish Lists</p>
     <router-link to='/admin/users' style='margin-right: 10px'>Back to Users</router-link>
-    <p>&nbsp;</p>
+    <br />
   </div>
   <div id='browseWishLists'>
     <table border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;'>
@@ -69,7 +69,7 @@
       </tr>
     </table>
   </div><!-- browse -->
-  <p>&nbsp;</p>
+  <br />
   <div id='viewWishList'>
     <p><strong>All Wish List Books for user_id: 1</strong></p>
     <table border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;'>
@@ -100,7 +100,7 @@
       </tr>
     </table>
   </div><!-- viewWishList -->
-  <p>&nbsp;</p>
+  <br />
   <div id='delete' style='display: block'>
     <form id='deleteWishListBook' method='POST'>
       <legend><strong>Delete Book from Wish List</strong></legend>

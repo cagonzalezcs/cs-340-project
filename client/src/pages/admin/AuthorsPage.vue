@@ -59,30 +59,30 @@
       </tr>
     </table>
   </div><!-- browse -->
-  <p>&nbsp;</p>
+  <br />
   <div id='insert'>
     <form id='addAuthor' method='POST'>
       <legend><strong>Add Author</strong></legend>
       <fieldset class='fields'>
-        <label> name </label> <input type='text' name='name'>
-        <label> birth_date </label> <input type='date' name='birth_date'>
+        <label for='author-name'>> name </label> 
+        <input id='author-name' type='text' name='name'>
+        <label for='author-birth-date'> birth_date </label> 
+        <input id='author-birth-date' type='date' name='birth_date'>
       </fieldset>
       <input id='addAuthor' class='btn' type='submit' value='Add New Author'>
       <input class='btn' type='button' value='Cancel'>
     </form>
   </div><!-- insert -->
-  <p>&nbsp;</p>
+  <br />
   <div id='update'>
     <form id='updateAuthor' method='POST'>
       <legend><strong>Edit Author</strong></legend>
       <fieldset class='fields'>
         <input id='updateAuthorID' type='hidden' name='author_ID' value='1'>
-        <label for='author-name'> name </label> <input
-id='author-name' type='text' name='name'
-                                                       value='Adiana Pavlishchev'>
-        <label for='author-birth-date'> birth_date </label> <input
-id='author-birth-date' type='date' name='birth_date'
-                                                                   value='2020-07-11'>
+        <label for='author-name'> name </label> 
+        <input id='author-name' type='text' name='name' value='Adiana Pavlishchev'>
+        <label for='author-birth-date'> birth_date </label> 
+        <input id='author-birth-date' type='date' name='birth_date' value='2020-07-11'>
       </fieldset>
       <input id='editAuthor' class='btn' type='submit' value='Edit Author'>
       <input class='btn' type='button' value='Cancel'>

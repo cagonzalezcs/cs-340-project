@@ -7,7 +7,7 @@
     <h1>Books</h1>
     <p>View All Book Data | Add New Books | Update Books | Delete Books</p>
     <router-link to='/admin/search-books' style='margin-right: 10px'>Search All Books</router-link>
-    <p>&nbsp;</p>
+    <br />
   </div>
   <div id='browse'>
     <table border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;'>
@@ -134,13 +134,14 @@
       </tr>
     </table>
   </div><!-- browse -->
-  <p>&nbsp;</p>
+  <br />
   <div id='insert'>
     <form id='addBook' method='POST'>
       <legend><strong>Add Book</strong></legend>
       <fieldset class='fields'>
-        <label> title </label> <input type='text' name='title'>
-        <label> genre </label>
+        <label for='book-title'> title </label> 
+        <input id='book-title'  type='text' name='title'>
+        <label for='book-genre'> genre </label>
         <select name='genre_id'>
           <option value='0'>&nbsp;</option>
           <option value='1'>Non-Fiction</option>
@@ -149,24 +150,27 @@
           <option value='4'>Comedy</option>
           <option value='5'>Drama</option>
         </select>
-        <label> isbn </label> <input type='text' name='isbn'>
-        <label> cover_image </label> <input type='text' name='cover_image'>
-        <label> quantity_available </label> <input type='text' name='quantity_available'>
-        <label> quantity_rented </label> <input type='text' name='quantity_rented'>
+        <label for='book-isbn'> isbn </label> 
+        <input id='book-isbn' type='text' name='isbn'>
+        <label for='book-cover-image'> cover_image </label> 
+        <input id='book-cover-image' type='text' name='cover_image'>
+        <label for='book-qty-available'> quantity_available </label> 
+        <input id='book-qty-available' type='text' name='quantity_available'>
+        <label for='book-qty-rented'> quantity_rented </label> 
+        <input id='book-qty-rented' type='text' name='quantity_rented'>
       </fieldset>
       <input id='addBook' class='btn' type='submit' value='Add New Book'>
       <input class='btn' type='button' value='Cancel'>
     </form>
   </div><!-- insert -->
-  <p>&nbsp;</p>
+  <br />
   <div id='update'>
     <form id='updateBook' method='POST'>
       <legend><strong>Update Book</strong></legend>
       <fieldset class='fields'>
-        <label> title </label> <input
-type='text' name='title'
-                                      value='lobortis vel dapibus at diam nam tristique tortor ...	'>
-        <label> genre </label>
+        <label for='book-title'> title </label> 
+        <input id='book-title' type='text' name='title' value='lobortis vel dapibus at diam nam tristique tortor ...	'>
+        <label for='book-genre'> genre </label>
         <select name='genre_id'>
           <option value='0'>&nbsp;</option>
           <option value='1'>Non-Fiction</option>
@@ -175,18 +179,20 @@ type='text' name='title'
           <option value='4' selected>Comedy</option>
           <option value='5'>Drama</option>
         </select>
-        <label> isbn </label> <input type='text' name='isbn' value='488010340-3'>
-        <label> cover_image </label> <input
-type='text' name='cover_image'
-                                            value='http://dummyimage.com/220x.png/dddddd/000000'>
-        <label> quantity_available </label> <input type='text' name='quantity_available' value='13'>
-        <label> quantity_rented </label> <input type='text' name='quantity_rented' value='10'>
+        <label for='book-isbn'> isbn </label> 
+        <input id='book-isbn' type='text' name='isbn' value='488010340-3'>
+        <label for='book-cover-image'> cover_image </label> 
+        <input id='book-cover-image' type='text' name='cover_image' value='http://dummyimage.com/220x.png/dddddd/000000'>
+        <label for='book-qty-available'> quantity_available </label> 
+        <input for='book-qty-available' type='text' name='quantity_available' value='13'>
+        <label for='book-qty-rented'> quantity_rented </label> 
+        <input id='book-qty-rented' type='text' name='quantity_rented' value='10'>
       </fieldset>
       <input id='addBook' class='btn' type='submit' value='Update Book'>
       <input class='btn' type='button' value='Cancel'>
     </form>
   </div><!-- update -->
-  <p>&nbsp;</p>
+  <br />
   <div id='delete' style='display: block'>
     <form id='deleteBook' method='POST'>
       <legend><strong>Delete Book</strong></legend>

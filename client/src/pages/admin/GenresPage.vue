@@ -47,30 +47,32 @@
       </tr>
     </table>
   </div><!-- browse -->
-  <p>&nbsp;</p>
+  <br />
   <div id='insert'>
     <form id='addGenre' method='POST'>
       <legend><strong>Add Genre</strong></legend>
       <fieldset class='fields'>
-        <label> name </label> <input type='text' name='genreName'>
+        <label for='genre-name'> name </label> 
+        <input id='genre-name' type='text' name='genreName'>
       </fieldset>
       <input id='addGenre' class='btn' type='submit' value='Add New Genre'>
       <input class='btn' type='button' value='Cancel'>
     </form>
   </div><!-- insert -->
-  <p>&nbsp;</p>
+  <br />
   <div id='update'>
     <form id='updateGenre' method='POST'>
       <legend><strong>Edit Genre</strong></legend>
       <fieldset class='fields'>
         <input id='updateGenre' type='hidden' name='genre_ID' value='1'>
-        <label> name </label> <input type='text' name='genreName' value='Non-Fiction'>
+        <label for='genre-name'> name </label> 
+        <input id='genre-name' type='text' name='genreName' value='Non-Fiction'>
       </fieldset>
       <input id='editGenre' class='btn' type='submit' value='Edit Genre'>
       <input class='btn' type='button' value='Cancel'>
     </form>
   </div><!-- update -->
-  <p>&nbsp;</p>
+  <br />
   <div id='delete' style='display: block'>
     <form id='deleteGenre' method='POST'>
       <legend><strong>Delete Genre</strong></legend>
