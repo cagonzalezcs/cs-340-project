@@ -215,10 +215,10 @@
   <br />
   <div id='update'>
     <form id='updateUser' method='POST'>
-      <legend><strong>Edit User</strong></legend>
+      <legend><strong>Update User</strong></legend>
       <fieldset class='fields'>
         <input id='updateUserID' type='hidden' name='userID' value='1'>
-        <label for='user-id'> ID: </label> 1
+        <label for='user-id'> id: </label> 1
         <label for='user-role-id'> user role </label>
         <select id='user-role-id'>
           <option value='0'>&nbsp;</option>
@@ -262,6 +262,58 @@
       <input id='user' class='btn' type='button' value='Cancel'>
     </form>
   </div><!-- delete -->
+  <br />
+  <div id='viewWishList'>
+    <p><strong>All Wish List Books for user_id: 1</strong></p>
+    <table border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;'>
+      <tr>
+        <th>book_id</th>
+        <th>title</th>
+        <th></th>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>nisi venenatis tristique fusce</td>
+        <td><a href='#'>Delete</a></td>
+      </tr>
+      <tr>
+        <td>9</td>
+        <td>auctor gravida sem praesent id</td>
+        <td><a href='#'>Delete</a></td>
+      </tr>
+      <tr>
+        <td>7</td>
+        <td>in leo maecenas pulvinar lobortis est phasellus</td>
+        <td><a href='#'>Delete</a></td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>bibendum imperdiet nullam orci pede venenatis non ...</td>
+        <td><a href='#'>Delete</a></td>
+      </tr>
+    </table>
+  </div><!-- viewWishList by User -->
+  <br />
+  <div id='viewRentalList'>
+    <p><strong>All Rental List Books for user_id: 1</strong></p>
+    <table border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;'>
+      <tr>
+        <th>book_id</th>
+        <th>title</th>
+        <th><a href='#'>Add </a></th>
+      </tr>
+      <tr>
+        <td>10</td>
+        <td>in est risus auctor sed tristique in tempus sit</td>
+        <td><a href='#'>Delete</a></td>
+      </tr>
+      <tr>
+        <td>8</td>
+        <td>quisque ut erat curabitur gravida nisi at</td>
+        <td><a href='#'>Delete</a></td>
+      </tr>
+    </table>
+  </div><!-- viewRentalList by user -->
 </template>
 
 <style lang='scss' scoped>

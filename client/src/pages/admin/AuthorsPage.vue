@@ -64,7 +64,7 @@
     <form id='addAuthor' method='POST'>
       <legend><strong>Add Author</strong></legend>
       <fieldset class='fields'>
-        <label for='author-name'>> name </label> 
+        <label for='author-name'> name </label> 
         <input id='author-name' type='text' name='name'>
         <label for='author-birth-date'> birth_date </label> 
         <input id='author-birth-date' type='date' name='birth_date'>

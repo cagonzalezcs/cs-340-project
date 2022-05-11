@@ -208,10 +208,11 @@ WHERE author_id = :author_id_from_authors_page;
 
 
 -- Book queries 
--- show Books and their genres.name
+-- show Books, their authors.name and genres.name
 SELECT 
     books.id, 
     books.title,  
+    authors.name as author,
     genres.name AS genre, 
     books.isbn, 
     books.cover_image, 
@@ -220,7 +221,13 @@ SELECT
 FROM 
     books 
 INNER JOIN 
-    genres ON books.genre_id = genres.id;
+    genres ON books.genre_id = genres.id
+INNER JOIN 
+    book_authors ON books.id = book_authors.book_id
+INNER JOIN
+	authors ON book_authors.author_id = authors.id
+ORDER BY 
+	books.id ASC;
 
 -- get all genre_ids and their names to populate the Genre dropdown
 SELECT genres.id, genres.name FROM genres; 
@@ -228,7 +235,7 @@ SELECT genres.id, genres.name FROM genres;
 -- add new Book based on items from addBook form 
 INSERT INTO books(
     title,
-    genre,
+    genre_id,
     isbn,
     cover_image,
     quantity_available,
@@ -236,11 +243,20 @@ INSERT INTO books(
 )
 VALUES(
     :title_input,
-    :genre_input_from_drop_down,
+    (SELECT genres.id FROM genres WHERE name=:genre_input_from_drop_down),
     :isbn_input,
     :cover_image_input,
     :quantity_available_input,
     :quantity_rented_input
+);
+-- complete book add by associating it with an Author, and inserting that into book_authors
+INSERT INTO book_authors(
+    book_id, 
+    author_id
+)
+VALUES(
+    :book_id_input,
+    (SELECT id FROM authors WHERE name=:author_name_from_drop_down)
 );
 
 -- get single Book data for update form
@@ -264,13 +280,22 @@ UPDATE
     books 
 SET 
     books.title= :title_input,
-    genre= :genre_input_from_drop_down,
+    books.genre_id= :genre_input_from_drop_down,
     books.isbn= :isbn_input,
     books.cover_image= :cover_image_input,
     books.quantity_available= :quantity_available_input,
     books.quantity_rented= :quantity_rented_input
 WHERE 
     books.id= :book_id_from_books_page;
+
+-- update book_authors
+-- complete book add by associating it with an Author, and inserting that into book_authors
+UPDATE 
+    book_authors
+SET 
+    author_id = (SELECT id FROM authors WHERE name=:author_name_from_drop_down)
+WHERE 
+    book_authors.book_id= :book_id_from_books_page;
 
 -- delete a Book 
 DELETE 

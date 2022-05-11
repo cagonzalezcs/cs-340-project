@@ -29,8 +29,10 @@
   <div id='search' style='display: block'>
     <form id='searchBookTitles' method='POST'>
       <legend><strong>Enter a Title</strong></legend>
+      <fieldset class='fields'>
       <label for='book-title'> Title: </label>
       <input id='book-title' type='text' name='book-title'>
+      </fieldset>
       <input id='BookSearchTitle' class='btn' type='submit' value='Search for Book'>
       <input class='btn' type='button' value='Cancel'>
     </form>

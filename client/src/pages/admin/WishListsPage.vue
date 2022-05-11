@@ -14,7 +14,7 @@
       <tr>
         <th>user_id</th>
         <th></th>
-        <th>Actions</th>
+        <th><a href='#'>Create </a></th>
       </tr>
       <tr>
         <td>1</td>
@@ -99,7 +99,7 @@
         <td><a href='#'>Delete</a></td>
       </tr>
     </table>
-  </div><!-- viewWishList -->
+  </div><!-- viewWishList by User -->
   <br />
   <div id='delete' style='display: block'>
     <form id='deleteWishListBook' method='POST'>
@@ -111,7 +111,7 @@
         <label><strong>book_id:</strong></label> 3
         <label><strong>title:</strong> </label> nisi venenatis tristique fusce
       </fieldset>
-      <input id='DeleteUser' class='btn' type='submit' value='Delete Book From Wish List'>
+      <input id='DeleteWishListBook' class='btn' type='submit' value='Delete Book From Wish List'>
       <input class='btn' type='button' value='Cancel'>
     </form>
   </div><!-- deleteWishListItem -->
