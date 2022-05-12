@@ -7,14 +7,14 @@
     <h1>All Wish Lists</h1>
     <p>Manage Wish Lists</p>
     <router-link to='/admin/users' style='margin-right: 10px'>Back to Users</router-link>
-    <p>&nbsp;</p>
+    <br />
   </div>
   <div id='browseWishLists'>
     <table border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;'>
       <tr>
         <th>user_id</th>
         <th></th>
-        <th>Actions</th>
+        <th><a href='#'>Create </a></th>
       </tr>
       <tr>
         <td>1</td>
@@ -69,7 +69,7 @@
       </tr>
     </table>
   </div><!-- browse -->
-  <p>&nbsp;</p>
+  <br />
   <div id='viewWishList'>
     <p><strong>All Wish List Books for user_id: 1</strong></p>
     <table border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;'>
@@ -99,8 +99,8 @@
         <td><a href='#'>Delete</a></td>
       </tr>
     </table>
-  </div><!-- viewWishList -->
-  <p>&nbsp;</p>
+  </div><!-- viewWishList by User -->
+  <br />
   <div id='delete' style='display: block'>
     <form id='deleteWishListBook' method='POST'>
       <legend><strong>Delete Book from Wish List</strong></legend>
@@ -111,7 +111,7 @@
         <label><strong>book_id:</strong></label> 3
         <label><strong>title:</strong> </label> nisi venenatis tristique fusce
       </fieldset>
-      <input id='DeleteUser' class='btn' type='submit' value='Delete Book From Wish List'>
+      <input id='DeleteWishListBook' class='btn' type='submit' value='Delete Book From Wish List'>
       <input class='btn' type='button' value='Cancel'>
     </form>
   </div><!-- deleteWishListItem -->

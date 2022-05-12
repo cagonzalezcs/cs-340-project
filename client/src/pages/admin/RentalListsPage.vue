@@ -7,7 +7,7 @@
     <h1>All Rental Lists</h1>
     <p>Manage Rental Lists</p>
     <router-link to='/admin/users' style='margin-right: 10px'>Back to Users</router-link>
-    <p>&nbsp;</p>
+    <br />
   </div>
   <div id='browseRentalLists'>
     <table border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;'>
@@ -69,7 +69,7 @@
       </tr>
     </table>
   </div><!-- browseRentalList -->
-  <p>&nbsp;</p>
+  <br />
   <div id='viewRentalList'>
     <p><strong>All Rental List Books for user_id: 1</strong></p>
     <table border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;'>
@@ -90,7 +90,7 @@
       </tr>
     </table>
   </div><!-- viewRentalList -->
-  <p>&nbsp;</p>
+  <br />
   <div id='delete' style='display: block'>
     <form id='deleteRentalListBook' method='POST'>
       <legend><strong>Delete Book from Rental List</strong></legend>

@@ -8,7 +8,7 @@
     <p>View All User Data | Add New Users | Update Users | Delete Users</p>
     <router-link to='/admin/rental-lists' style='margin-right: 10px'>View Rental Lists</router-link>
     <router-link to='/admin/wish-lists' style='margin-right: 10px'>View Wish Lists</router-link>
-    <p>&nbsp;</p>
+    <br />
   </div>
   <div id='browse'>
     <table border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;'>
@@ -179,61 +179,75 @@
       </tr>
     </table>
   </div><!-- browse -->
-  <p>&nbsp;</p>
+  <br />
   <div id='insert'>
     <form id='addUser' method='POST'>
       <legend><strong>Add User</strong></legend>
       <fieldset class='fields'>
-        <label> user_role_id </label>
-        <select name='user_role_id'>
+        <label for='user-role-id'> user role </label>
+        <select id='user-role-id'>
           <option value='0'>&nbsp;</option>
           <option value='1'>admin</option>
           <option value='2'>manager</option>
           <option value='3'>sales</option>
           <option value='4'>customer</option>
         </select>
-        <label> first_name </label> <input type='text' name='first_name'>
-        <label> last_name </label> <input type='text' name='last_name'>
-        <label> email </label> <input type='text' name='email'>
+        <label for='first-name'> first_name </label> 
+        <input id='first-name' type='text' name='first-name'>
+        <label for='last-name'> last_name </label> 
+        <input id='last-name' type='text' name='last-name'>
+        <label for='email'> email </label> 
+        <input id='email' type='text' name='email'>
         <br>
-        <label> address_line_1 </label> <input type='text' name='address_line_1'>
-        <label> address_line_2 </label> <input type='text' name='address_line_2'>
-        <label> city </label> <input type='text' name='city'>
-        <label> state </label> <input type='text' name='state'>
+        <label for='address-line-1'> address_line_1 </label> 
+        <input id='address-line-2' type='text' name='address-line-1'>
+        <label for='address-line-2'> address_line_2 </label> 
+        <input id='address-line-2' type='text' name='address-line-2'>
+        <label for='city'> city </label> 
+        <input id='city' type='text' name='city'>
+        <label for='state'> state </label> 
+        <input id='state' type='text' name='state'>
       </fieldset>
       <input id='addUser' class='btn' type='submit' value='Add New User'>
-      <input class='btn' type='button' value='Cancel'>
+      <input id='user' class='btn' type='button' value='Cancel'>
     </form>
   </div><!-- insert -->
-  <p>&nbsp;</p>
+  <br />
   <div id='update'>
     <form id='updateUser' method='POST'>
-      <legend><strong>Edit User</strong></legend>
+      <legend><strong>Update User</strong></legend>
       <fieldset class='fields'>
         <input id='updateUserID' type='hidden' name='userID' value='1'>
-        <label> ID: </label> 1
-        <label> user_role_id </label>
-        <select name='user_role_id'>
+        <label for='user-id'> id: </label> 1
+        <label for='user-role-id'> user role </label>
+        <select id='user-role-id'>
           <option value='0'>&nbsp;</option>
           <option value='1' selected>admin</option>
           <option value='2'>manager</option>
           <option value='3'>sales</option>
           <option value='4'>customer</option>
         </select>
-        <label> first_name </label> <input type='text' name='first_name' value='Baryram'>
-        <label> last_name </label> <input type='text' name='last_name' value='Basil'>
-        <label> email </label> <input type='text' name='email' value='bbasil0@thetimes.co.uk'>
+        <label for='first-name'> first_name </label> 
+        <input id='first-name' type='text' name='first-name' value='Baryram'>
+        <label for='last-name'> last_name </label> 
+        <input id='last-name' type='text' name='last-name' value='Basil'>
+        <label for='email'> email </label> 
+        <input id='email' type='text' name='email' value='bbasil0@thetimes.co.uk'>
         <br>
-        <label> address_line_1 </label> <input type='text' name='address_line_1' value='6 Farwell Trail'>
-        <label> address_line_2 </label> <input type='text' name='address_line_2' value='NULL'>
-        <label> city </label> <input type='text' name='city' value='New York City'>
-        <label> state </label> <input type='text' name='state' value='New York'>
+        <label for='address-line-1'> address_line_1 </label> 
+        <input id='address-line-1' type='text' name='address-line-1' value='6 Farwell Trail'>
+        <label for='address-line-2'> address_line_2 </label> 
+        <input id='address-line-2' type='text' name='address-line-2' value='NULL'>
+        <label for='city'> city </label> 
+        <input id='citye' type='text' name='city' value='New York City'>
+        <label for='state'> state </label> 
+        <input id='state' type='text' name='state' value='New York'>
       </fieldset>
       <input id='addUser' class='btn' type='submit' value='Update User'>
-      <input class='btn' type='button' value='Cancel'>
+      <input id='user' class='btn' type='button' value='Cancel'>
     </form>
   </div><!-- update -->
-  <p>&nbsp;</p>
+  <br />
   <div id='delete' style='display: block'>
     <form id='deleteUser' method='POST'>
       <legend><strong>Delete User</strong></legend>
@@ -245,9 +259,61 @@
         <label> <strong>last_name:</strong> </label> Basil
       </fieldset>
       <input id='DeleteUser' class='btn' type='submit' value='Delete User'>
-      <input class='btn' type='button' value='Cancel'>
+      <input id='user' class='btn' type='button' value='Cancel'>
     </form>
   </div><!-- delete -->
+  <br />
+  <div id='viewWishList'>
+    <p><strong>All Wish List Books for user_id: 1</strong></p>
+    <table border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;'>
+      <tr>
+        <th>book_id</th>
+        <th>title</th>
+        <th></th>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>nisi venenatis tristique fusce</td>
+        <td><a href='#'>Delete</a></td>
+      </tr>
+      <tr>
+        <td>9</td>
+        <td>auctor gravida sem praesent id</td>
+        <td><a href='#'>Delete</a></td>
+      </tr>
+      <tr>
+        <td>7</td>
+        <td>in leo maecenas pulvinar lobortis est phasellus</td>
+        <td><a href='#'>Delete</a></td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>bibendum imperdiet nullam orci pede venenatis non ...</td>
+        <td><a href='#'>Delete</a></td>
+      </tr>
+    </table>
+  </div><!-- viewWishList by User -->
+  <br />
+  <div id='viewRentalList'>
+    <p><strong>All Rental List Books for user_id: 1</strong></p>
+    <table border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;'>
+      <tr>
+        <th>book_id</th>
+        <th>title</th>
+        <th><a href='#'>Add </a></th>
+      </tr>
+      <tr>
+        <td>10</td>
+        <td>in est risus auctor sed tristique in tempus sit</td>
+        <td><a href='#'>Delete</a></td>
+      </tr>
+      <tr>
+        <td>8</td>
+        <td>quisque ut erat curabitur gravida nisi at</td>
+        <td><a href='#'>Delete</a></td>
+      </tr>
+    </table>
+  </div><!-- viewRentalList by user -->
 </template>
 
 <style lang='scss' scoped>

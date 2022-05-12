@@ -11,8 +11,8 @@
     <form id='searchBookGenres' method='POST'>
       <legend><strong>Select a Genre</strong></legend>
       <fieldset class='fields'>
-        <label> Genre: </label>
-        <select name='genre_id'>
+        <label for='genre-id'> Genre: </label>
+        <select id='genre-id'>
           <option value='0'>&nbsp;</option>
           <option value='1'>Non-Fiction</option>
           <option value='2'>Fiction</option>
@@ -25,23 +25,25 @@
       <input class='btn' type='button' value='Cancel'>
     </form>
   </div><!-- search by genre -->
-  <p>&nbsp;</p>
+  <br />
   <div id='search' style='display: block'>
     <form id='searchBookTitles' method='POST'>
       <legend><strong>Enter a Title</strong></legend>
-      <label> Title: </label>
-      <input type='text' name='book_search_title'>
+      <fieldset class='fields'>
+      <label for='book-title'> Title: </label>
+      <input id='book-title' type='text' name='book-title'>
+      </fieldset>
       <input id='BookSearchTitle' class='btn' type='submit' value='Search for Book'>
       <input class='btn' type='button' value='Cancel'>
     </form>
   </div><!-- search by title -->
-  <p>&nbsp;</p>
+  <br />
   <div id='search' style='display: block'>
     <form id='searchBookTitles' method='POST'>
       <legend><strong>Choose an Author</strong></legend>
       <fieldset class='fields'>
-        <label> Genre: </label>
-        <select name='author_id'>
+        <label for='author_id'> Genre: </label>
+        <select id='author_id'>
           <option value='0'>&nbsp;</option>
           <option value='1'>Adiana Pavlishchev</option>
           <option value='2'>Perren Benzi</option>

@@ -41,29 +41,31 @@
       </tr>
     </table>
   </div><!-- browse -->
-  <p>&nbsp;</p>
+  <br />
   <div id='insert'>
     <form id='addRole' method='POST'>
       <legend><strong>Add User Role</strong></legend>
       <fieldset class='fields'>
-        <label> type </label> <input type='text' name='type'>
+        <label for='role-type'> type </label> 
+        <input id='role-type' type='text' name='type'>
       </fieldset>
       <input id='addRole' class='btn' type='submit' value='Add New Role'>
       <input class='btn' type='button' value='Cancel'>
     </form>
   </div><!-- insert -->
-  <p>&nbsp;</p>
+  <br />
   <div id='update'>
     <form id='updateRole' method='POST'>
       <legend><strong>Edit Role</strong></legend>
       <fieldset class='fields'>
-        <label> type </label> <input type='text' name='type' value='admin'>
+        <label for='role-type'> type </label> 
+        <input id='role-type' type='text' name='type' value='admin'>
       </fieldset>
       <input id='editRole' class='btn' type='submit' value='Edit Role'>
       <input class='btn' type='button' value='Cancel'>
     </form>
   </div><!-- update -->
-  <p>&nbsp;</p>
+  <br />
   <div id='delete' style='display: block'>
     <form id='deleteRole' method='POST'>
       <legend><strong>Delete User Role</strong></legend>
