@@ -22,5 +22,6 @@ onMounted(() => {
 <style>
 #app {
   padding-bottom: 40px;
+  overflow: hidden;
 }
 </style>

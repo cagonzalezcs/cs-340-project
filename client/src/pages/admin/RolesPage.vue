@@ -1,5 +1,24 @@
 <script setup>
+import { reactive } from 'vue';
+import AddRoleForm from '../../components/roles/AddRoleForm.vue';
+import EditRoleForm from '../../components/roles/EditRoleForm.vue';
+import DeleteRoleForm from '../../components/roles/DeleteRoleForm.vue';
 
+let state = reactive({
+  isAddRoleModalActive: false,
+  isEditRoleModalActive: false,
+  isDeleteRoleModalActive: false
+});
+
+const toggleAddRoleModal = () => {
+  state.isAddRoleModalActive = !state.isAddRoleModalActive;
+};
+const toggleEditRoleModal = () => {
+  state.isEditRoleModalActive = !state.isEditRoleModalActive;
+};
+const toggleDeleteRoleModal = () => {
+  state.isDeleteRoleModalActive = !state.isDeleteRoleModalActive;
+};
 </script>
 
 <template>
@@ -13,100 +32,36 @@
         <th>id</th>
         <th>type</th>
         <th></th>
-        <th><a href='#'>Add Role</a></th>
+        <th><button @click='toggleAddRoleModal'>Add Role</button></th>
       </tr>
       <tr>
         <td>1</td>
         <td>admin</td>
-        <td><a href='#'>Edit</a></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleEditRoleModal'>Edit</button></td>
+        <td><button @click='toggleDeleteRoleModal'>Delete</button></td>
       </tr>
       <tr>
         <td>2</td>
         <td>manager</td>
-        <td><a href='#'>Edit</a></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleEditRoleModal'>Edit</button></td>
+        <td><button @click='toggleDeleteRoleModal'>Delete</button></td>
       </tr>
       <tr>
         <td>3</td>
         <td>sales</td>
-        <td><a href='#'>Edit</a></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleEditRoleModal'>Edit</button></td>
+        <td><button @click='toggleDeleteRoleModal'>Delete</button></td>
       </tr>
       <tr>
         <td>4</td>
         <td>customer</td>
-        <td><a href='#'>Edit</a></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleEditRoleModal'>Edit</button></td>
+        <td><button @click='toggleDeleteRoleModal'>Delete</button></td>
       </tr>
     </table>
   </div><!-- browse -->
-  <br />
-  <div id='insert'>
-    <form id='addRole' method='POST'>
-      <legend><strong>Add User Role</strong></legend>
-      <fieldset class='fields'>
-        <label for='role-type'> type </label> 
-        <input id='role-type' type='text' name='type'>
-      </fieldset>
-      <input id='addRole' class='btn' type='submit' value='Add New Role'>
-      <input class='btn' type='button' value='Cancel'>
-    </form>
-  </div><!-- insert -->
-  <br />
-  <div id='update'>
-    <form id='updateRole' method='POST'>
-      <legend><strong>Edit Role</strong></legend>
-      <fieldset class='fields'>
-        <label for='role-type'> type </label> 
-        <input id='role-type' type='text' name='type' value='admin'>
-      </fieldset>
-      <input id='editRole' class='btn' type='submit' value='Edit Role'>
-      <input class='btn' type='button' value='Cancel'>
-    </form>
-  </div><!-- update -->
-  <br />
-  <div id='delete' style='display: block'>
-    <form id='deleteRole' method='POST'>
-      <legend><strong>Delete User Role</strong></legend>
-      <fieldset class='fields'>
-        <p>Are you sure you wish to delete the following?</p>
-        <input id='deleteUserRoleID' type='hidden' name='user_role_ID' value='1'>
-        <label><strong>ID:</strong></label> 1
-        <label> <strong>Type</strong> </label> admin
-      </fieldset>
-      <input id='deleteRole' class='btn' type='submit' value='Delete Role'>
-      <input class='btn' type='button' value='Cancel'>
-    </form>
-  </div><!-- delete -->
+
+  <add-role-form :is-add-role-modal-active='state.isAddRoleModalActive' @toggle-add-role-modal='toggleAddRoleModal' />
+  <edit-role-form :is-edit-role-modal-active='state.isEditRoleModalActive' @toggle-edit-role-modal='toggleEditRoleModal' />
+  <delete-role-form :is-delete-role-modal-active='state.isDeleteRoleModalActive' @toggle-delete-role-modal='toggleDeleteRoleModal' />
 </template>
-
-<style lang='scss' scoped>
-form {
-  width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-
-  .fields {
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    padding: 10px 25px 35px;
-    margin-bottom: 20px;
-
-    label {
-      margin-top: 10px;
-      margin-bottom: 3px;
-      font-weight: 500;
-    }
-  }
-
-  input[type="submit"],
-  input[type="button"] {
-    margin-left: 10px;
-    margin-right: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-}
-</style>

@@ -1,5 +1,20 @@
 <script setup>
+import { reactive } from 'vue';
+import ViewWishList from '../../components/wish-lists/ViewWishList.vue';
+import RemoveFromWishList from '../../components/wish-lists/RemoveFromWishList.vue';
 
+let state = reactive({
+  isViewWishListModalActive: false,
+  isRemoveFromWishListModalActive: false
+});
+
+const toggleViewWishListModal = () => {
+  state.isViewWishListModalActive = !state.isViewWishListModalActive;
+};
+const toggleRemoveFromWishListModal = () => {
+  state.isViewWishListModalActive = false;
+  state.isRemoveFromWishListModalActive = !state.isRemoveFromWishListModalActive;
+};
 </script>
 
 <template>
@@ -18,103 +33,69 @@
       </tr>
       <tr>
         <td>1</td>
-        <td><a href='#'>View</a></td>
+        <td><button @click='toggleViewWishListModal'>View</button></td>
         <td><a href='#'>Delete</a></td>
 
       </tr>
       <tr>
         <td>2</td>
-        <td><a href='#'>View</a></td>
+        <td><button @click='toggleViewWishListModal'>View</button></td>
         <td><a href='#'>Delete</a></td>
       </tr>
       <tr>
         <td>3</td>
-        <td><a href='#'>View</a></td>
+        <td><button @click='toggleViewWishListModal'>View</button></td>
         <td><a href='#'>Delete</a></td>
       </tr>
       <tr>
         <td>4</td>
-        <td><a href='#'>View</a></td>
+        <td><button @click='toggleViewWishListModal'>View</button></td>
         <td><a href='#'>Delete</a></td>
       </tr>
       <tr>
         <td>5</td>
-        <td><a href='#'>View</a></td>
+        <td><button @click='toggleViewWishListModal'>View</button></td>
         <td><a href='#'>Delete</a></td>
       </tr>
       <tr>
         <td>6</td>
-        <td><a href='#'>View</a></td>
+        <td><button @click='toggleViewWishListModal'>View</button></td>
         <td><a href='#'>Delete</a></td>
       </tr>
       <tr>
         <td>7</td>
-        <td><a href='#'>View</a></td>
+        <td><button @click='toggleViewWishListModal'>View</button></td>
         <td><a href='#'>Delete</a></td>
       </tr>
       <tr>
         <td>8</td>
-        <td><a href='#'>View</a></td>
+        <td><button @click='toggleViewWishListModal'>View</button></td>
         <td><a href='#'>Delete</a></td>
       </tr>
       <tr>
         <td>9</td>
-        <td><a href='#'>View</a></td>
+        <td><button @click='toggleViewWishListModal'>View</button></td>
         <td><a href='#'>Delete</a></td>
       </tr>
       <tr>
         <td>10</td>
-        <td><a href='#'>View</a></td>
+        <td><button @click='toggleViewWishListModal'>View</button></td>
         <td><a href='#'>Delete</a></td>
       </tr>
     </table>
   </div><!-- browse -->
-  <br />
-  <div id='viewWishList'>
-    <p><strong>All Wish List Books for user_id: 1</strong></p>
-    <table border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;'>
-      <tr>
-        <th>book_id</th>
-        <th>title</th>
-        <th></th>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>nisi venenatis tristique fusce</td>
-        <td><a href='#'>Delete</a></td>
-      </tr>
-      <tr>
-        <td>9</td>
-        <td>auctor gravida sem praesent id</td>
-        <td><a href='#'>Delete</a></td>
-      </tr>
-      <tr>
-        <td>7</td>
-        <td>in leo maecenas pulvinar lobortis est phasellus</td>
-        <td><a href='#'>Delete</a></td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>bibendum imperdiet nullam orci pede venenatis non ...</td>
-        <td><a href='#'>Delete</a></td>
-      </tr>
-    </table>
-  </div><!-- viewWishList by User -->
-  <br />
-  <div id='delete' style='display: block'>
-    <form id='deleteWishListBook' method='POST'>
-      <legend><strong>Delete Book from Wish List</strong></legend>
-      <fieldset class='fields'>
-        <p>Are you sure you wish to delete the following Wish List item?</p>
-        <input id='deleteWishListBook' type='hidden' name='bookID' value='3'>
-        <label><strong>user_id:</strong></label> 1
-        <label><strong>book_id:</strong></label> 3
-        <label><strong>title:</strong> </label> nisi venenatis tristique fusce
-      </fieldset>
-      <input id='DeleteWishListBook' class='btn' type='submit' value='Delete Book From Wish List'>
-      <input class='btn' type='button' value='Cancel'>
-    </form>
-  </div><!-- deleteWishListItem -->
+
+  <view-wish-list
+    :is-view-wish-list-modal-active='state.isViewWishListModalActive'
+    @toggle-view-wish-list-modal='toggleViewWishListModal'
+    @toggle-remove-from-wish-list-modal='toggleRemoveFromWishListModal'
+  />
+  <remove-from-wish-list
+    :is-remove-from-wish-list-modal-active='state.isRemoveFromWishListModalActive'
+    @toggle-remove-from-wish-list-modal='toggleRemoveFromWishListModal'
+  />
+
+
 </template>
 
 <style lang='scss' scoped>
