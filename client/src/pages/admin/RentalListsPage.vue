@@ -33,54 +33,54 @@ const toggleRemoveFromRentalListModal = () => {
       </tr>
       <tr>
         <td>1</td>
-        <td><button @click='toggleViewRentalListModal'>View</button></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleViewRentalListModal'>View User Rental List</button></td>
+        <td><a href='#'>Delete User Rental List</a></td>
 
       </tr>
       <tr>
         <td>2</td>
-        <td><button @click='toggleViewRentalListModal'>View</button></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleViewRentalListModal'>View User Rental List</button></td>
+        <td><a href='#'>Delete User Rental List</a></td>
       </tr>
       <tr>
         <td>3</td>
-        <td><button @click='toggleViewRentalListModal'>View</button></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleViewRentalListModal'>View User Rental List</button></td>
+        <td><a href='#'>Delete User Rental List</a></td>
       </tr>
       <tr>
         <td>4</td>
-        <td><button @click='toggleViewRentalListModal'>View</button></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleViewRentalListModal'>View User Rental List</button></td>
+        <td><a href='#'>Delete User Rental List</a></td>
       </tr>
       <tr>
         <td>5</td>
-        <td><button @click='toggleViewRentalListModal'>View</button></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleViewRentalListModal'>View User Rental List</button></td>
+        <td><a href='#'>Delete User Rental List</a></td>
       </tr>
       <tr>
         <td>6</td>
-        <td><button @click='toggleViewRentalListModal'>View</button></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleViewRentalListModal'>View User Rental List</button></td>
+        <td><a href='#'>Delete User Rental List</a></td>
       </tr>
       <tr>
         <td>7</td>
-        <td><button @click='toggleViewRentalListModal'>View</button></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleViewRentalListModal'>View User Rental List</button></td>
+        <td><a href='#'>Delete User Rental List</a></td>
       </tr>
       <tr>
         <td>8</td>
-        <td><button @click='toggleViewRentalListModal'>View</button></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleViewRentalListModal'>View User Rental List</button></td>
+        <td><a href='#'>Delete User Rental List</a></td>
       </tr>
       <tr>
         <td>9</td>
-        <td><button @click='toggleViewRentalListModal'>View</button></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleViewRentalListModal'>View User Rental List</button></td>
+        <td><a href='#'>Delete User Rental List</a></td>
       </tr>
       <tr>
         <td>10</td>
-        <td><button @click='toggleViewRentalListModal'>View</button></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleViewRentalListModal'>View User Rental List</button></td>
+        <td><a href='#'>Delete User Rental List</a></td>
       </tr>
     </table>
   </div><!-- browseRentalList -->

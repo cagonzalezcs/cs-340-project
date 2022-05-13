@@ -32,31 +32,31 @@ const toggleDeleteRoleModal = () => {
         <th>id</th>
         <th>type</th>
         <th></th>
-        <th><button @click='toggleAddRoleModal'>Add Role</button></th>
+        <th><button @click='toggleAddRoleModal'>Add New Role</button></th>
       </tr>
       <tr>
         <td>1</td>
         <td>admin</td>
-        <td><button @click='toggleEditRoleModal'>Edit</button></td>
-        <td><button @click='toggleDeleteRoleModal'>Delete</button></td>
+        <td><button @click='toggleEditRoleModal'>Edit Role</button></td>
+        <td><button @click='toggleDeleteRoleModal'>Delete Role</button></td>
       </tr>
       <tr>
         <td>2</td>
         <td>manager</td>
-        <td><button @click='toggleEditRoleModal'>Edit</button></td>
-        <td><button @click='toggleDeleteRoleModal'>Delete</button></td>
+        <td><button @click='toggleEditRoleModal'>Edit Role</button></td>
+        <td><button @click='toggleDeleteRoleModal'>Delete Role</button></td>
       </tr>
       <tr>
         <td>3</td>
         <td>sales</td>
-        <td><button @click='toggleEditRoleModal'>Edit</button></td>
-        <td><button @click='toggleDeleteRoleModal'>Delete</button></td>
+        <td><button @click='toggleEditRoleModal'>Edit Role</button></td>
+        <td><button @click='toggleDeleteRoleModal'>Delete Role</button></td>
       </tr>
       <tr>
         <td>4</td>
         <td>customer</td>
-        <td><button @click='toggleEditRoleModal'>Edit</button></td>
-        <td><button @click='toggleDeleteRoleModal'>Delete</button></td>
+        <td><button @click='toggleEditRoleModal'>Edit Role</button></td>
+        <td><button @click='toggleDeleteRoleModal'>Delete Role</button></td>
       </tr>
     </table>
   </div><!-- browse -->

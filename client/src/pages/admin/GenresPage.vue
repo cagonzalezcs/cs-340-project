@@ -32,37 +32,37 @@ const toggleDeleteGenreModal = () => {
         <th>id</th>
         <th>name</th>
         <th></th>
-        <th><button @click='toggleAddGenreModal'>Add Genre</button></th>
+        <th><button @click='toggleAddGenreModal'>Add New Genre</button></th>
       </tr>
       <tr>
         <td>1</td>
         <td>Non-Fiction</td>
-        <td><button @click='toggleEditGenreModal'>Edit</button></td>
-        <td><button @click='toggleDeleteGenreModal'>Delete</button></td>
+        <td><button @click='toggleEditGenreModal'>Edit Genre</button></td>
+        <td><button @click='toggleDeleteGenreModal'>Delete Genre</button></td>
       </tr>
       <tr>
         <td>2</td>
         <td>Fiction</td>
-        <td><button @click='toggleEditGenreModal'>Edit</button></td>
-        <td><button @click='toggleDeleteGenreModal'>Delete</button></td>
+        <td><button @click='toggleEditGenreModal'>Edit Genre</button></td>
+        <td><button @click='toggleDeleteGenreModal'>Delete Genre</button></td>
       </tr>
       <tr>
         <td>3</td>
         <td>Horror</td>
-        <td><button @click='toggleEditGenreModal'>Edit</button></td>
-        <td><button @click='toggleDeleteGenreModal'>Delete</button></td>
+        <td><button @click='toggleEditGenreModal'>Edit Genre</button></td>
+        <td><button @click='toggleDeleteGenreModal'>Delete Genre</button></td>
       </tr>
       <tr>
         <td>4</td>
         <td>Comedy</td>
-        <td><button @click='toggleEditGenreModal'>Edit</button></td>
-        <td><button @click='toggleDeleteGenreModal'>Delete</button></td>
+        <td><button @click='toggleEditGenreModal'>Edit Genre</button></td>
+        <td><button @click='toggleDeleteGenreModal'>Delete Genre</button></td>
       </tr>
       <tr>
         <td>5</td>
         <td>Drama</td>
-        <td><button @click='toggleEditGenreModal'>Edit</button></td>
-        <td><button @click='toggleDeleteGenreModal'>Delete</button></td>
+        <td><button @click='toggleEditGenreModal'>Edit Genre</button></td>
+        <td><button @click='toggleDeleteGenreModal'>Delete Genre</button></td>
       </tr>
     </table>
   </div><!-- browse -->

@@ -54,7 +54,7 @@ const toggleUserRentalListModal = () => {
         <th></th>
         <th></th>
         <th></th>
-        <th><button @click='toggleAddUserModal'>Add </button></th>
+        <th><button @click='toggleAddUserModal'>Add New User</button></th>
       </tr>
       <tr>
         <td>1</td>
@@ -66,10 +66,10 @@ const toggleUserRentalListModal = () => {
         <td>NULL</td>
         <td>New York City</td>
         <td>New York</td>
-        <td><button @click='toggleUserWishListModal'>Wish List</button></td>
-        <td><button @click='toggleUserRentalListModal'>Rental List</button></td>
-        <td><button @click='toggleUpdateUserModal'>Edit</button></td>
-        <td><button @click='toggleDeleteUserModal'>Delete</button></td>
+        <td><button @click='toggleUserWishListModal'>View Wish List</button></td>
+        <td><button @click='toggleUserRentalListModal'>View Rental List</button></td>
+        <td><button @click='toggleUpdateUserModal'>Edit User</button></td>
+        <td><button @click='toggleDeleteUserModal'>Delete User</button></td>
       </tr>
       <tr>
         <td>2</td>
@@ -81,10 +81,10 @@ const toggleUserRentalListModal = () => {
         <td>Suite 3</td>
         <td>Lancaster</td>
         <td>Pennsylvania</td>
-        <td><button @click='toggleUserWishListModal'>Wish List</button></td>
-        <td><button @click='toggleUserRentalListModal'>Rental List</button></td>
-        <td><button @click='toggleUpdateUserModal'>Edit</button></td>
-        <td><button @click='toggleDeleteUserModal'>Delete</button></td>
+        <td><button @click='toggleUserWishListModal'>View Wish List</button></td>
+        <td><button @click='toggleUserRentalListModal'>View Rental List</button></td>
+        <td><button @click='toggleUpdateUserModal'>Edit User</button></td>
+        <td><button @click='toggleDeleteUserModal'>Delete User</button></td>
       </tr>
       <tr>
         <td>3</td>
@@ -96,10 +96,10 @@ const toggleUserRentalListModal = () => {
         <td>NULL</td>
         <td>Reno</td>
         <td>Nevada</td>
-        <td><button @click='toggleUserWishListModal'>Wish List</button></td>
-        <td><button @click='toggleUserRentalListModal'>Rental List</button></td>
-        <td><button @click='toggleUpdateUserModal'>Edit</button></td>
-        <td><button @click='toggleDeleteUserModal'>Delete</button></td>
+        <td><button @click='toggleUserWishListModal'>View Wish List</button></td>
+        <td><button @click='toggleUserRentalListModal'>View Rental List</button></td>
+        <td><button @click='toggleUpdateUserModal'>Edit User</button></td>
+        <td><button @click='toggleDeleteUserModal'>Delete User</button></td>
       </tr>
       <tr>
         <td>4</td>
@@ -111,10 +111,10 @@ const toggleUserRentalListModal = () => {
         <td>Apartment 4</td>
         <td>Denver</td>
         <td>Colorado</td>
-        <td><button @click='toggleUserWishListModal'>Wish List</button></td>
-        <td><button @click='toggleUserRentalListModal'>Rental List</button></td>
-        <td><button @click='toggleUpdateUserModal'>Edit</button></td>
-        <td><button @click='toggleDeleteUserModal'>Delete</button></td>
+        <td><button @click='toggleUserWishListModal'>View Wish List</button></td>
+        <td><button @click='toggleUserRentalListModal'>View Rental List</button></td>
+        <td><button @click='toggleUpdateUserModal'>Edit User</button></td>
+        <td><button @click='toggleDeleteUserModal'>Delete User</button></td>
       </tr>
       <tr>
         <td>5</td>
@@ -126,10 +126,10 @@ const toggleUserRentalListModal = () => {
         <td>NULL</td>
         <td>Sacramento</td>
         <td>California</td>
-        <td><button @click='toggleUserWishListModal'>Wish List</button></td>
-        <td><button @click='toggleUserRentalListModal'>Rental List</button></td>
-        <td><button @click='toggleUpdateUserModal'>Edit</button></td>
-        <td><button @click='toggleDeleteUserModal'>Delete</button></td>
+        <td><button @click='toggleUserWishListModal'>View Wish List</button></td>
+        <td><button @click='toggleUserRentalListModal'>View Rental List</button></td>
+        <td><button @click='toggleUpdateUserModal'>Edit User</button></td>
+        <td><button @click='toggleDeleteUserModal'>Delete User</button></td>
       </tr>
       <tr>
         <td>6</td>
@@ -141,10 +141,10 @@ const toggleUserRentalListModal = () => {
         <td>NULL</td>
         <td>Jacksonville</td>
         <td>Florida</td>
-        <td><button @click='toggleUserWishListModal'>Wish List</button></td>
-        <td><button @click='toggleUserRentalListModal'>Rental List</button></td>
-        <td><button @click='toggleUpdateUserModal'>Edit</button></td>
-        <td><button @click='toggleDeleteUserModal'>Delete</button></td>
+        <td><button @click='toggleUserWishListModal'>View Wish List</button></td>
+        <td><button @click='toggleUserRentalListModal'>View Rental List</button></td>
+        <td><button @click='toggleUpdateUserModal'>Edit User</button></td>
+        <td><button @click='toggleDeleteUserModal'>Delete User</button></td>
       </tr>
       <tr>
         <td>7</td>
@@ -156,10 +156,10 @@ const toggleUserRentalListModal = () => {
         <td>Suite 451</td>
         <td>Memphis</td>
         <td>Tennessee</td>
-        <td><button @click='toggleUserWishListModal'>Wish List</button></td>
-        <td><button @click='toggleUserRentalListModal'>Rental List</button></td>
-        <td><button @click='toggleUpdateUserModal'>Edit</button></td>
-        <td><button @click='toggleDeleteUserModal'>Delete</button></td>
+        <td><button @click='toggleUserWishListModal'>View Wish List</button></td>
+        <td><button @click='toggleUserRentalListModal'>View Rental List</button></td>
+        <td><button @click='toggleUpdateUserModal'>Edit User</button></td>
+        <td><button @click='toggleDeleteUserModal'>Delete User</button></td>
       </tr>
       <tr>
         <td>8</td>
@@ -171,10 +171,10 @@ const toggleUserRentalListModal = () => {
         <td>NULL</td>
         <td>Atlanta</td>
         <td>Georgia</td>
-        <td><button @click='toggleUserWishListModal'>Wish List</button></td>
-        <td><button @click='toggleUserRentalListModal'>Rental List</button></td>
-        <td><button @click='toggleUpdateUserModal'>Edit</button></td>
-        <td><button @click='toggleDeleteUserModal'>Delete</button></td>
+        <td><button @click='toggleUserWishListModal'>View Wish List</button></td>
+        <td><button @click='toggleUserRentalListModal'>View Rental List</button></td>
+        <td><button @click='toggleUpdateUserModal'>Edit User</button></td>
+        <td><button @click='toggleDeleteUserModal'>Delete User</button></td>
       </tr>
       <tr>
         <td>9</td>
@@ -186,10 +186,10 @@ const toggleUserRentalListModal = () => {
         <td>NULL</td>
         <td>Oklahoma City</td>
         <td>Oklahoma</td>
-        <td><button @click='toggleUserWishListModal'>Wish List</button></td>
-        <td><button @click='toggleUserRentalListModal'>Rental List</button></td>
-        <td><button @click='toggleUpdateUserModal'>Edit</button></td>
-        <td><button @click='toggleDeleteUserModal'>Delete</button></td>
+        <td><button @click='toggleUserWishListModal'>View Wish List</button></td>
+        <td><button @click='toggleUserRentalListModal'>View Rental List</button></td>
+        <td><button @click='toggleUpdateUserModal'>Edit User</button></td>
+        <td><button @click='toggleDeleteUserModal'>Delete User</button></td>
       </tr>
       <tr>
         <td>10</td>
@@ -201,10 +201,10 @@ const toggleUserRentalListModal = () => {
         <td>NULL</td>
         <td>Grand Rapids</td>
         <td>Michigan</td>
-        <td><button @click='toggleUserWishListModal'>Wish List</button></td>
-        <td><button @click='toggleUserRentalListModal'>Rental List</button></td>
-        <td><button @click='toggleUpdateUserModal'>Edit</button></td>
-        <td><button @click='toggleDeleteUserModal'>Delete</button></td>
+        <td><button @click='toggleUserWishListModal'>View Wish List</button></td>
+        <td><button @click='toggleUserRentalListModal'>View Rental List</button></td>
+        <td><button @click='toggleUpdateUserModal'>Edit User</button></td>
+        <td><button @click='toggleDeleteUserModal'>Delete User</button></td>
       </tr>
     </table>
   </div><!-- browse -->
