@@ -1,5 +1,34 @@
 <script setup>
+import { reactive } from 'vue';
+import AddUserForm from '../../components/users/AddUserForm.vue';
+import UpdateUserForm from '../../components/users/UpdateUserForm.vue';
+import DeleteUserForm from '../../components/users/DeleteUserForm.vue';
+import UserWishList from '../../components/users/UserWishList.vue';
+import UserRentalList from '../../components/users/UserRentalList.vue';
 
+let state = reactive({
+  isAddUserModalActive: false,
+  isUpdateUserModalActive: false,
+  isDeleteUserModalActive: false,
+  isUserWishListModalActive: false,
+  isUserRentalListModalActive: false
+});
+
+const toggleAddUserModal = () => {
+  state.isAddUserModalActive = !state.isAddUserModalActive;
+};
+const toggleUpdateUserModal = () => {
+  state.isUpdateUserModalActive = !state.isUpdateUserModalActive;
+};
+const toggleDeleteUserModal = () => {
+  state.isDeleteUserModalActive = !state.isDeleteUserModalActive;
+};
+const toggleUserWishListModal = () => {
+  state.isUserWishListModalActive = !state.isUserWishListModalActive;
+};
+const toggleUserRentalListModal = () => {
+  state.isUserRentalListModalActive = !state.isUserRentalListModalActive;
+};
 </script>
 
 <template>
@@ -25,7 +54,7 @@
         <th></th>
         <th></th>
         <th></th>
-        <th><a href='#'>Add </a></th>
+        <th><button @click='toggleAddUserModal'>Add </button></th>
       </tr>
       <tr>
         <td>1</td>
@@ -37,10 +66,10 @@
         <td>NULL</td>
         <td>New York City</td>
         <td>New York</td>
-        <td><a href='#'>Wish List</a></td>
-        <td><a href='#'>Rental List</a></td>
-        <td><a href='#'>Edit</a></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleUserWishListModal'>Wish List</button></td>
+        <td><button @click='toggleUserRentalListModal'>Rental List</button></td>
+        <td><button @click='toggleUpdateUserModal'>Edit</button></td>
+        <td><button @click='toggleDeleteUserModal'>Delete</button></td>
       </tr>
       <tr>
         <td>2</td>
@@ -52,10 +81,10 @@
         <td>Suite 3</td>
         <td>Lancaster</td>
         <td>Pennsylvania</td>
-        <td><a href='#'>Wish List</a></td>
-        <td><a href='#'>Rental List</a></td>
-        <td><a href='#'>Edit</a></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleUserWishListModal'>Wish List</button></td>
+        <td><button @click='toggleUserRentalListModal'>Rental List</button></td>
+        <td><button @click='toggleUpdateUserModal'>Edit</button></td>
+        <td><button @click='toggleDeleteUserModal'>Delete</button></td>
       </tr>
       <tr>
         <td>3</td>
@@ -67,10 +96,10 @@
         <td>NULL</td>
         <td>Reno</td>
         <td>Nevada</td>
-        <td><a href='#'>Wish List</a></td>
-        <td><a href='#'>Rental List</a></td>
-        <td><a href='#'>Edit</a></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleUserWishListModal'>Wish List</button></td>
+        <td><button @click='toggleUserRentalListModal'>Rental List</button></td>
+        <td><button @click='toggleUpdateUserModal'>Edit</button></td>
+        <td><button @click='toggleDeleteUserModal'>Delete</button></td>
       </tr>
       <tr>
         <td>4</td>
@@ -82,10 +111,10 @@
         <td>Apartment 4</td>
         <td>Denver</td>
         <td>Colorado</td>
-        <td><a href='#'>Wish List</a></td>
-        <td><a href='#'>Rental List</a></td>
-        <td><a href='#'>Edit</a></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleUserWishListModal'>Wish List</button></td>
+        <td><button @click='toggleUserRentalListModal'>Rental List</button></td>
+        <td><button @click='toggleUpdateUserModal'>Edit</button></td>
+        <td><button @click='toggleDeleteUserModal'>Delete</button></td>
       </tr>
       <tr>
         <td>5</td>
@@ -97,10 +126,10 @@
         <td>NULL</td>
         <td>Sacramento</td>
         <td>California</td>
-        <td><a href='#'>Wish List</a></td>
-        <td><a href='#'>Rental List</a></td>
-        <td><a href='#'>Edit</a></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleUserWishListModal'>Wish List</button></td>
+        <td><button @click='toggleUserRentalListModal'>Rental List</button></td>
+        <td><button @click='toggleUpdateUserModal'>Edit</button></td>
+        <td><button @click='toggleDeleteUserModal'>Delete</button></td>
       </tr>
       <tr>
         <td>6</td>
@@ -112,10 +141,10 @@
         <td>NULL</td>
         <td>Jacksonville</td>
         <td>Florida</td>
-        <td><a href='#'>Wish List</a></td>
-        <td><a href='#'>Rental List</a></td>
-        <td><a href='#'>Edit</a></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleUserWishListModal'>Wish List</button></td>
+        <td><button @click='toggleUserRentalListModal'>Rental List</button></td>
+        <td><button @click='toggleUpdateUserModal'>Edit</button></td>
+        <td><button @click='toggleDeleteUserModal'>Delete</button></td>
       </tr>
       <tr>
         <td>7</td>
@@ -127,10 +156,10 @@
         <td>Suite 451</td>
         <td>Memphis</td>
         <td>Tennessee</td>
-        <td><a href='#'>Wish List</a></td>
-        <td><a href='#'>Rental List</a></td>
-        <td><a href='#'>Edit</a></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleUserWishListModal'>Wish List</button></td>
+        <td><button @click='toggleUserRentalListModal'>Rental List</button></td>
+        <td><button @click='toggleUpdateUserModal'>Edit</button></td>
+        <td><button @click='toggleDeleteUserModal'>Delete</button></td>
       </tr>
       <tr>
         <td>8</td>
@@ -142,10 +171,10 @@
         <td>NULL</td>
         <td>Atlanta</td>
         <td>Georgia</td>
-        <td><a href='#'>Wish List</a></td>
-        <td><a href='#'>Rental List</a></td>
-        <td><a href='#'>Edit</a></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleUserWishListModal'>Wish List</button></td>
+        <td><button @click='toggleUserRentalListModal'>Rental List</button></td>
+        <td><button @click='toggleUpdateUserModal'>Edit</button></td>
+        <td><button @click='toggleDeleteUserModal'>Delete</button></td>
       </tr>
       <tr>
         <td>9</td>
@@ -157,10 +186,10 @@
         <td>NULL</td>
         <td>Oklahoma City</td>
         <td>Oklahoma</td>
-        <td><a href='#'>Wish List</a></td>
-        <td><a href='#'>Rental List</a></td>
-        <td><a href='#'>Edit</a></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleUserWishListModal'>Wish List</button></td>
+        <td><button @click='toggleUserRentalListModal'>Rental List</button></td>
+        <td><button @click='toggleUpdateUserModal'>Edit</button></td>
+        <td><button @click='toggleDeleteUserModal'>Delete</button></td>
       </tr>
       <tr>
         <td>10</td>
@@ -172,176 +201,18 @@
         <td>NULL</td>
         <td>Grand Rapids</td>
         <td>Michigan</td>
-        <td><a href='#'>Wish List</a></td>
-        <td><a href='#'>Rental List</a></td>
-        <td><a href='#'>Edit</a></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleUserWishListModal'>Wish List</button></td>
+        <td><button @click='toggleUserRentalListModal'>Rental List</button></td>
+        <td><button @click='toggleUpdateUserModal'>Edit</button></td>
+        <td><button @click='toggleDeleteUserModal'>Delete</button></td>
       </tr>
     </table>
   </div><!-- browse -->
-  <br />
-  <div id='insert'>
-    <form id='addUser' method='POST'>
-      <legend><strong>Add User</strong></legend>
-      <fieldset class='fields'>
-        <label for='user-role-id'> user role </label>
-        <select id='user-role-id'>
-          <option value='0'>&nbsp;</option>
-          <option value='1'>admin</option>
-          <option value='2'>manager</option>
-          <option value='3'>sales</option>
-          <option value='4'>customer</option>
-        </select>
-        <label for='first-name'> first_name </label> 
-        <input id='first-name' type='text' name='first-name'>
-        <label for='last-name'> last_name </label> 
-        <input id='last-name' type='text' name='last-name'>
-        <label for='email'> email </label> 
-        <input id='email' type='text' name='email'>
-        <br>
-        <label for='address-line-1'> address_line_1 </label> 
-        <input id='address-line-2' type='text' name='address-line-1'>
-        <label for='address-line-2'> address_line_2 </label> 
-        <input id='address-line-2' type='text' name='address-line-2'>
-        <label for='city'> city </label> 
-        <input id='city' type='text' name='city'>
-        <label for='state'> state </label> 
-        <input id='state' type='text' name='state'>
-      </fieldset>
-      <input id='addUser' class='btn' type='submit' value='Add New User'>
-      <input id='user' class='btn' type='button' value='Cancel'>
-    </form>
-  </div><!-- insert -->
-  <br />
-  <div id='update'>
-    <form id='updateUser' method='POST'>
-      <legend><strong>Update User</strong></legend>
-      <fieldset class='fields'>
-        <input id='updateUserID' type='hidden' name='userID' value='1'>
-        <label for='user-id'> id: </label> 1
-        <label for='user-role-id'> user role </label>
-        <select id='user-role-id'>
-          <option value='0'>&nbsp;</option>
-          <option value='1' selected>admin</option>
-          <option value='2'>manager</option>
-          <option value='3'>sales</option>
-          <option value='4'>customer</option>
-        </select>
-        <label for='first-name'> first_name </label> 
-        <input id='first-name' type='text' name='first-name' value='Baryram'>
-        <label for='last-name'> last_name </label> 
-        <input id='last-name' type='text' name='last-name' value='Basil'>
-        <label for='email'> email </label> 
-        <input id='email' type='text' name='email' value='bbasil0@thetimes.co.uk'>
-        <br>
-        <label for='address-line-1'> address_line_1 </label> 
-        <input id='address-line-1' type='text' name='address-line-1' value='6 Farwell Trail'>
-        <label for='address-line-2'> address_line_2 </label> 
-        <input id='address-line-2' type='text' name='address-line-2' value='NULL'>
-        <label for='city'> city </label> 
-        <input id='citye' type='text' name='city' value='New York City'>
-        <label for='state'> state </label> 
-        <input id='state' type='text' name='state' value='New York'>
-      </fieldset>
-      <input id='addUser' class='btn' type='submit' value='Update User'>
-      <input id='user' class='btn' type='button' value='Cancel'>
-    </form>
-  </div><!-- update -->
-  <br />
-  <div id='delete' style='display: block'>
-    <form id='deleteUser' method='POST'>
-      <legend><strong>Delete User</strong></legend>
-      <fieldset class='fields'>
-        <p>Are you sure you wish to delete the following?</p>
-        <input id='deletepersonID' type='hidden' name='personID' value='1'>
-        <label><strong>id:</strong></label> 1
-        <label> <strong>first_name:</strong> </label> Baryram
-        <label> <strong>last_name:</strong> </label> Basil
-      </fieldset>
-      <input id='DeleteUser' class='btn' type='submit' value='Delete User'>
-      <input id='user' class='btn' type='button' value='Cancel'>
-    </form>
-  </div><!-- delete -->
-  <br />
-  <div id='viewWishList'>
-    <p><strong>All Wish List Books for user_id: 1</strong></p>
-    <table border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;'>
-      <tr>
-        <th>book_id</th>
-        <th>title</th>
-        <th></th>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>nisi venenatis tristique fusce</td>
-        <td><a href='#'>Delete</a></td>
-      </tr>
-      <tr>
-        <td>9</td>
-        <td>auctor gravida sem praesent id</td>
-        <td><a href='#'>Delete</a></td>
-      </tr>
-      <tr>
-        <td>7</td>
-        <td>in leo maecenas pulvinar lobortis est phasellus</td>
-        <td><a href='#'>Delete</a></td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>bibendum imperdiet nullam orci pede venenatis non ...</td>
-        <td><a href='#'>Delete</a></td>
-      </tr>
-    </table>
-  </div><!-- viewWishList by User -->
-  <br />
-  <div id='viewRentalList'>
-    <p><strong>All Rental List Books for user_id: 1</strong></p>
-    <table border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;'>
-      <tr>
-        <th>book_id</th>
-        <th>title</th>
-        <th><a href='#'>Add </a></th>
-      </tr>
-      <tr>
-        <td>10</td>
-        <td>in est risus auctor sed tristique in tempus sit</td>
-        <td><a href='#'>Delete</a></td>
-      </tr>
-      <tr>
-        <td>8</td>
-        <td>quisque ut erat curabitur gravida nisi at</td>
-        <td><a href='#'>Delete</a></td>
-      </tr>
-    </table>
-  </div><!-- viewRentalList by user -->
+
+  <add-user-form :is-add-user-modal-active='state.isAddUserModalActive' @toggle-add-user-modal='toggleAddUserModal' />
+  <update-user-form :is-update-user-modal-active='state.isUpdateUserModalActive' @toggle-update-user-modal='toggleUpdateUserModal' />
+  <delete-user-form :is-delete-user-modal-active='state.isDeleteUserModalActive' @toggle-delete-user-modal='toggleDeleteUserModal' />
+  <user-wish-list :is-user-wish-list-modal-active='state.isUserWishListModalActive' @toggle-user-wish-list-modal='toggleUserWishListModal' />
+  <user-rental-list :is-user-rental-list-modal-active='state.isUserRentalListModalActive' @toggle-user-rental-list-modal='toggleUserRentalListModal' />
+
 </template>
-
-<style lang='scss' scoped>
-form {
-  width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-
-  .fields {
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    padding: 10px 25px 35px;
-    margin-bottom: 20px;
-
-    label {
-      margin-top: 10px;
-      margin-bottom: 3px;
-      font-weight: 500;
-    }
-  }
-
-  input[type="submit"],
-  input[type="button"] {
-    margin-left: 10px;
-    margin-right: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-}
-</style>

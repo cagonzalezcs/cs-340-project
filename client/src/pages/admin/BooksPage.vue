@@ -1,5 +1,24 @@
 <script setup>
+import { reactive } from 'vue';
+import AddBookForm from '../../components/books/AddBookForm.vue';
+import UpdateBookForm from '../../components/books/UpdateBookForm.vue';
+import DeleteBookForm from '../../components/books/DeleteBookForm.vue';
 
+let state = reactive({
+  isAddBookModalActive: false,
+  isUpdateBookModalActive: false,
+  isDeleteBookModalActive: false,
+});
+
+const toggleAddBookModal = () => {
+  state.isAddBookModalActive = !state.isAddBookModalActive;
+};
+const toggleUpdateBookModal = () => {
+  state.isUpdateBookModalActive = !state.isUpdateBookModalActive;
+};
+const toggleDeleteBookModal = () => {
+  state.isDeleteBookModalActive = !state.isDeleteBookModalActive;
+};
 </script>
 
 <template>
@@ -21,7 +40,7 @@
         <th>quantity_available</th>
         <th>quantity_rented</th>
         <th></th>
-        <th><a href='#'>Add Book</a></th>
+        <th><button @click='toggleAddBookModal'>Add Book</button></th>
       </tr>
       <tr>
         <td>1</td>
@@ -32,8 +51,8 @@
         <td>http://dummyimage.com/220x.png/dddddd/000000</td>
         <td>13</td>
         <td>10</td>
-        <td><a href='#'>Edit</a></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleUpdateBookModal'>Edit</button></td>
+        <td><button @click='toggleDeleteBookModal'>Delete</button></td>
       </tr>
       <tr>
         <td>1</td>
@@ -44,8 +63,8 @@
         <td>http://dummyimage.com/220x.png/dddddd/000000</td>
         <td>13</td>
         <td>10</td>
-        <td><a href='#'>Edit</a></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleUpdateBookModal'>Edit</button></td>
+        <td><button @click='toggleDeleteBookModal'>Delete</button></td>
       </tr>
       <tr>
         <td>2</td>
@@ -56,8 +75,8 @@
         <td>http://dummyimage.com/167x.png/5fa2dd/ffffff</td>
         <td>15</td>
         <td>9</td>
-        <td><a href='#'>Edit</a></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleUpdateBookModal'>Edit</button></td>
+        <td><button @click='toggleDeleteBookModal'>Delete</button></td>
       </tr>
       <tr>
         <td>3</td>
@@ -68,8 +87,8 @@
         <td>http://dummyimage.com/222x.png/cc0000/ffffff</td>
         <td>17</td>
         <td>11</td>
-        <td><a href='#'>Edit</a></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleUpdateBookModal'>Edit</button></td>
+        <td><button @click='toggleDeleteBookModal'>Delete</button></td>
       </tr>
       <tr>
         <td>4</td>
@@ -80,8 +99,8 @@
         <td>http://dummyimage.com/234x.png/ff4444/ffffff</td>
         <td>17</td>
         <td>3</td>
-        <td><a href='#'>Edit</a></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleUpdateBookModal'>Edit</button></td>
+        <td><button @click='toggleDeleteBookModal'>Delete</button></td>
       </tr>
       <tr>
         <td>5</td>
@@ -92,8 +111,8 @@
         <td>http://dummyimage.com/160x.png/ff4444/ffffff</td>
         <td>14</td>
         <td>9</td>
-        <td><a href='#'>Edit</a></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleUpdateBookModal'>Edit</button></td>
+        <td><button @click='toggleDeleteBookModal'>Delete</button></td>
       </tr>
       <tr>
         <td>6</td>
@@ -104,8 +123,8 @@
         <td>http://dummyimage.com/153x.png/ff4444/ffffff</td>
         <td>20</td>
         <td>7</td>
-        <td><a href='#'>Edit</a></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleUpdateBookModal'>Edit</button></td>
+        <td><button @click='toggleDeleteBookModal'>Delete</button></td>
       </tr>
       <tr>
         <td>7</td>
@@ -116,8 +135,8 @@
         <td>http://dummyimage.com/203x.png/cc0000/ffffff</td>
         <td>17</td>
         <td>10</td>
-        <td><a href='#'>Edit</a></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleUpdateBookModal'>Edit</button></td>
+        <td><button @click='toggleDeleteBookModal'>Delete</button></td>
       </tr>
       <tr>
         <td>8</td>
@@ -128,8 +147,8 @@
         <td>http://dummyimage.com/182x.png/dddddd/000000</td>
         <td>13</td>
         <td>6</td>
-        <td><a href='#'>Edit</a></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleUpdateBookModal'>Edit</button></td>
+        <td><button @click='toggleDeleteBookModal'>Delete</button></td>
       </tr>
       <tr>
         <td>9</td>
@@ -140,8 +159,8 @@
         <td>http://dummyimage.com/209x.png/ff4444/ffffff</td>
         <td>15</td>
         <td>11</td>
-        <td><a href='#'>Edit</a></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleUpdateBookModal'>Edit</button></td>
+        <td><button @click='toggleDeleteBookModal'>Delete</button></td>
       </tr>
       <tr>
         <td>9</td>
@@ -152,8 +171,8 @@
         <td>http://dummyimage.com/209x.png/ff4444/ffffff</td>
         <td>15</td>
         <td>11</td>
-        <td><a href='#'>Edit</a></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleUpdateBookModal'>Edit</button></td>
+        <td><button @click='toggleDeleteBookModal'>Delete</button></td>
       </tr>
       <tr>
         <td>10</td>
@@ -164,153 +183,15 @@
         <td>http://dummyimage.com/218x.png/5fa2dd/ffffff</td>
         <td>12</td>
         <td>11</td>
-        <td><a href='#'>Edit</a></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleUpdateBookModal'>Edit</button></td>
+        <td><button @click='toggleDeleteBookModal'>Delete</button></td>
       </tr>
     </table>
   </div><!-- browse -->
-  <br />
-  <div id='insert'>
-    <form id='addBook' method='POST'>
-      <legend><strong>Add Book</strong></legend>
-      <fieldset class='fields'>
-        <label for='book-title'> title </label> 
-        <input id='book-title'  type='text' name='title'>
-        <label for='book-genre'> genre </label>
-        <select name='genre_id'>
-          <option value='0'>&nbsp;</option>
-          <option value='1'>Non-Fiction</option>
-          <option value='2'>Fiction</option>
-          <option value='3'>Horror</option>
-          <option value='4'>Comedy</option>
-          <option value='5'>Drama</option>
-        </select>
-        <label for='book-isbn'> isbn </label> 
-        <input id='book-isbn' type='text' name='isbn'>
-        <label for='book-cover-image'> cover_image </label> 
-        <input id='book-cover-image' type='text' name='cover_image'>
-        <label for='book-qty-available'> quantity_available </label> 
-        <input id='book-qty-available' type='text' name='quantity_available'>
-        <label for='book-qty-rented'> quantity_rented </label> 
-        <input id='book-qty-rented' type='text' name='quantity_rented'>
-      </fieldset>
-      <input id='addBook' class='btn' type='button' value='Continue'>
-      <input class='btn' type='button' value='Cancel'>
-    </form>
-  </div><!-- insert -->
-  <br />
-  <div id='addBookAuthor'>
-    <form id='addBookAuthor' method='POST'>
-      <legend><strong>Add Author</strong></legend>
-      <fieldset class='fields'>
-        <p>Add author to book:</p>
-        <label for='author_id'> Authors: </label>
-        <select id='author_id'>
-          <option value='0'>&nbsp;</option>
-          <option value='1'>Adiana Pavlishchev</option>
-          <option value='2'>Perren Benzi</option>
-          <option value='3'>Berne Yele</option>
-          <option value='4'>Robbi Feild</option>
-          <option value='5'>Thomasin Seakin</option>
-        </select>
-      </fieldset>
-      <input id='addBook' class='btn' type='submit' value='Add Book'>
-      <input id='addBook' class='btn' type='button' value='Add New Book Author'>
-      <input class='btn' type='button' value='Cancel'>
-    </form>
-  </div><!-- insert into book_authors -->
-  <br />
-  <div id='update'>
-    <form id='updateBook' method='POST'>
-      <legend><strong>Update Book</strong></legend>
-      <fieldset class='fields'>
-        <label for='book-title'> title </label> 
-        <input id='book-title' type='text' name='title' value='lobortis vel dapibus at diam nam tristique tortor ...	'>
-        <label for='book-genre'> genre </label>
-        <select name='genre_id'>
-          <option value='0'>&nbsp;</option>
-          <option value='1'>Non-Fiction</option>
-          <option value='2'>Fiction</option>
-          <option value='3'>Horror</option>
-          <option value='4' selected>Comedy</option>
-          <option value='5'>Drama</option>
-        </select>
-        <label for='book-isbn'> isbn </label> 
-        <input id='book-isbn' type='text' name='isbn' value='488010340-3'>
-        <label for='book-cover-image'> cover_image </label> 
-        <input id='book-cover-image' type='text' name='cover_image' value='http://dummyimage.com/220x.png/dddddd/000000'>
-        <label for='book-qty-available'> quantity_available </label> 
-        <input for='book-qty-available' type='text' name='quantity_available' value='13'>
-        <label for='book-qty-rented'> quantity_rented </label> 
-        <input id='book-qty-rented' type='text' name='quantity_rented' value='10'>
-      </fieldset>
-      <input id='addBook' class='btn' type='button' value='Continue'>
-      <input class='btn' type='button' value='Cancel'>
-    </form>
-  </div><!-- update -->
-  <br />
-  <div id='updateBookAuthor'>
-    <form id='updateBookAuthor' method='POST'>
-      <legend><strong>Update Author</strong></legend>
-      <fieldset class='fields'>
-        <p>Select new author:</p>
-        <label for='author_id'> Authors: </label>
-        <select id='author_id'>
-          <option value='0'>&nbsp;</option>
-          <option value='1' selected>Adiana Pavlishchev</option>
-          <option value='2'>Perren Benzi</option>
-          <option value='3'>Berne Yele</option>
-          <option value='4'>Robbi Feild</option>
-          <option value='5'>Thomasin Seakin</option>
-        </select>
-      </fieldset>
-      <input id='addBook' class='btn' type='submit' value='Update Book'>
-      <input id='addBook' class='btn' type='button' value='Add New Book Author'>
-      <input class='btn' type='button' value='Cancel'>
-    </form>
-  </div><!-- insert into book_authors -->
-  <br />
-  <div id='delete' style='display: block'>
-    <form id='deleteBook' method='POST'>
-      <legend><strong>Delete Book</strong></legend>
-      <fieldset class='fields'>
-        <p>Are you sure you wish to delete the following?</p>
-        <input id='deletebookID' type='hidden' name='bookID' value='1'>
-        <label><strong>id:</strong></label> 1
-        <label> <strong>title:</strong> </label> lobortis vel dapibus at diam nam tristique tortor ...
-      </fieldset>
-      <input id='DeleteBook' class='btn' type='submit' value='Delete Book'>
-      <input class='btn' type='button' value='Cancel'>
-    </form>
-  </div><!-- delete -->
+
+  <add-book-form :is-add-book-modal-active='state.isAddBookModalActive' @toggle-add-book-modal='toggleAddBookModal' />
+  <update-book-form :is-update-book-modal-active='state.isUpdateBookModalActive' @toggle-update-book-modal='toggleUpdateBookModal' />
+  <delete-book-form :is-delete-book-modal-active='state.isDeleteBookModalActive' @toggle-delete-book-modal='toggleDeleteBookModal' />
+
 </template>
 
-<style lang='scss' scoped>
-form {
-  width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-
-  .fields {
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    padding: 10px 25px 35px;
-    margin-bottom: 20px;
-
-    label {
-      margin-top: 10px;
-      margin-bottom: 3px;
-      font-weight: 500;
-    }
-  }
-
-  input[type="submit"],
-  input[type="button"] {
-    margin-left: 10px;
-    margin-right: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-}
-</style>

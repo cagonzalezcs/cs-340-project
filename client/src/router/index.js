@@ -13,6 +13,7 @@ import GenresPage from '../pages/admin/GenresPage.vue';
 import WishListsPage from '../pages/admin/WishListsPage.vue';
 import RentalListsPage from '../pages/admin/RentalListsPage.vue';
 import SearchBooksPage from '../pages/admin/SearchBooksPage.vue';
+import NotFoundPage from '../pages/NotFoundPage.vue';
 
 const routes = [
   {
@@ -84,6 +85,12 @@ const routes = [
     path: '/admin/search-books',
     name: 'Search_Books',
     component: SearchBooksPage,
+  },
+  {
+    // path: '/:pathMatch(.*)*',
+    path: '/testing',
+    name: 'Not Found',
+    component: NotFoundPage,
   },
 ];
 const router = createRouter({

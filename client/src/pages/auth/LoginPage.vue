@@ -4,8 +4,6 @@ import { useUserStore } from '../../stores/user';
 
 const user = useUserStore();
 
-
-
 async function onSubmit(formData) {
   if (!formData.target.elements.email.value) {
     return;
@@ -34,7 +32,7 @@ async function onSubmit(formData) {
           <label for='login-email' class='login-form__label'>
             <span class='login-form__label-text'>Email Address**</span>
             <input id='login-email' type='email' name='email' class='login-form__input' value='admin@admin.com' />
-            <small class='login-form__temp-note'>**Note: In this mockup, use the email <em>"admin@admin.com"</em> to access the admin route. Use any other name to access the customer route.</small>
+            <small class='login-form__temp-note'>**Note: In this mockup, use the email <em>"admin@admin.com"</em> to access the admin route. Use any other email to access the customer route.</small>
           </label>
 
           <label for='login-password' class='login-form__label'>

@@ -1,5 +1,24 @@
 <script setup>
+import { reactive } from 'vue';
+import AddGenreForm from '../../components/genres/AddGenreForm.vue';
+import EditGenreForm from '../../components/genres/EditGenreForm.vue';
+import DeleteGenreForm from '../../components/genres/DeleteGenreForm.vue';
 
+let state = reactive({
+  isAddGenreModalActive: false,
+  isEditGenreModalActive: false,
+  isDeleteGenreModalActive: false,
+});
+
+const toggleAddGenreModal = () => {
+  state.isAddGenreModalActive = !state.isAddGenreModalActive;
+};
+const toggleEditGenreModal = () => {
+  state.isEditGenreModalActive = !state.isEditGenreModalActive;
+};
+const toggleDeleteGenreModal = () => {
+  state.isDeleteGenreModalActive = !state.isDeleteGenreModalActive;
+};
 </script>
 
 <template>
@@ -13,108 +32,43 @@
         <th>id</th>
         <th>name</th>
         <th></th>
-        <th><a href='#'>Add Genre</a></th>
+        <th><button @click='toggleAddGenreModal'>Add Genre</button></th>
       </tr>
       <tr>
         <td>1</td>
         <td>Non-Fiction</td>
-        <td><a href='#'>Edit</a></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleEditGenreModal'>Edit</button></td>
+        <td><button @click='toggleDeleteGenreModal'>Delete</button></td>
       </tr>
       <tr>
         <td>2</td>
         <td>Fiction</td>
-        <td><a href='#'>Edit</a></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleEditGenreModal'>Edit</button></td>
+        <td><button @click='toggleDeleteGenreModal'>Delete</button></td>
       </tr>
       <tr>
         <td>3</td>
         <td>Horror</td>
-        <td><a href='#'>Edit</a></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleEditGenreModal'>Edit</button></td>
+        <td><button @click='toggleDeleteGenreModal'>Delete</button></td>
       </tr>
       <tr>
         <td>4</td>
         <td>Comedy</td>
-        <td><a href='#'>Edit</a></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleEditGenreModal'>Edit</button></td>
+        <td><button @click='toggleDeleteGenreModal'>Delete</button></td>
       </tr>
       <tr>
         <td>5</td>
         <td>Drama</td>
-        <td><a href='#'>Edit</a></td>
-        <td><a href='#'>Delete</a></td>
+        <td><button @click='toggleEditGenreModal'>Edit</button></td>
+        <td><button @click='toggleDeleteGenreModal'>Delete</button></td>
       </tr>
     </table>
   </div><!-- browse -->
-  <br />
-  <div id='insert'>
-    <form id='addGenre' method='POST'>
-      <legend><strong>Add Genre</strong></legend>
-      <fieldset class='fields'>
-        <label for='genre-name'> name </label> 
-        <input id='genre-name' type='text' name='genreName'>
-      </fieldset>
-      <input id='addGenre' class='btn' type='submit' value='Add New Genre'>
-      <input class='btn' type='button' value='Cancel'>
-    </form>
-  </div><!-- insert -->
-  <br />
-  <div id='update'>
-    <form id='updateGenre' method='POST'>
-      <legend><strong>Edit Genre</strong></legend>
-      <fieldset class='fields'>
-        <input id='updateGenre' type='hidden' name='genre_ID' value='1'>
-        <label for='genre-name'> name </label> 
-        <input id='genre-name' type='text' name='genreName' value='Non-Fiction'>
-      </fieldset>
-      <input id='editGenre' class='btn' type='submit' value='Edit Genre'>
-      <input class='btn' type='button' value='Cancel'>
-    </form>
-  </div><!-- update -->
-  <br />
-  <div id='delete' style='display: block'>
-    <form id='deleteGenre' method='POST'>
-      <legend><strong>Delete Genre</strong></legend>
-      <fieldset class='fields'>
-        <p>Are you sure you wish to delete the following?</p>
-        <p>It will set the Genre on all associated books to NULL</p>
-        <input id='deleteGenre' type='hidden' name='genre_ID' value='1'>
-        <label><strong>id:</strong></label> 1
-        <label> <strong>name:</strong> </label> Non-Fiction
-      </fieldset>
-      <input id='deleteGenre' class='btn' type='submit' value='Delete Genre'>
-      <input class='btn' type='button' value='Cancel'>
-    </form>
-  </div><!-- delete -->
+
+  <add-genre-form :is-add-genre-modal-active='state.isAddGenreModalActive' @toggle-add-genre-modal='toggleAddGenreModal' />
+  <edit-genre-form :is-edit-genre-modal-active='state.isEditGenreModalActive' @toggle-edit-genre-modal='toggleEditGenreModal' />
+  <delete-genre-form :is-delete-genre-modal-active='state.isDeleteGenreModalActive' @toggle-delete-genre-modal='toggleDeleteGenreModal' />
+
 </template>
-
-<style lang='scss' scoped>
-form {
-  width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-
-  .fields {
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    padding: 10px 25px 35px;
-    margin-bottom: 20px;
-
-    label {
-      margin-top: 10px;
-      margin-bottom: 3px;
-      font-weight: 500;
-    }
-  }
-
-  input[type="submit"],
-  input[type="button"] {
-    margin-left: 10px;
-    margin-right: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-}
-</style>

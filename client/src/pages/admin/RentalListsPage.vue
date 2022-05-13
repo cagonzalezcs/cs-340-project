@@ -1,5 +1,20 @@
 <script setup>
+import { reactive } from 'vue';
+import ViewRentalList from '../../components/rental-lists/ViewRentalList.vue';
+import RemoveFromRentalList from '../../components/rental-lists/RemoveFromRentalList.vue';
 
+let state = reactive({
+  isViewRentalListModalActive: false,
+  isRemoveFromRentalListModalActive: false
+});
+
+const toggleViewRentalListModal = () => {
+  state.isViewRentalListModalActive = !state.isViewRentalListModalActive;
+};
+const toggleRemoveFromRentalListModal = () => {
+  state.isViewRentalListModalActive = false;
+  state.isRemoveFromRentalListModalActive = !state.isRemoveFromRentalListModalActive;
+};
 </script>
 
 <template>
@@ -18,121 +33,66 @@
       </tr>
       <tr>
         <td>1</td>
-        <td><a href='#'>View</a></td>
+        <td><button @click='toggleViewRentalListModal'>View</button></td>
         <td><a href='#'>Delete</a></td>
 
       </tr>
       <tr>
         <td>2</td>
-        <td><a href='#'>View</a></td>
+        <td><button @click='toggleViewRentalListModal'>View</button></td>
         <td><a href='#'>Delete</a></td>
       </tr>
       <tr>
         <td>3</td>
-        <td><a href='#'>View</a></td>
+        <td><button @click='toggleViewRentalListModal'>View</button></td>
         <td><a href='#'>Delete</a></td>
       </tr>
       <tr>
         <td>4</td>
-        <td><a href='#'>View</a></td>
+        <td><button @click='toggleViewRentalListModal'>View</button></td>
         <td><a href='#'>Delete</a></td>
       </tr>
       <tr>
         <td>5</td>
-        <td><a href='#'>View</a></td>
+        <td><button @click='toggleViewRentalListModal'>View</button></td>
         <td><a href='#'>Delete</a></td>
       </tr>
       <tr>
         <td>6</td>
-        <td><a href='#'>View</a></td>
+        <td><button @click='toggleViewRentalListModal'>View</button></td>
         <td><a href='#'>Delete</a></td>
       </tr>
       <tr>
         <td>7</td>
-        <td><a href='#'>View</a></td>
+        <td><button @click='toggleViewRentalListModal'>View</button></td>
         <td><a href='#'>Delete</a></td>
       </tr>
       <tr>
         <td>8</td>
-        <td><a href='#'>View</a></td>
+        <td><button @click='toggleViewRentalListModal'>View</button></td>
         <td><a href='#'>Delete</a></td>
       </tr>
       <tr>
         <td>9</td>
-        <td><a href='#'>View</a></td>
+        <td><button @click='toggleViewRentalListModal'>View</button></td>
         <td><a href='#'>Delete</a></td>
       </tr>
       <tr>
         <td>10</td>
-        <td><a href='#'>View</a></td>
+        <td><button @click='toggleViewRentalListModal'>View</button></td>
         <td><a href='#'>Delete</a></td>
       </tr>
     </table>
   </div><!-- browseRentalList -->
-  <br />
-  <div id='viewRentalList'>
-    <p><strong>All Rental List Books for user_id: 1</strong></p>
-    <table border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;'>
-      <tr>
-        <th>book_id</th>
-        <th>title</th>
-        <th></th>
-      </tr>
-      <tr>
-        <td>10</td>
-        <td>in est risus auctor sed tristique in tempus sit</td>
-        <td><a href='#'>Delete</a></td>
-      </tr>
-      <tr>
-        <td>8</td>
-        <td>quisque ut erat curabitur gravida nisi at</td>
-        <td><a href='#'>Delete</a></td>
-      </tr>
-    </table>
-  </div><!-- viewRentalList -->
-  <br />
-  <div id='delete' style='display: block'>
-    <form id='deleteRentalListBook' method='POST'>
-      <legend><strong>Delete Book from Rental List</strong></legend>
-      <fieldset class='fields'>
-        <p>Are you sure you wish to delete the following Rental List item?</p>
-        <input id='deleteRentalListBook' type='hidden' name='bookID' value='3'>
-        <label><strong>user_id:</strong></label> 1
-        <label><strong>book_id:</strong></label> 10
-        <label><strong>title:</strong> </label> in est risus auctor sed tristique in tempus sit
-      </fieldset>
-      <input id='DeleteUser' class='btn' type='submit' value='Delete Book From Rental List'>
-      <input class='btn' type='button' value='Cancel'>
-    </form>
-  </div><!-- deleteRentalListItem -->
+
+  <view-rental-list
+    :is-view-rental-list-modal-active='state.isViewRentalListModalActive'
+    @toggle-view-rental-list-modal='toggleViewRentalListModal'
+    @toggle-remove-from-rental-list-modal='toggleRemoveFromRentalListModal'
+  />
+  <remove-from-rental-list
+    :is-remove-from-rental-list-modal-active='state.isRemoveFromRentalListModalActive'
+    @toggle-remove-from-rental-list-modal='toggleRemoveFromRentalListModal'
+  />
+
 </template>
-
-<style lang='scss' scoped>
-form {
-  width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-
-  .fields {
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    padding: 10px 25px 35px;
-    margin-bottom: 20px;
-
-    label {
-      margin-top: 10px;
-      margin-bottom: 3px;
-      font-weight: 500;
-    }
-  }
-
-  input[type="submit"],
-  input[type="button"] {
-    margin-left: 10px;
-    margin-right: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-}
-</style>

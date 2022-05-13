@@ -60,7 +60,7 @@ CREATE TABLE books (
   created_at timestamp NOT NULL DEFAULT current_timestamp(),
   updated_at timestamp NULL DEFAULT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (genre_id) REFERENCES genres(id) ON DELETE RESTRICT
+  FOREIGN KEY (genre_id) REFERENCES genres(id) ON DELETE SET NULL
 );
 
 -- --------------------------------------------------------
