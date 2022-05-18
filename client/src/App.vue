@@ -8,7 +8,6 @@ import router from './router';
 
 const user = useUserStore();
 
-
 onMounted(() => {
   watch(router.currentRoute, checkUserAuth);
 });
