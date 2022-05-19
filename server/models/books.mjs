@@ -8,8 +8,8 @@ const getAllBooks = async () => {
             (SELECT GROUP_CONCAT(authors.name SEPARATOR ', ')
              FROM authors
                       LEFT JOIN book_authors ON authors.id = book_authors.author_id
-             WHERE book_authors.book_id = 1) AS "authors",
-            genres.name                      AS "genre",
+             WHERE book_authors.book_id = books.id) AS "authors",
+            genres.name AS "genre",
             books.isbn,
             books.cover_image,
             books.quantity_available,

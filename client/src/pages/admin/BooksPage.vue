@@ -12,7 +12,7 @@ let state = reactive({
   books: [],
   authors: [],
   genres: [],
-  currentlySelectedBookId: 1
+  currentlySelectedBookIndex: 0,
 });
 
 const baseUrl = import.meta.env.VITE_SERVER_URI;
@@ -25,10 +25,8 @@ const toggleUpdateBookModal = () => {
 };
 const toggleDeleteBookModal = (bookId) => {
   if (bookId) {
-    state.currentlySelectedBookId = bookId;
+    state.currentlySelectedBookIndex = bookId;
   }
-
-  console.log(state.currentlySelectedBookId);
 
   state.isDeleteBookModalActive = !state.isDeleteBookModalActive;
 };
@@ -36,7 +34,6 @@ const toggleDeleteBookModal = (bookId) => {
 function setBook(books) {
   if (books?.length) {
     state.books = books;
-    console.log(books);
   }
 }
 
@@ -53,7 +50,7 @@ function setGenre(genres) {
 }
 
 async function getBooks() {
-  const bookUrl = `${baseUrl}books`;
+  const bookUrl = `${ baseUrl }/books`;
   try {
     const response = await fetch(bookUrl, {
       method: 'GET',
@@ -72,7 +69,7 @@ async function getBooks() {
 }
 
 async function getAuthors() {
-  const authorUrl = baseUrl.concat('authors');
+  const authorUrl = baseUrl.concat('/authors');
   try {
     const responseAuthors = await fetch(authorUrl, {
       method: 'GET',
@@ -91,7 +88,7 @@ async function getAuthors() {
 }
 
 async function getGenres() {
-  const genreUrl = baseUrl.concat('genres');
+  const genreUrl = baseUrl.concat('/genres');
   try {
     const responseGenres = await fetch(genreUrl, {
       method: 'GET',
@@ -117,8 +114,17 @@ onMounted(() => {
 });
 
 const currentlySelectedBook = computed(() => {
-  return state.books[state.currentlySelectedBookId];
+  if ( state.currentlySelectedBookIndex < 0) {
+    return [];
+  }
+
+  return state.books[ state.currentlySelectedBookIndex];
 });
+
+const handleBookDeleted = () => {
+  state.books.splice(state.currentlySelectedBookIndex, 1);
+  state.currentlySelectedBookIndex = 0;
+};
 
 </script>
 
@@ -136,7 +142,7 @@ const currentlySelectedBook = computed(() => {
       <tr>
         <th>id</th>
         <th>title</th>
-        <th>author</th>
+        <th>authors</th>
         <th>genre</th>
         <th>isbn</th>
         <th>cover_image</th>
@@ -147,10 +153,10 @@ const currentlySelectedBook = computed(() => {
           <button @click='toggleAddBookModal'>Add New Book</button>
         </th>
       </tr>
-      <tr v-for='book in state.books' :key='book.id'>
+      <tr v-for='(book, index) in state.books' :key='book.id'>
         <td> {{ book.id }}</td>
         <td> {{ book.title }}</td>
-        <td> {{ book.author }}</td>
+        <td> {{ book.authors }}</td>
         <td> {{ book.genre }}</td>
         <td> {{ book.isbn }}</td>
         <td> {{ book.cover_image }}</td>
@@ -160,7 +166,7 @@ const currentlySelectedBook = computed(() => {
           <button @click='toggleUpdateBookModal'>Edit Book</button>
         </td>
         <td>
-          <button @click='toggleDeleteBookModal(book.id)'>Delete Book</button>
+          <button @click='toggleDeleteBookModal(index)'>Delete Book</button>
         </td>
       </tr>
     </table>
@@ -177,7 +183,8 @@ const currentlySelectedBook = computed(() => {
   <delete-book-form
     :is-delete-book-modal-active='state.isDeleteBookModalActive'
     :book='currentlySelectedBook'
-    @toggle-delete-book-modal='toggleDeleteBookModal' />
+    @toggle-delete-book-modal='toggleDeleteBookModal'
+    @book-deleted='handleBookDeleted' />
 
 </template>
 

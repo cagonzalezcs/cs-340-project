@@ -60,7 +60,7 @@ booksRouter.get('/:id', async (request, response) => {
 /**
  * Update a Book
  */
-booksRouter.put('/update/:bookId', async (request, response) => {
+booksRouter.put('/:bookId', async (request, response) => {
     try {
         const bookId = request.params.bookId;
         const bookData = request.body;
@@ -86,7 +86,7 @@ booksRouter.put('/update/:bookId', async (request, response) => {
 /**
  * Delete a Book
  */
-booksRouter.delete('/delete/:bookId', async (request, response) => {
+booksRouter.delete('/:bookId', async (request, response) => {
     try {
         const bookId = request.params.bookId;
         await deleteBook(bookId);
