@@ -1,9 +1,11 @@
 <script setup>
-import { reactive } from 'vue';
+import { onMounted, reactive } from 'vue';
 import AppModal from '../../components/AppModal.vue';
 
 const props = defineProps({
   'isAddBookModalActive': Boolean,
+  'authors': Array, 
+  'genres': Array
 });
 const emit = defineEmits(['toggleAddBookModal']);
 const state = reactive({
@@ -21,13 +23,14 @@ const toggleIsAddingNewGenre = () => {
 const toggleAddBookModal = () => {
   emit('toggleAddBookModal');
 };
+
 </script>
 
 <template>
   <app-modal :is-modal-active='props.isAddBookModalActive' @toggle-active-status='toggleAddBookModal'>
     <div id='insert'>
       <form id='addBook' method='POST' class='app-form' @submit.prevent>
-        <legend><strong>Add Book</strong></legend>
+        <legend><strong>Add Book </strong></legend>
         <fieldset class='fields'>
           <label for='book-title'> title </label>
           <input id='book-title'  type='text' name='title'>
@@ -36,11 +39,7 @@ const toggleAddBookModal = () => {
               <label for='author_id'> author: </label>
               <select id='author_id'>
                 <option value='0'>&nbsp;</option>
-                <option value='1'>Adiana Pavlishchev</option>
-                <option value='2'>Perren Benzi</option>
-                <option value='3'>Berne Yele</option>
-                <option value='4'>Robbi Feild</option>
-                <option value='5'>Thomasin Seakin</option>
+                <option v-for="author in props.authors" :key="author.id">{{author.name}}</option>
               </select>
             </div>
             <div v-else class='input-group__content author-input-group__new'>
@@ -59,11 +58,7 @@ const toggleAddBookModal = () => {
               <label for='book-genre'> genre </label>
               <select name='genre_id'>
                 <option value='0'>&nbsp;</option>
-                <option value='1'>Non-Fiction</option>
-                <option value='2'>Fiction</option>
-                <option value='3'>Horror</option>
-                <option value='4'>Comedy</option>
-                <option value='5'>Drama</option>
+                <option v-for="genre in props.genres" :key="genre.id">{{genre.name}}</option>
               </select>
             </div>
             <div  v-else  class='input-group__content genre-input-group__new'>
