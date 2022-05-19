@@ -38,15 +38,15 @@ booksRouter.get('/:id', async (request, response) => {
     try {
         const newBookData = request.body;
         console.log('tuptop')
-        const genre_id = parseInt(request.body.genre_id);
-        if (isNaN(genre_id))
+        let genre_id = Number(request.body.genre_id);
+        if (!genre_id)
         {
             genre_id = 'NULL'
         }
         await createBook(
             newBookData.title,
             newBookData.author,
-            newBookData.genre_id,
+            genre_id,
             newBookData.isbn,
             newBookData.cover_image,
             newBookData.quantity_available,
