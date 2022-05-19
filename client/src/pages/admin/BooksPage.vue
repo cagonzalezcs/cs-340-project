@@ -9,8 +9,12 @@ let state = reactive({
   isAddBookModalActive: false,
   isUpdateBookModalActive: false,
   isDeleteBookModalActive: false,
-  books: []
+  books: [], 
+  authors: [], 
+  genres: []
 });
+
+const baseUrl = import.meta.env.VITE_SERVER_URI
 
 const toggleAddBookModal = () => {
   state.isAddBookModalActive = !state.isAddBookModalActive;
@@ -28,10 +32,21 @@ function setBook(books) {
   }
 }
 
-// STILL TBD
-onMounted(async () => {
-    const baseUrl = import.meta.env.VITE_SERVER_URI
-    const bookUrl = baseUrl.concat('books')
+function setAuthor(authors) {
+  if (authors && authors.length) {
+    state.authors = authors;
+  }
+}
+
+function setGenre(genres) {
+  if (genres && genres.length) {
+    state.genres = genres;
+    console.log('meow')
+  }
+}
+
+async function getBooks() {
+  const bookUrl = baseUrl.concat('books')
   try {
     const response = await fetch(bookUrl, {
       method: 'GET',
@@ -47,6 +62,52 @@ onMounted(async () => {
   } catch(error) {
     console.error(error);
   }
+}
+
+async function getAuthors() {
+  const authorUrl = baseUrl.concat('authors')
+  try {
+    const responseAuthors = await fetch(authorUrl, {
+      method: 'GET', 
+      headers: {
+        'Content-type': 'application/json'
+      }
+    }); 
+    const authorData = await responseAuthors.json();
+    if (!authorData.length) {
+      return;
+    }
+    setAuthor(authorData)
+  } catch(error) {
+    console.error(error)
+  }
+}
+
+async function getGenres() {
+  const genreUrl = baseUrl.concat('genres')
+ try {
+    const responseGenres = await fetch(genreUrl, {
+      method: 'GET', 
+      headers: {
+        'Content-type': 'application/json'
+      }
+    });
+    const genreData = await responseGenres.json();
+    if (!genreData.length) {
+      return;
+    }
+    setGenre(genreData)
+  } catch(error) {
+    console.error(error)
+  }
+}
+
+// STILL TBD
+onMounted(() => {
+  getBooks().then(() => {
+     getAuthors();
+     getGenres();
+  })
 });
 
 </script>
@@ -87,7 +148,7 @@ onMounted(async () => {
     </table>
   </div><!-- browse -->
 
-  <add-book-form :is-add-book-modal-active='state.isAddBookModalActive' @toggle-add-book-modal='toggleAddBookModal' />
+  <add-book-form :is-add-book-modal-active='state.isAddBookModalActive' @toggle-add-book-modal='toggleAddBookModal' :authors='state.authors' :genres='state.genres'/>
   <update-book-form :is-update-book-modal-active='state.isUpdateBookModalActive' @toggle-update-book-modal='toggleUpdateBookModal' />
   <delete-book-form :is-delete-book-modal-active='state.isDeleteBookModalActive' @toggle-delete-book-modal='toggleDeleteBookModal' />
 
