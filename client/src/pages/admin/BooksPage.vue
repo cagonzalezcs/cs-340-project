@@ -27,21 +27,20 @@ const toggleDeleteBookModal = () => {
 };
 
 function setBook(books) {
-  if (books && books.length) {
+  if (books?.length) {
     state.books = books;
   }
 }
 
 function setAuthor(authors) {
-  if (authors && authors.length) {
+  if (authors?.length) {
     state.authors = authors;
   }
 }
 
 function setGenre(genres) {
-  if (genres && genres.length) {
+  if (genres?.length) {
     state.genres = genres;
-    console.log('meow')
   }
 }
 

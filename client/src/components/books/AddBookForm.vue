@@ -4,7 +4,7 @@ import AppModal from '../../components/AppModal.vue';
 import router from '../../router';
 
 const baseUrl = import.meta.env.VITE_SERVER_URI
-const bookUrl = baseUrl.concat('books')
+const bookUrl = `${baseUrl}books`;
 
 const props = defineProps({
   'isAddBookModalActive': Boolean,
@@ -73,7 +73,7 @@ const addBook = async () => {
               <label for='author'> author: </label>
               <select v-model='state.newBook.author' id='author' required>
                 <option value='0'>&nbsp;</option>
-                <option v-for="author in props.authors" :key="author.id">{{author.name}}</option>
+                <option v-for="author in props.authors" :key="`author-${author.id}`">{{author.name}}</option>
               </select>
             </div>
             <div v-else class='input-group__content author-input-group__new'>
@@ -92,7 +92,7 @@ const addBook = async () => {
               <label for='book-genre'> genre </label>
               <select v-model='state.newBook.genre_id' name='genre_id' required>
                 <option value='0'>&nbsp;</option>
-                <option v-for="genre in props.genres" :key="genre.id" :value="genre.id">{{genre.name}}</option>
+                <option v-for="genre in props.genres" :key="`author-${genre.id}`" :value="genre.id">{{genre.name}}</option>
               </select>
             </div>
             <div v-else  class='input-group__content genre-input-group__new'>
