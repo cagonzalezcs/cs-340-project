@@ -1,28 +1,62 @@
 import express from 'express';
-import {getAllBooks, updateBook, deleteBook} from '../models/books.mjs';
+import { response } from 'express';
+import { getAllBooks, createBook, getBook, updateBook, deleteBook } from '../models/books.mjs';
 
 const booksRouter = express.Router();
 
 /**
- * Create a Book
+ * Get all books
  */
 
-/**
- * Read All Books
- */
-// TODO: Consider setting up limits on how many books can be requested at a time. Would need to flesh this out to allow for pagination on different routes.
 booksRouter.get('/', async (request, response) => {
-  try {
-    const books = await getAllBooks();
-    response.json(books);
-  } catch (error) {
-    response.status(500).json({ error });
-  }
+    try {
+        const allBooks = await getAllBooks();
+        response.json(allBooks);
+    } catch (error) {
+        response.status(500).json({ error }) ;
+    }
 });
 
 /**
- * Read a Book by bookId
+ * Get a single book
  */
+
+booksRouter.get('/:id', async (request, response) => {
+    try {
+        const getBook = await getBook();
+        response.json(getBook);
+    } catch (error) {
+        response.status(500).json({ error });
+    }
+});
+
+/**
+ * Create book
+ */
+
+ booksRouter.post('/', async (request, response) => {
+    try {
+        const newBookData = request.body;
+        console.log('tuptop')
+        const genre_id = parseInt(request.body.genre_id);
+        if (isNaN(genre_id))
+        {
+            genre_id = 'NULL'
+        }
+        await createBook(
+            newBookData.title,
+            newBookData.author,
+            newBookData.genre_id,
+            newBookData.isbn,
+            newBookData.cover_image,
+            newBookData.quantity_available,
+            newBookData.quantity_rented
+        );
+        response.json({message: 'Book has been successfully created.'})
+    } catch (error) {
+        response.status(500).json({ error });
+    }
+});
 
 /**
  * Update a Book

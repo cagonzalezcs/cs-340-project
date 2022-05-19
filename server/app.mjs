@@ -3,22 +3,24 @@ dotenv.config();
 import util from 'util';
 import express from 'express';
 import cors from 'cors';
+import morgan from 'morgan'
 import booksRouter from './routes/books.mjs';
 import genresRouter from './routes/genres.mjs';
 
 const BASE_URL = '/api/'
 const app = express();
-const router = express.Router();
-
+export const router = express.Router();
+app.use(morgan('dev')) // added this to try and ensure the backend was being queried
 app.use(BASE_URL, router);
 router.use(
   cors({
     origin: process.env.CLIENT_URI,
   })
 );
+
 router.use(express.json());
 
-router.use('/books', booksRouter);
+router.use('/books', booksRouter)
 router.use('/genres', genresRouter);
 
 app.listen(process.env.SERVER_PORT, () => {
