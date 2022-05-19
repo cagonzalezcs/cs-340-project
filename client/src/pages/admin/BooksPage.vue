@@ -102,7 +102,6 @@ async function getGenres() {
   }
 }
 
-// STILL TBD
 onMounted(() => {
   getBooks().then(() => {
      getAuthors();
