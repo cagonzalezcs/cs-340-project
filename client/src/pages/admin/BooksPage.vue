@@ -46,7 +46,7 @@ function setGenre(genres) {
 }
 
 async function getBooks() {
-  const bookUrl = baseUrl.concat('books')
+  const bookUrl = `${baseUrl}books`;
   try {
     const response = await fetch(bookUrl, {
       method: 'GET',
