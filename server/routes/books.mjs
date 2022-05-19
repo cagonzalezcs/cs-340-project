@@ -38,8 +38,8 @@ booksRouter.get('/:id', async (request, response) => {
     try {
         const newBookData = request.body;
         console.log('tuptop')
-        let genre_id = Number(request.body.genre_id);
-        if (!genre_id)
+        let genre_id = parseInt(request.body.genre_id);
+        if (isNaN(genre_id))
         {
             genre_id = 'NULL'
         }
