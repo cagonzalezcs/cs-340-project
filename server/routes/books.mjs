@@ -37,7 +37,6 @@ booksRouter.get('/:id', async (request, response) => {
  booksRouter.post('/', async (request, response) => {
     try {
         const newBookData = request.body;
-        console.log('tuptop')
         const genre_id = parseInt(request.body.genre_id);
         if (isNaN(genre_id))
         {

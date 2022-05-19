@@ -1,14 +1,21 @@
 <script setup>
-import { reactive } from 'vue';
+import { onMounted, reactive } from 'vue';
 import AppModal from '../../components/AppModal.vue';
+import router from '../../router';
+
+const baseUrl = import.meta.env.VITE_SERVER_URI
+const bookUrl = `${baseUrl}books`;
 
 const props = defineProps({
   'isAddBookModalActive': Boolean,
+  'authors': Array, 
+  'genres': Array
 });
 const emit = defineEmits(['toggleAddBookModal']);
 const state = reactive({
   isAddingAuthor: false,
-  isAddingGenre: false
+  isAddingGenre: false,
+  newBook: {title: '', author: '', genre_id: '', isbn: '', cover_image: '', quantity_available: '', quantity_rented: ''}
 });
 
 const toggleIsAddingNewAuthor = () => {
@@ -21,26 +28,52 @@ const toggleIsAddingNewGenre = () => {
 const toggleAddBookModal = () => {
   emit('toggleAddBookModal');
 };
+
+const addBook = async () => {
+  const newBookData = {};
+  newBookData.title = state.newBook.title;
+  newBookData.author = state.newBook.author;
+  newBookData.genre_id = state.newBook.genre_id;
+  newBookData.isbn = state.newBook.isbn;
+  newBookData.cover_image = state.newBook.cover_image;
+  newBookData.quantity_available = state.newBook.quantity_available;
+  newBookData.quantity_rented = state.newBook.quantity_rented;
+  return await fetch(bookUrl, {
+    method: 'POST', 
+    body: JSON.stringify(newBookData),
+    headers: {
+      'Content-type': 'application/json'
+    }
+  }).then((response) => {
+    if(response.status !== 200) {
+      alert('Title, Genre, Author and Quantity fields are required!')
+      throw(error) => {
+        console.error(error)
+      }
+    }
+    alert('Success!')
+    // I know this isn't how we'll want to handle this but just needed something to close the modal on this commit - will check out what you've set up on the other modal forms 
+    router.push('/');
+  })
+  .catch(console.log)
+}
+
 </script>
 
 <template>
   <app-modal :is-modal-active='props.isAddBookModalActive' @toggle-active-status='toggleAddBookModal'>
     <div id='insert'>
       <form id='addBook' method='POST' class='app-form' @submit.prevent>
-        <legend><strong>Add Book</strong></legend>
+        <legend><strong>Add Book </strong></legend>
         <fieldset class='fields'>
           <label for='book-title'> title </label>
-          <input id='book-title'  type='text' name='title'>
+          <input v-model='state.newBook.title' id='book-title'  type='text' name='title' required />
           <div class='input-group author-input-group'>
             <div v-if='!state.isAddingAuthor' class='input-group__content author-input-group__existing' >
-              <label for='author_id'> author: </label>
-              <select id='author_id'>
+              <label for='author'> author: </label>
+              <select v-model='state.newBook.author' id='author' required>
                 <option value='0'>&nbsp;</option>
-                <option value='1'>Adiana Pavlishchev</option>
-                <option value='2'>Perren Benzi</option>
-                <option value='3'>Berne Yele</option>
-                <option value='4'>Robbi Feild</option>
-                <option value='5'>Thomasin Seakin</option>
+                <option v-for="author in props.authors" :key="`author-${author.id}`">{{author.name}}</option>
               </select>
             </div>
             <div v-else class='input-group__content author-input-group__new'>
@@ -57,16 +90,12 @@ const toggleAddBookModal = () => {
           <div class='input-group genre-input-group'>
             <div v-if='!state.isAddingGenre' class='input-group__content genre-input-group__existing'>
               <label for='book-genre'> genre </label>
-              <select name='genre_id'>
+              <select v-model='state.newBook.genre_id' name='genre_id' required>
                 <option value='0'>&nbsp;</option>
-                <option value='1'>Non-Fiction</option>
-                <option value='2'>Fiction</option>
-                <option value='3'>Horror</option>
-                <option value='4'>Comedy</option>
-                <option value='5'>Drama</option>
+                <option v-for="genre in props.genres" :key="`author-${genre.id}`" :value="genre.id">{{genre.name}}</option>
               </select>
             </div>
-            <div  v-else  class='input-group__content genre-input-group__new'>
+            <div v-else  class='input-group__content genre-input-group__new'>
               <label for='genre-name'> new genre name </label>
               <input id='genre-name' type='text' name='genreName'>
             </div>
@@ -75,15 +104,15 @@ const toggleAddBookModal = () => {
             </button>
           </div>
           <label for='book-isbn'> isbn </label>
-          <input id='book-isbn' type='text' name='isbn'>
+          <input v-model='state.newBook.isbn' id='book-isbn' type='text' name='isbn'>
           <label for='book-cover-image'> cover_image </label>
-          <input id='book-cover-image' type='text' name='cover_image'>
+          <input v-model='state.newBook.cover_image' id='book-cover-image' type='text' name='cover_image'>
           <label for='book-qty-available'> quantity_available </label>
-          <input id='book-qty-available' type='text' name='quantity_available'>
+          <input v-model='state.newBook.quantity_available' id='book-qty-available' type='text' name='quantity_available' required>
           <label for='book-qty-rented'> quantity_rented </label>
-          <input id='book-qty-rented' type='text' name='quantity_rented'>
+          <input v-model='state.newBook.quantity_rented' id='book-qty-rented' type='text' name='quantity_rented' required>
         </fieldset>
-        <input id='addBook' class='btn' type='button' value='Add New Book'>
+        <input id='addBook' class='btn' type='button' value='Add New Book' @click='addBook'>
         <input class='btn' type='button' value='Cancel' @click='toggleAddBookModal'>
       </form>
     </div><!-- insert -->
