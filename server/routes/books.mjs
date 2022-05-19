@@ -34,66 +34,66 @@ booksRouter.get('/:id', async (request, response) => {
  * Create book
  */
 
-booksRouter.post('/', async (request, response) => {
-  try {
-    const newBookData = request.body;
-    console.log('tuptop');
-    let genre_id = parseInt(request.body.genre_id);
-    if (isNaN(genre_id)) {
-      genre_id = 'NULL';
+ booksRouter.post('/', async (request, response) => {
+    try {
+        const newBookData = request.body;
+        let genre_id = parseInt(request.body.genre_id);
+        if (isNaN(genre_id))
+        {
+            genre_id = 'NULL'
+        }
+        await createBook(
+            newBookData.title,
+            newBookData.author,
+            genre_id,
+            newBookData.isbn,
+            newBookData.cover_image,
+            newBookData.quantity_available,
+            newBookData.quantity_rented
+        );
+        response.json({message: 'Book has been successfully created.'})
+    } catch (error) {
+        response.status(500).json({ error });
     }
-    await createBook(
-      newBookData.title,
-      newBookData.author,
-      genre_id,
-      newBookData.isbn,
-      newBookData.cover_image,
-      newBookData.quantity_available,
-      newBookData.quantity_rented,
-    );
-    response.json({ message: 'Book has been successfully created.' });
-  } catch (error) {
-    response.status(500).json({ error });
-  }
 });
 
 /**
  * Update a Book
  */
 booksRouter.put('/update/:bookId', async (request, response) => {
-  try {
-    const bookId = request.params.bookId;
-    const bookData = request.body;
-    console.log(bookData);
+    try {
+        const bookId = request.params.bookId;
+        const bookData = request.body;
+        console.log(bookData);
 
-    // Update Book
-    await updateBook(
-      bookId,
-      bookData.title,
-      bookData.genre_id,
-      bookData.isbn,
-      bookData.cover_image,
-      bookData.quantity_available,
-      bookData.quantity_rented,
-    );
+        // Update Book
+        await updateBook(
+          bookId,
+          bookData.title,
+          bookData.genre_id,
+          bookData.isbn,
+          bookData.cover_image,
+          bookData.quantity_available,
+          bookData.quantity_rented,
+        );
 
-    response.json({ message: 'Book has been successfully updated.' });
-  } catch (error) {
-    response.status(500).json({ error });
-  }
+        response.json({ message: 'Book has been successfully updated.' });
+    } catch (error) {
+        response.status(500).json({ error });
+    }
 });
 
 /**
  * Delete a Book
  */
 booksRouter.delete('/delete/:bookId', async (request, response) => {
-  try {
-    const bookId = request.params.bookId;
-    await deleteBook(bookId);
-    response.json({ message: 'Book has been successfully deleted.' });
-  } catch (error) {
-    response.status(500).json({ error });
-  }
+    try {
+        const bookId = request.params.bookId;
+        await deleteBook(bookId);
+        response.json({ message: 'Book has been successfully deleted.' });
+    } catch (error) {
+        response.status(500).json({ error });
+    }
 });
 
 export default booksRouter;

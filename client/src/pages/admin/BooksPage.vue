@@ -34,27 +34,26 @@ const toggleDeleteBookModal = (bookId) => {
 };
 
 function setBook(books) {
-  if (books && books.length) {
+  if (books?.length) {
     state.books = books;
     console.log(books);
   }
 }
 
 function setAuthor(authors) {
-  if (authors && authors.length) {
+  if (authors?.length) {
     state.authors = authors;
   }
 }
 
 function setGenre(genres) {
-  if (genres && genres.length) {
+  if (genres?.length) {
     state.genres = genres;
-    console.log('meow');
   }
 }
 
 async function getBooks() {
-  const bookUrl = baseUrl.concat('books');
+  const bookUrl = `${baseUrl}books`;
   try {
     const response = await fetch(bookUrl, {
       method: 'GET',
@@ -110,7 +109,6 @@ async function getGenres() {
   }
 }
 
-// STILL TBD
 onMounted(() => {
   getBooks().then(() => {
     getAuthors();
