@@ -36,7 +36,6 @@ const getBook = async (bookId) => {
 
 // Create a new book
 const createBook = async (title, author, genreId, isbn, coverImage, quantityAvailable, quantityRented) => {
-    console.log('meowuptop create book')
     const newBook = await dbQuery(
         `INSERT INTO books(
             title,
@@ -54,27 +53,22 @@ const createBook = async (title, author, genreId, isbn, coverImage, quantityAvai
             ?,
             ?
         )`, [title, genreId, isbn, coverImage, quantityAvailable, quantityRented]
-    ).then( async (data) => {
-        if (data) {
-            const bookId =
-                Object.values(JSON.parse(JSON.stringify(data)))[2];
-            const authorData = await dbQuery(
-                'SELECT id FROM authors WHERE name= ?', [author]
-            );
-            const authorId = authorData[0].id;
-            // console.log(authorID);
-            return await dbQuery(
-                `INSERT INTO book_authors(
-                    book_id, 
-                    author_id
-                )
-                VALUES(
-                    ?,
-                    ?
-                )`, [bookId, authorId]
-            );
-        }
-    })
+    );
+    const bookId = newBook.insertId;
+    const authorData = await dbQuery(
+        'SELECT id FROM authors WHERE name= ?', [author]
+    );
+    const authorId = authorData[0].id;
+    return await dbQuery(
+        `INSERT INTO book_authors(
+            book_id, 
+            author_id
+        )
+        VALUES(
+            ?,
+            ?
+        )`, [bookId, authorId]
+    )
 };
 
 export { getAllBooks, createBook, getBook }
