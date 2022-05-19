@@ -3,13 +3,13 @@ dotenv.config();
 import util from 'util';
 import express from 'express';
 import cors from 'cors';
-import { dbPool } from './db/db-connection.mjs';
+import morgan from 'morgan'
+import booksRouter from './routes/books.mjs';
 
 const BASE_URL = '/api/'
 const app = express();
-const router = express.Router();
-const dbQuery = util.promisify(dbPool.query).bind(dbPool);
-
+export const router = express.Router(); 
+app.use(morgan('dev')) // added this to try and ensure the backend was being queried
 app.use(BASE_URL, router);
 router.use(
   cors({
@@ -17,14 +17,9 @@ router.use(
   })
 );
 
-router.get('/', async (req, res) => {
-  const rows = await dbQuery('SELECT * FROM authors LIMIT 1');
-  res.json(rows);
-});
+router.use(express.json());
 
-router.get('/test', (req, res) => {
-  res.send('Testing');
-});
+router.use('/books', booksRouter)
 
 app.listen(process.env.SERVER_PORT, () => {
   console.log(`Listening to port ${process.env.SERVER_PORT}`);
