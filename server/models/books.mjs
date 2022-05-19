@@ -1,7 +1,4 @@
-import util from 'util';
-import { dbPool } from '../db/db-connection.mjs';
-
-const dbQuery = util.promisify(dbPool.query).bind(dbPool);
+import { dbQuery } from '../db/db-connection.mjs';
 
 const getAllBooks = async () => {
   return await dbQuery('SELECT * FROM books');

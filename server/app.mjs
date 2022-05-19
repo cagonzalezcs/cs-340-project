@@ -4,6 +4,7 @@ import util from 'util';
 import express from 'express';
 import cors from 'cors';
 import booksRouter from './routes/books.mjs';
+import genresRouter from './routes/genres.mjs';
 
 const BASE_URL = '/api/'
 const app = express();
@@ -18,6 +19,7 @@ router.use(
 router.use(express.json());
 
 router.use('/books', booksRouter);
+router.use('/genres', genresRouter);
 
 app.listen(process.env.SERVER_PORT, () => {
   console.log(`Listening to port ${process.env.SERVER_PORT}`);
