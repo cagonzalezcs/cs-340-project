@@ -23,7 +23,7 @@ CREATE TABLE authors (
   name varchar(255) NOT NULL,
   birth_date date NOT NULL,
   created_at timestamp NOT NULL DEFAULT current_timestamp(),
-  updated_at timestamp NULL DEFAULT NULL,
+  updated_at timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
   PRIMARY KEY (id),
   CONSTRAINT unique_author UNIQUE (name,birth_date)
 );
@@ -38,7 +38,7 @@ CREATE TABLE genres (
   id int(11) NOT NULL AUTO_INCREMENT,
   name varchar(255) NOT NULL,
   created_at timestamp NOT NULL DEFAULT current_timestamp(),
-  updated_at timestamp NULL DEFAULT NULL,
+  updated_at timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
   PRIMARY KEY (id),
   CONSTRAINT unique_genre UNIQUE (name)
 );
@@ -58,7 +58,7 @@ CREATE TABLE books (
   quantity_available int(11) NOT NULL,
   quantity_rented int(11) NOT NULL,
   created_at timestamp NOT NULL DEFAULT current_timestamp(),
-  updated_at timestamp NULL DEFAULT NULL,
+  updated_at timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
   PRIMARY KEY (id),
   FOREIGN KEY (genre_id) REFERENCES genres(id) ON DELETE SET NULL
 );
@@ -73,7 +73,7 @@ CREATE TABLE book_authors (
   book_id int(11) NOT NULL,
   author_id int(11) NOT NULL,
   created_at timestamp NOT NULL DEFAULT current_timestamp(),
-  updated_at timestamp NULL DEFAULT NULL,
+  updated_at timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
   PRIMARY KEY (book_id,author_id),
   FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE CASCADE,
   FOREIGN KEY (author_id) REFERENCES authors(id) ON DELETE CASCADE
@@ -89,7 +89,7 @@ CREATE TABLE user_roles (
   id int(11) NOT NULL AUTO_INCREMENT,
   type varchar(255) NOT NULL,
   created_at timestamp NOT NULL DEFAULT current_timestamp(),
-  updated_at timestamp NULL DEFAULT NULL,
+  updated_at timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
   PRIMARY KEY (id),
   CONSTRAINT unique_user_role UNIQUE (type)
 );
@@ -111,9 +111,9 @@ CREATE TABLE users (
   city varchar(50) DEFAULT NULL,
   state varchar(50) DEFAULT NULL,
   password varchar(255) NOT NULL,
-  password_updated_at timestamp NULL DEFAULT NULL,
+  password_updated_at timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
   created_at timestamp NOT NULL DEFAULT current_timestamp(),
-  updated_at timestamp NULL DEFAULT NULL,
+  updated_at timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
   PRIMARY KEY (id),
   FOREIGN KEY (user_role_id) REFERENCES user_roles(id) ON DELETE RESTRICT,
   CONSTRAINT unique_user UNIQUE (email)
@@ -129,7 +129,7 @@ CREATE TABLE rental_list_books (
   user_id int(11) NOT NULL,
   book_id int(11) NOT NULL,
   created_at timestamp NOT NULL DEFAULT current_timestamp(),
-  updated_at timestamp NULL DEFAULT NULL,
+  updated_at timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
   PRIMARY KEY (user_id,book_id),
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
   FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE CASCADE
@@ -145,7 +145,7 @@ CREATE TABLE wish_list_books (
   user_id int(11) NOT NULL,
   book_id int(11) NOT NULL,
   created_at timestamp NOT NULL DEFAULT current_timestamp(),
-  updated_at timestamp NULL DEFAULT NULL,
+  updated_at timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
   PRIMARY KEY (user_id,book_id),
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
   FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE CASCADE

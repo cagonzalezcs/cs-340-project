@@ -1,6 +1,6 @@
 import express from 'express';
 import { response } from 'express';
-import { getAllBooks, createBook, getBook } from '../models/books.mjs';
+import { getAllBooks, createBook, getBook, updateBook, deleteBook } from '../models/books.mjs';
 
 const booksRouter = express.Router();
 
@@ -9,12 +9,12 @@ const booksRouter = express.Router();
  */
 
 booksRouter.get('/', async (request, response) => {
-    try {
-        const allBooks = await getAllBooks();
-        response.json(allBooks);
-    } catch (error) {
-        response.status(500).json({ error }) ;
-    }
+  try {
+    const allBooks = await getAllBooks();
+    response.json(allBooks);
+  } catch (error) {
+    response.status(500).json({ error });
+  }
 });
 
 /**
@@ -22,12 +22,12 @@ booksRouter.get('/', async (request, response) => {
  */
 
 booksRouter.get('/:id', async (request, response) => {
-    try {
-        const getBook = await getBook();
-        response.json(getBook);
-    } catch (error) {
-        response.status(500).json({ error });
-    }
+  try {
+    const getBook = await getBook();
+    response.json(getBook);
+  } catch (error) {
+    response.status(500).json({ error });
+  }
 });
 
 /**
@@ -37,21 +37,61 @@ booksRouter.get('/:id', async (request, response) => {
  booksRouter.post('/', async (request, response) => {
     try {
         const newBookData = request.body;
-        const genre_id = parseInt(request.body.genre_id);
+        console.log(newBookData);
+        let genre_id = parseInt(request.body.genre_id);
         if (isNaN(genre_id))
         {
             genre_id = 'NULL'
         }
         await createBook(
             newBookData.title,
-            newBookData.author,
-            newBookData.genre_id,
+            newBookData.authors,
+            genre_id,
             newBookData.isbn,
             newBookData.cover_image,
             newBookData.quantity_available,
             newBookData.quantity_rented
         );
         response.json({message: 'Book has been successfully created.'})
+    } catch (error) {
+        response.status(500).json({ error });
+    }
+});
+
+/**
+ * Update a Book
+ */
+booksRouter.put('/:bookId', async (request, response) => {
+    try {
+        const bookId = request.params.bookId;
+        const bookData = request.body;
+
+        // Update Book
+        await updateBook(
+          bookId,
+          bookData.title,
+          bookData.genre_id,
+          bookData.isbn,
+          bookData.cover_image,
+          bookData.quantity_available,
+          bookData.quantity_rented,
+          bookData.authors
+        );
+
+        response.json({ message: 'Book has been successfully updated.' });
+    } catch (error) {
+        response.status(500).json({ error });
+    }
+});
+
+/**
+ * Delete a Book
+ */
+booksRouter.delete('/:bookId', async (request, response) => {
+    try {
+        const bookId = request.params.bookId;
+        await deleteBook(bookId);
+        response.json({ message: 'Book has been successfully deleted.' });
     } catch (error) {
         response.status(500).json({ error });
     }
