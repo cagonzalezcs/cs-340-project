@@ -9,7 +9,7 @@ const getAllBooks = async () => {
              FROM authors
                       LEFT JOIN book_authors ON authors.id = book_authors.author_id
              WHERE book_authors.book_id = books.id) AS "authors",
-            genres.name AS "genre",
+            genres.name                             AS "genre",
             books.isbn,
             books.cover_image,
             books.quantity_available,
@@ -32,7 +32,7 @@ const getBook = async (bookId) => {
 
 
 // Create a new book
-const createBook = async (title, author, genreId, isbn, coverImage, quantityAvailable, quantityRented) => {
+const createBook = async (title, authors, genreId, isbn, coverImage, quantityAvailable, quantityRented) => {
   const newBook = await dbQuery(
     `INSERT INTO books(title,
                        genre_id,
@@ -48,19 +48,21 @@ const createBook = async (title, author, genreId, isbn, coverImage, quantityAvai
              ?)`, [title, genreId, isbn, coverImage, quantityAvailable, quantityRented],
   );
   const bookId = newBook.insertId;
-  const authorData = await dbQuery(
-    'SELECT id FROM authors WHERE name= ?', [author],
-  );
-  const authorId = authorData[0].id;
-  return await dbQuery(
-    `INSERT INTO book_authors(book_id,
-                              author_id)
-     VALUES (?,
-             ?)`, [bookId, authorId],
-  );
+  for (const authorName of authors) {
+    const authorData = await dbQuery(
+      'SELECT id FROM authors WHERE name= ?', [authorName],
+    );
+    const authorId = authorData[0].id;
+    await dbQuery(
+      `INSERT INTO book_authors(book_id,
+                                author_id)
+       VALUES (?,
+               ?)`, [bookId, authorId],
+    );
+  }
 };
 
-const updateBook = async (bookId, title, genreId, isbn, coverImage, quantityAvailable, quantityRented) => {
+const updateBook = async (bookId, title, genreId, isbn, coverImage, quantityAvailable, quantityRented, authors) => {
   if (!bookId) {
     throw 'Book Id is a required parameter to update a book.';
   }
@@ -78,7 +80,7 @@ const updateBook = async (bookId, title, genreId, isbn, coverImage, quantityAvai
   const updatedQuantityAvailable = quantityAvailable || bookRecord.quantity_available;
   const updateQuantityRented = quantityRented || bookRecord.quantity_rented;
 
-  return await dbQuery(`
+  await dbQuery(`
               UPDATE books
               SET books.title              = ?,
                   books.genre_id           = ?,
@@ -97,6 +99,24 @@ const updateBook = async (bookId, title, genreId, isbn, coverImage, quantityAvai
       bookId,
     ],
   );
+
+  await dbQuery(`DELETE FROM book_authors WHERE book_id = ?`, [bookId]);
+
+  for (const authorName of authors) {
+    const authorData = await dbQuery(
+      `SELECT id
+       FROM authors
+       WHERE name = ?`, [authorName, bookId],
+    );
+    const authorId = authorData[0].id;
+
+    await dbQuery(
+      `INSERT INTO book_authors(book_id,
+                                author_id)
+       VALUES (?,
+               ?)`, [bookId, authorId],
+    );
+  }
 };
 
 const deleteBook = async (bookId) => {

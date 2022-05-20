@@ -37,6 +37,7 @@ booksRouter.get('/:id', async (request, response) => {
  booksRouter.post('/', async (request, response) => {
     try {
         const newBookData = request.body;
+        console.log(newBookData);
         let genre_id = parseInt(request.body.genre_id);
         if (isNaN(genre_id))
         {
@@ -44,7 +45,7 @@ booksRouter.get('/:id', async (request, response) => {
         }
         await createBook(
             newBookData.title,
-            newBookData.author,
+            newBookData.authors,
             genre_id,
             newBookData.isbn,
             newBookData.cover_image,
@@ -64,7 +65,6 @@ booksRouter.put('/:bookId', async (request, response) => {
     try {
         const bookId = request.params.bookId;
         const bookData = request.body;
-        console.log(bookData);
 
         // Update Book
         await updateBook(
@@ -75,6 +75,7 @@ booksRouter.put('/:bookId', async (request, response) => {
           bookData.cover_image,
           bookData.quantity_available,
           bookData.quantity_rented,
+          bookData.authors
         );
 
         response.json({ message: 'Book has been successfully updated.' });

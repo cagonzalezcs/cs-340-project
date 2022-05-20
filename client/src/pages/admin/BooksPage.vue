@@ -20,12 +20,16 @@ const baseUrl = import.meta.env.VITE_SERVER_URI;
 const toggleAddBookModal = () => {
   state.isAddBookModalActive = !state.isAddBookModalActive;
 };
-const toggleUpdateBookModal = () => {
+const toggleUpdateBookModal = (bookIndex) => {
+  if (!isNaN(bookIndex)) {
+    state.currentlySelectedBookIndex = bookIndex;
+  }
+
   state.isUpdateBookModalActive = !state.isUpdateBookModalActive;
 };
-const toggleDeleteBookModal = (bookId) => {
-  if (bookId) {
-    state.currentlySelectedBookIndex = bookId;
+const toggleDeleteBookModal = (bookIndex) => {
+  if (!isNaN(bookIndex)) {
+    state.currentlySelectedBookIndex = bookIndex;
   }
 
   state.isDeleteBookModalActive = !state.isDeleteBookModalActive;
@@ -118,12 +122,21 @@ const currentlySelectedBook = computed(() => {
     return [];
   }
 
-  return state.books[ state.currentlySelectedBookIndex];
+  return state.books[state.currentlySelectedBookIndex];
 });
+
+const handleBookAdded = () => {
+  // TODO: Might consider handling this differently, passing back required data from the POST request rather then re-querying all books.
+  getBooks();
+};
 
 const handleBookDeleted = () => {
   state.books.splice(state.currentlySelectedBookIndex, 1);
   state.currentlySelectedBookIndex = 0;
+};
+
+const handleBookUpdated = (updatedBook) => {
+  getBooks();
 };
 
 </script>
@@ -163,7 +176,7 @@ const handleBookDeleted = () => {
         <td> {{ book.quantity_available }}</td>
         <td> {{ book.quantity_rented }}</td>
         <td>
-          <button @click='toggleUpdateBookModal'>Edit Book</button>
+          <button @click='toggleUpdateBookModal(index)'>Edit Book</button>
         </td>
         <td>
           <button @click='toggleDeleteBookModal(index)'>Delete Book</button>
@@ -176,10 +189,16 @@ const handleBookDeleted = () => {
     :is-add-book-modal-active='state.isAddBookModalActive'
     :authors='state.authors'
     :genres='state.genres'
-    @toggle-add-book-modal='toggleAddBookModal' />
+    @toggle-add-book-modal='toggleAddBookModal'
+    @book-added='handleBookAdded'
+  />
   <update-book-form
     :is-update-book-modal-active='state.isUpdateBookModalActive'
-    @toggle-update-book-modal='toggleUpdateBookModal' />
+    :book='currentlySelectedBook'
+    :authors='state.authors'
+    :genres='state.genres'
+    @toggle-update-book-modal='toggleUpdateBookModal'
+    @book-updated='handleBookUpdated'/>
   <delete-book-form
     :is-delete-book-modal-active='state.isDeleteBookModalActive'
     :book='currentlySelectedBook'
