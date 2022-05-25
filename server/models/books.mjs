@@ -100,7 +100,10 @@ const updateBook = async (bookId, title, genreId, isbn, coverImage, quantityAvai
     ],
   );
 
-  await dbQuery(`DELETE FROM book_authors WHERE book_id = ?`, [bookId]);
+  await dbQuery(`
+      DELETE
+      FROM book_authors
+      WHERE book_id = ?`, [bookId]);
 
   for (const authorName of authors) {
     const authorData = await dbQuery(
