@@ -1,20 +1,17 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
+import { cookieOptions } from '../utils/cookies.mjs';
 
 const usersRouter = express.Router();
 
 // Get All Users
 
-// GET Single User Info
+// GET Single User by ID
 
 // POST Register/Create User
 
 // PUT Update User
 
 // DELETE Delete User
-
-// POST Login User - Create JWT
-
-// POST Logout User - Invalidate JWT
 
 export default usersRouter;

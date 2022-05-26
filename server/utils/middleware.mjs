@@ -5,7 +5,7 @@
 
 import jwt from 'jsonwebtoken';
 
-const authenticateToken = (request, response, next) => {
+const checkAuthToken = (request, response, next) => {
   const authHeader = request.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
 
@@ -24,7 +24,7 @@ const authenticateToken = (request, response, next) => {
   });
 };
 
-const checkAdminAuthentication = (request, response, next) => {
+const checkAdminAuth = (request, response, next) => {
   const user = request.user;
 
   if (user?.user_role_id !== 1) {
@@ -34,4 +34,4 @@ const checkAdminAuthentication = (request, response, next) => {
   next();
 };
 
-export { authenticateToken };
+export { checkAuthToken, checkAdminAuth };
