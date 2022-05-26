@@ -15,7 +15,7 @@ const getAllBooks = async () => {
             books.quantity_available,
             books.quantity_rented
      FROM books
-              INNER JOIN genres ON books.genre_id = genres.id
+              LEFT JOIN genres ON books.genre_id = genres.id
               LEFT JOIN book_authors ON books.id = book_authors.book_id
               LEFT JOIN authors ON book_authors.author_id = authors.id
      GROUP BY books.id

@@ -20,4 +20,51 @@ const getGenresPage = async (pageNumber, perPage) => {
   );
 };
 
-export { getAllGenres, getGenresPage };
+const getGenre = async (genreId) => {
+  if (!genreId) {
+    throw 'Genre Id is a required parameter to get a genre';
+  }
+  return await dbQuery(
+    `SELECT * 
+    FROM genres 
+    WHERE genres.id = ?
+    ORDER BY genres.id`, 
+    [genreId]);
+};
+
+
+const createGenre = async (name) => {
+  return await dbQuery(
+    `INSERT INTO genres (name) 
+    VALUES (?)`, 
+    [name],
+  );
+};
+
+const updateGenre = async(genreId, name) => {
+  if (!genreId) {
+    throw 'Genre Id is a required parameter to update a genre.';
+  }
+  let genreRecord = await getGenre(genreId); 
+  genreRecord = genreRecord[0]
+  if (!genreRecord) {
+    throw 'Genre not found, unable to update genre.';
+  }
+  const updatedName = name || genreRecord.name;
+  return await dbQuery(
+    `UPDATE genres 
+    SET genres.name = ?
+    WHERE genres.id = ?`,
+    [updatedName, genreId]
+  )
+};
+
+const deleteGenre = async (genreId) => {
+  if(!genreId) {
+    throw 'Genre Id is a required parameter to delete a genre.';
+  }
+  return await dbQuery('DELETE FROM genres WHERE genres.id = ?', [genreId]);
+};
+
+
+export { getAllGenres, getGenresPage, getGenre, createGenre, updateGenre, deleteGenre };
