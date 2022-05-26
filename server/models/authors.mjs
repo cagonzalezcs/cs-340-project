@@ -19,7 +19,6 @@ const getAuthor = async (authorId) => {
 };
 
 const createAuthor = async (name, birthDate) => {
-  console.log(name, birthDate)
   return await dbQuery(
     `INSERT INTO authors
     (name, birth_date)

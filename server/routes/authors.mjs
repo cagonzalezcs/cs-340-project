@@ -36,7 +36,6 @@ authorsRouter.get('/:authorId', async (request, response) => {
 authorsRouter.get('/books/:authorId', async (request, response) => {
   try {
     const authorId = request.params.authorId;
-    console.log(authorId)
     const getBooks = await getAuthorBooks(authorId);
     response.json(getBooks);
   } catch (error) {

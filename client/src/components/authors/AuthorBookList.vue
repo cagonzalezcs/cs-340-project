@@ -5,10 +5,13 @@ import AppModal from '../../components/AppModal.vue';
 const baseUrl = import.meta.env.VITE_SERVER_URI;
 const authorBooksUrl = `${ baseUrl }authors/books`;
 
+let state = reactive({
+  booksByAuthor: []
+})
+
 const props = defineProps({
   'isAuthorBookListModalActive': Boolean,
   author: { type: Object, default: () => {}, required: false}, 
-  books: { type: Array, default: () => [] }
 });
 
 const emit = defineEmits(['toggleAuthorBookListModal']);
@@ -17,9 +20,9 @@ const toggleAuthorBookListModal = () => {
   emit('toggleAuthorBookListModal');
 };
 
-function setBooks(books) {
+function setBooksByAuthor(books) {
   if (books?.length) {
-    props.books = books
+    state.booksByAuthor = books
   }
 }
 
@@ -27,7 +30,7 @@ watch(() => props.isAuthorBookListModalActive, async () => {
   if (!props.isAuthorBookListModalActive) {
     return 
   }
-  let authorId = props.author.authorId 
+  let authorId = props.author.id
   try {
     const response = await fetch(`${ baseUrl }authors/books/${ authorId }`, {
       method: 'GET',
@@ -36,11 +39,10 @@ watch(() => props.isAuthorBookListModalActive, async () => {
       },
     });
     const data = await response.json();
-    console.log(data)
     if (!data.length) {
       return;
     }
-    setBooks(data);
+    setBooksByAuthor(data);
   } catch(error) {
     console.error(error)
   }
@@ -61,7 +63,7 @@ watch(() => props.isAuthorBookListModalActive, async () => {
           <th>title</th>
           <th>isbn</th>
         </tr>
-        <tr v-for='book in props.books' :key='book.id'>
+        <tr v-for='book in state.booksByAuthor' :key='book.id'>
           <td>{{ book.id }}</td>
           <td>{{ book.title }}</td>
           <td>{{ book.isbn }}</td>
