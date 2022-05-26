@@ -34,7 +34,6 @@ const toggleUserRentalListModal = () => {
 <template>
   <div>
     <h1>Users</h1>
-    <p>View All User Data | Add New Users | Update Users | Delete Users</p>
     <router-link to='/admin/rental-lists' style='margin-right: 10px'>View Rental Lists</router-link>
     <router-link to='/admin/wish-lists' style='margin-right: 10px'>View Wish Lists</router-link>
     <br />

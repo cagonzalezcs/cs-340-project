@@ -47,7 +47,7 @@ const addBook = async () => {
     });
 
     if (response.status !== 200) {
-      alert('Title, Genre, Author and Quantity fields are required!');
+      alert('There was an error adding this Book. Please try again later.');
       return;
     }
 

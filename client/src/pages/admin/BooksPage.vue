@@ -144,7 +144,6 @@ const handleBookUpdated = (updatedBook) => {
 <template>
   <div>
     <h1>Books</h1>
-    <p>View All Book Data | Add New Books | Update Books | Delete Books</p>
     <router-link to='/admin/search-books' style='margin-right: 10px'>Search All Books</router-link>
     <br />
   </div>

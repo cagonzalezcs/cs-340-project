@@ -85,7 +85,6 @@ const handleGenreDeleted = (updatedGenre) => {
 <template>
   <div id='header'>
     <h1>Genres</h1>
-    <p>View All Genres | Add New Genres | Update Genres | Delete Genres</p>
   </div>
   <div id='browseGenres'>
     <table 

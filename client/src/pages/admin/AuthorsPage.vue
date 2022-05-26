@@ -97,7 +97,6 @@ const handleAuthorDeleted = (updatedAuthor) => {
 <template>
   <div id='header'>
     <h1>Authors</h1>
-    <p>View All Authors | Add New Authors | Update Authors | Delete Authors</p>
   </div>
   <div v-if='state.authors?.length' id='browseAuthors'>
     <table border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;'>
