@@ -1,21 +1,21 @@
 <script setup>
 import './styles/global.scss';
 import { useUserStore } from './stores/user.js';
-// import checkUserAuth from './router/middleware';
+import checkUserAuth from './router/middleware';
 import AppNavigation from './components/app-navigation/AppNavigation.vue';
-import { onMounted,
-  // watch
+import {
+  onMounted,
+  watch,
 } from 'vue';
-// import router from './router';
+import router from './router';
 
 const user = useUserStore();
 
 onMounted(() => {
-  // Temporarily removing this for the assignment
-  // watch(router.currentRoute, checkUserAuth);
+  watch(router.currentRoute, checkUserAuth);
 });
 </script>
- 
+
 <template>
   <app-navigation v-if='user.isLoggedIn' />
   <router-view></router-view>
