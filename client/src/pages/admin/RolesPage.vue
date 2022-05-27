@@ -1,5 +1,5 @@
 <script setup>
-import { reactive } from 'vue';
+import { reactive, onMounted, computed } from 'vue';
 import AddRoleForm from '../../components/roles/AddRoleForm.vue';
 import EditRoleForm from '../../components/roles/EditRoleForm.vue';
 import DeleteRoleForm from '../../components/roles/DeleteRoleForm.vue';
@@ -7,17 +7,81 @@ import DeleteRoleForm from '../../components/roles/DeleteRoleForm.vue';
 let state = reactive({
   isAddRoleModalActive: false,
   isEditRoleModalActive: false,
-  isDeleteRoleModalActive: false
+  isDeleteRoleModalActive: false,
+  userRoles: [],
+  currentlySelectedUserRoleIndex: 0
 });
+
+const baseUrl = import.meta.env.VITE_SERVER_URI;
 
 const toggleAddRoleModal = () => {
   state.isAddRoleModalActive = !state.isAddRoleModalActive;
 };
-const toggleEditRoleModal = () => {
+const toggleEditRoleModal = (userRoleIndex) => {
+  if (!isNaN(userRoleIndex)) {
+    state.currentlySelectedUserRoleIndex = userRoleIndex;
+  }
+
   state.isEditRoleModalActive = !state.isEditRoleModalActive;
 };
-const toggleDeleteRoleModal = () => {
+const toggleDeleteRoleModal = (userRoleIndex) => {
+  if (!isNaN(userRoleIndex)) {
+    state.currentlySelectedUserRoleIndex = userRoleIndex;
+  }
+
   state.isDeleteRoleModalActive = !state.isDeleteRoleModalActive;
+};
+
+const setUserRoles = (userRoles) => {
+  if (!userRoles?.length) {
+    return;
+  }
+
+  state.userRoles = userRoles;
+};
+
+const getUserRoles = async () => {
+  const userRolesUrl = `${ baseUrl }user-roles`;
+  try {
+    const response = await fetch(userRolesUrl, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+    const data = await response.json();
+    if (!data.length) {
+      return;
+    }
+    setUserRoles(data);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+onMounted(async () => {
+  await getUserRoles();
+});
+
+const currentlySelectedUserRole = computed(() => {
+  if (state.currentlySelectedUserRoleIndex < 0) {
+    return [];
+  }
+
+  return state.userRoles[state.currentlySelectedUserRoleIndex];
+});
+
+const handleUserRoleAdded = () => {
+  getUserRoles();
+};
+
+const handleUserRoleUpdated = () => {
+  getUserRoles();
+};
+
+const handleUserRoleDeleted = () => {
+  state.userRoles.splice(state.currentlySelectedUserRoleIndex, 1);
+  state.currentlySelectedUserRoleIndex = 0;
 };
 </script>
 
@@ -31,36 +95,38 @@ const toggleDeleteRoleModal = () => {
         <th>id</th>
         <th>type</th>
         <th></th>
-        <th><button @click='toggleAddRoleModal'>Add New Role</button></th>
+        <th>
+          <button @click='toggleAddRoleModal'>Add New Role</button>
+        </th>
       </tr>
-      <tr>
-        <td>1</td>
-        <td>admin</td>
-        <td><button @click='toggleEditRoleModal'>Edit Role</button></td>
-        <td><button @click='toggleDeleteRoleModal'>Delete Role</button></td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>manager</td>
-        <td><button @click='toggleEditRoleModal'>Edit Role</button></td>
-        <td><button @click='toggleDeleteRoleModal'>Delete Role</button></td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>sales</td>
-        <td><button @click='toggleEditRoleModal'>Edit Role</button></td>
-        <td><button @click='toggleDeleteRoleModal'>Delete Role</button></td>
-      </tr>
-      <tr>
-        <td>4</td>
-        <td>customer</td>
-        <td><button @click='toggleEditRoleModal'>Edit Role</button></td>
-        <td><button @click='toggleDeleteRoleModal'>Delete Role</button></td>
+      <tr v-for='(userRole, index) in state.userRoles' :key='`user-role-${userRole.id}`'>
+        <td>{{ userRole.id }}</td>
+        <td>{{ userRole.type}}</td>
+        <td>
+          <button @click='toggleEditRoleModal(index)'>Edit Role</button>
+        </td>
+        <td>
+          <button @click='toggleDeleteRoleModal(index)'>Delete Role</button>
+        </td>
       </tr>
     </table>
   </div><!-- browse -->
 
-  <add-role-form :is-add-role-modal-active='state.isAddRoleModalActive' @toggle-add-role-modal='toggleAddRoleModal' />
-  <edit-role-form :is-edit-role-modal-active='state.isEditRoleModalActive' @toggle-edit-role-modal='toggleEditRoleModal' />
-  <delete-role-form :is-delete-role-modal-active='state.isDeleteRoleModalActive' @toggle-delete-role-modal='toggleDeleteRoleModal' />
+  <add-role-form
+    :is-add-role-modal-active='state.isAddRoleModalActive'
+    @toggle-add-role-modal='toggleAddRoleModal'
+    @user-role-added='handleUserRoleAdded'
+  />
+  <edit-role-form
+    :is-edit-role-modal-active='state.isEditRoleModalActive'
+    :user-role='currentlySelectedUserRole'
+    @toggle-edit-role-modal='toggleEditRoleModal'
+    @user-role-updated='handleUserRoleUpdated'
+  />
+  <delete-role-form
+    :is-delete-role-modal-active='state.isDeleteRoleModalActive'
+    :user-role='currentlySelectedUserRole'
+    @toggle-delete-role-modal='toggleDeleteRoleModal'
+    @user-role-deleted='handleUserRoleDeleted'
+  />
 </template>

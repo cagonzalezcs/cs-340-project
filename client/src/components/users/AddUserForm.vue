@@ -40,7 +40,7 @@ const addUser = async () => {
     });
 
     if (response.status !== 200) {
-      alert('There was an error adding this book. Please try again later.');
+      alert('There was an error adding this user. Please try again later.');
       return;
     }
 

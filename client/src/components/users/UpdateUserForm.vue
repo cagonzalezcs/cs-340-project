@@ -27,8 +27,6 @@ watch(() => props.isUpdateUserModalActive, async () => {
     return;
   }
 
-  console.log(props.user);
-
   state.updatedUser = {
     user_role_id: props.user.user_role_id,
     first_name: props.user.first_name,

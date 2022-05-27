@@ -12,7 +12,7 @@ const toggleDeleteUserModal = () => {
 
 const deleteUser = async () => {
   try {
-    const response = await fetch(`${ import.meta.env.VITE_SERVER_URI }/Users/${ props.user.id }`,
+    const response = await fetch(`${ import.meta.env.VITE_SERVER_URI }/users/${ props.user.id }`,
       {
         method: 'DELETE',
         headers: {
