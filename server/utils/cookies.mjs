@@ -5,7 +5,7 @@ const cookieOptions = {
   signed: true,
   secret: process.env.COOKIE_SECRET,
   sameSite: 'strict',
-  secure: false // Change to true before running in prod
+  secure: true // Change to true before running in prod
 }
 
 export { cookieOptions };
