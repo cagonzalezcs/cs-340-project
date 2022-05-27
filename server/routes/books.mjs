@@ -1,5 +1,14 @@
 import express from 'express';
-import { getAllBooks, createBook, getBook, updateBook, deleteBook } from '../models/books.mjs';
+import {
+  getAllBooks,
+  createBook,
+  getBook,
+  updateBook,
+  deleteBook,
+  searchBooksByTitle,
+  searchBooksByGenre,
+  searchBooksByAuthor,
+} from '../models/books.mjs';
 
 const booksRouter = express.Router();
 
@@ -88,6 +97,45 @@ booksRouter.delete('/:bookId', async (request, response) => {
     const bookId = request.params.bookId;
     await deleteBook(bookId);
     response.json({ message: 'Book has been successfully deleted.' });
+  } catch (error) {
+    response.status(500).json({ error });
+  }
+});
+
+/**
+ * Search Title
+ */
+booksRouter.get('/search/title/:bookTitle', async (request, response) => {
+  try {
+    const bookTitle = request.params.bookTitle;
+    const foundBooks = await searchBooksByTitle(bookTitle);
+    response.json(foundBooks);
+  } catch (error) {
+    response.status(500).json({ error });
+  }
+});
+
+/**
+ * Filter Genres
+ */
+booksRouter.get('/search/genre/:genreId', async (request, response) => {
+  try {
+    const genreId = request.params.genreId;
+    const foundBooks = await searchBooksByGenre(genreId);
+    response.json(foundBooks);
+  } catch (error) {
+    response.status(500).json({ error });
+  }
+});
+
+/**
+ * Filter by Author
+ */
+booksRouter.get('/search/author/:authorId', async (request, response) => {
+  try {
+    const authorId = request.params.authorId;
+    const foundBooks = await searchBooksByAuthor(authorId);
+    response.json(foundBooks);
   } catch (error) {
     response.status(500).json({ error });
   }

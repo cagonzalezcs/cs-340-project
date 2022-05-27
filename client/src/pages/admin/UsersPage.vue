@@ -136,8 +136,8 @@ const handleUserDeleted = () => {
 <template>
   <div>
     <h1>Users</h1>
-    <router-link to='/admin/rental-lists' style='margin-right: 10px'>View Rental Lists</router-link>
-    <router-link to='/admin/wish-lists' style='margin-right: 10px'>View Wish Lists</router-link>
+    <router-link to='/admin/rental-lists' style='margin-right: 15px; margin-bottom:20px; display:inline-block; font-size: 18px; font-weight: bold;'>View Rental Lists</router-link>
+    <router-link to='/admin/wish-lists' style='margin-bottom:20px; display:inline-block; font-size: 18px; font-weight: bold;'>View Wish Lists</router-link>
     <br />
   </div>
   <div id='browse'>

@@ -3,7 +3,6 @@ import { onMounted, reactive, computed } from 'vue';
 import AddBookForm from '../../components/books/AddBookForm.vue';
 import UpdateBookForm from '../../components/books/UpdateBookForm.vue';
 import DeleteBookForm from '../../components/books/DeleteBookForm.vue';
-import SearchBooksPageVue from './SearchBooksPage.vue';
 
 let state = reactive({
   isAddBookModalActive: false,
@@ -144,7 +143,7 @@ const handleBookUpdated = () => {
 <template>
   <div>
     <h1>Books</h1>
-    <router-link to='/admin/search-books' style='margin-right: 10px'>Search All Books</router-link>
+    <router-link to='/admin/search-books' style='margin-bottom:20px; display:inline-block; font-size: 18px; font-weight: bold;'>Search All Books</router-link>
     <br />
   </div>
   <div id='browse'>
