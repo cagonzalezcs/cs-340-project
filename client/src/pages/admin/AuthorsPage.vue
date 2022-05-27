@@ -1,5 +1,5 @@
 <script setup>
-import { reactive } from 'vue';
+import { computed, onMounted, reactive } from 'vue';
 import AddAuthorForm from '../../components/authors/AddAuthorForm.vue';
 import EditAuthorForm from '../../components/authors/EditAuthorForm.vue';
 import DeleteAuthorForm from '../../components/authors/DeleteAuthorForm.vue';
@@ -10,29 +10,95 @@ let state = reactive({
   isEditAuthorModalActive: false,
   isDeleteAuthorModalActive: false,
   isAuthorBookListModalActive: false,
-
+  authors: [], 
+  currentlySelectedAuthorIndex: 0,
 });
+
+const baseUrl = import.meta.env.VITE_SERVER_URI;
 
 const toggleAddAuthorModal = () => {
   state.isAddAuthorModalActive = !state.isAddAuthorModalActive;
 };
-const toggleEditAuthorModal = () => {
+const toggleEditAuthorModal = (authorIndex) => {
+  if (!isNaN(authorIndex)) {
+    state.currentlySelectedAuthorIndex = authorIndex;
+  }
   state.isEditAuthorModalActive = !state.isEditAuthorModalActive;
 };
-const toggleDeleteAuthorModal = () => {
+const toggleDeleteAuthorModal = (authorIndex) => {
+  if (!isNaN(authorIndex)) {
+    state.currentlySelectedAuthorIndex = authorIndex;
+  }
+
   state.isDeleteAuthorModalActive = !state.isDeleteAuthorModalActive;
 };
-const toggleAuthorBookListModal = () => {
+
+const toggleAuthorBookListModal = (authorIndex) => {
+  if (!isNaN(authorIndex)) {
+    state.currentlySelectedAuthorIndex = authorIndex;
+  }
+
   state.isAuthorBookListModalActive = !state.isAuthorBookListModalActive;
 };
+
+function setAuthor(authors) {
+  if (authors?.length) {
+    state.authors = authors;
+  }
+};
+
+async function getAuthors() {
+  const authorUrl = `${ baseUrl }authors`;
+  try {
+    const response = await fetch(authorUrl, {
+      method: 'GET', 
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+    const data = await response.json();
+    if(!data.length) {
+      return;
+    }
+    setAuthor(data);
+  } catch(error) {
+    console.error(error);
+  }
+};
+
+
+onMounted(() => {
+  getAuthors()
+});
+
+const currentlySelectedAuthor = computed(() => {
+  if(state.currentlySelectedAuthorIndex < 0) {
+    return [];
+  }
+
+  return state.authors[state.currentlySelectedAuthorIndex];
+});
+
+const handleAuthorAdded = () => {
+  getAuthors();
+};
+
+const handleAuthorUpdated = (updatedAuthor) => {
+  getAuthors;
+};
+
+const handleAuthorDeleted = (updatedAuthor) => {
+  state.authors.splice(state.currentlySelectedAuthorIndex, 1);
+  state.currentlySelectedAuthorIndex = 0;
+}
+
 </script>
 
 <template>
   <div id='header'>
     <h1>Authors</h1>
-    <p>View All Authors | Add New Authors | Update Authors | Delete Authors</p>
   </div>
-  <div id='browseAuthors'>
+  <div v-if='state.authors?.length' id='browseAuthors'>
     <table border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;'>
       <tr>
         <th>id</th>
@@ -42,52 +108,36 @@ const toggleAuthorBookListModal = () => {
         <th></th>
         <th><button @click='toggleAddAuthorModal'>Add New Author</button></th>
       </tr>
-      <tr>
-        <td>1</td>
-        <td>Adiana Pavlishchev</td>
-        <td>2020-07-11</td>
-        <td><button @click='toggleAuthorBookListModal'>View All Author Titles</button></td>
-        <td><button @click='toggleEditAuthorModal'>Edit Author</button></td>
-        <td><button @click='toggleDeleteAuthorModal'>Delete Author</button></td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>Perren Benzi</td>
-        <td>2020-11-16</td>
-        <td><button @click='toggleAuthorBookListModal'>View All Author Titles</button></td>
-        <td><button @click='toggleEditAuthorModal'>Edit Author</button></td>
-        <td><button @click='toggleDeleteAuthorModal'>Delete Author</button></td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>Berne Yele</td>
-        <td>2019-03-22</td>
-        <td><button @click='toggleAuthorBookListModal'>View All Author Titles</button></td>
-        <td><button @click='toggleEditAuthorModal'>Edit Author</button></td>
-        <td><button @click='toggleDeleteAuthorModal'>Delete Author</button></td>
-      </tr>
-      <tr>
-        <td>4</td>
-        <td>Robbi Feild</td>
-        <td>2020-01-06</td>
-        <td><button @click='toggleAuthorBookListModal'>View All Author Titles</button></td>
-        <td><button @click='toggleEditAuthorModal'>Edit Author</button></td>
-        <td><button @click='toggleDeleteAuthorModal'>Delete Author</button></td>
-      </tr>
-      <tr>
-        <td>5</td>
-        <td>Thomasin Seakin</td>
-        <td>2019-08-11</td>
-        <td><button @click='toggleAuthorBookListModal'>View All Author Titles</button></td>
-        <td><button @click='toggleEditAuthorModal'>Edit Author</button></td>
-        <td><button @click='toggleDeleteAuthorModal'>Delete Author</button></td>
+      <tr v-for='(author, index) in state.authors' :key='author.id'>
+        <td>{{ author.id }}</td>
+        <td>{{ author.name }}</td>
+        <td>{{ author.birth_date }}</td>
+        <td><button @click='toggleAuthorBookListModal(index)'>View All Author Titles</button></td>
+        <td><button @click='toggleEditAuthorModal(index)'>Edit Author</button></td>
+        <td><button @click='toggleDeleteAuthorModal(index)'>Delete Author</button></td>
       </tr>
     </table>
   </div><!-- browse -->
 
-  <add-author-form :is-add-author-modal-active='state.isAddAuthorModalActive' @toggle-add-author-modal='toggleAddAuthorModal' />
-  <edit-author-form :is-edit-author-modal-active='state.isEditAuthorModalActive' @toggle-edit-author-modal='toggleEditAuthorModal' />
-  <delete-author-form :is-delete-author-modal-active='state.isDeleteAuthorModalActive' @toggle-delete-author-modal='toggleDeleteAuthorModal' />
-  <author-book-list :is-author-book-list-modal-active='state.isAuthorBookListModalActive' @toggle-author-book-list-modal='toggleAuthorBookListModal' />
+  <add-author-form 
+    :is-add-author-modal-active='state.isAddAuthorModalActive' 
+    @toggle-add-author-modal='toggleAddAuthorModal' 
+    @author-added='handleAuthorAdded'
+  />
+  <edit-author-form 
+    :is-edit-author-modal-active='state.isEditAuthorModalActive' 
+    :author='currentlySelectedAuthor'
+    @toggle-edit-author-modal='toggleEditAuthorModal' 
+  />
+  <delete-author-form 
+    :is-delete-author-modal-active='state.isDeleteAuthorModalActive' 
+    :author='currentlySelectedAuthor'
+    @toggle-delete-author-modal='toggleDeleteAuthorModal' 
+  />
+  <author-book-list 
+    :is-author-book-list-modal-active='state.isAuthorBookListModalActive'
+    :author='currentlySelectedAuthor'
+    @toggle-author-book-list-modal='toggleAuthorBookListModal' 
+  />
 
 </template>

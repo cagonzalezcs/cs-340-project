@@ -31,27 +31,28 @@ booksRouter.get('/:id', async (request, response) => {
 /**
  * Create book
  */
-booksRouter.post('/', async (request, response) => {
-  try {
-    const newBookData = request.body;
-    console.log(newBookData);
-    let genre_id = parseInt(request.body.genre_id);
-    if (isNaN(genre_id)) {
-      genre_id = 'NULL';
+
+ booksRouter.post('/', async (request, response) => {
+    try {
+        const newBookData = request.body;
+        let genre_id = parseInt(request.body.genre_id);
+        if (isNaN(genre_id))
+        {
+            genre_id = 'NULL'
+        }
+        await createBook(
+            newBookData.title,
+            newBookData.authors,
+            genre_id,
+            newBookData.isbn,
+            newBookData.cover_image,
+            newBookData.quantity_available,
+            newBookData.quantity_rented
+        );
+        response.json({message: 'Book has been successfully created.'})
+    } catch (error) {
+        response.status(500).json({ error });
     }
-    await createBook(
-      newBookData.title,
-      newBookData.authors,
-      genre_id,
-      newBookData.isbn,
-      newBookData.cover_image,
-      newBookData.quantity_available,
-      newBookData.quantity_rented,
-    );
-    response.json({ message: 'Book has been successfully created.' });
-  } catch (error) {
-    response.status(500).json({ error });
-  }
 });
 
 /**

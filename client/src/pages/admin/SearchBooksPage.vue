@@ -5,7 +5,6 @@
 <template>
   <div>
     <h1>Search Books</h1>
-    <p>Search for Books by: Genre, Title or Author</p>
   </div>
   <div id='search' style='display: block'>
     <form id='searchBookGenres' method='POST'>

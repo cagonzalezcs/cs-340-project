@@ -24,7 +24,6 @@ const toggleDeleteRoleModal = () => {
 <template>
   <div id='header'>
     <h1>Roles</h1>
-    <p>View All User Roles | Add User Roles | Update User Roles | Delete User Roles</p>
   </div>
   <div id='browseRoles'>
     <table border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;'>

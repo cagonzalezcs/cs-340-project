@@ -3,7 +3,7 @@ import { reactive } from 'vue';
 import AppModal from '../../components/AppModal.vue';
 
 const baseUrl = import.meta.env.VITE_SERVER_URI;
-const bookUrl = `${ baseUrl }/books`;
+const bookUrl = `${ baseUrl }books`;
 
 const props = defineProps({
   'isAddBookModalActive': Boolean,
@@ -47,7 +47,7 @@ const addBook = async () => {
     });
 
     if (response.status !== 200) {
-      alert('Title, Genre, Author and Quantity fields are required!');
+      alert('There was an error adding this Book. Please try again later.');
       return;
     }
 
@@ -91,7 +91,7 @@ const addBook = async () => {
               <label for='author-birth-date'> author birth_date </label>
               <input id='author-birth-date' type='date' name='birth_date'>
             </div>
-            <button class='input-group__button' disabled @click='toggleIsAddingNewAuthor'>
+            <button class='input-group__button' @click='toggleIsAddingNewAuthor'>
               {{ state.isAddingAuthor ? 'Cancel' : 'Add New Author' }}
             </button>
           </div>
@@ -118,13 +118,9 @@ const addBook = async () => {
           <label for='book-cover-image'> cover_image </label>
           <input id='book-cover-image' v-model='state.newBook.cover_image' type='text' name='cover_image'>
           <label for='book-qty-available'> quantity_available </label>
-          <input
-id='book-qty-available' v-model='state.newBook.quantity_available' type='number'
-                 name='quantity_available' required>
+          <input id='book-qty-available' v-model='state.newBook.quantity_available' type='number' name='quantity_available' required>
           <label for='book-qty-rented'> quantity_rented </label>
-          <input
-id='book-qty-rented' v-model='state.newBook.quantity_rented' type='number' name='quantity_rented'
-                 required>
+          <input id='book-qty-rented' v-model='state.newBook.quantity_rented' type='number' name='quantity_rented' required>
         </fieldset>
         <input id='addBook' class='btn' type='button' value='Add New Book' @click='addBook'>
         <input class='btn' type='button' value='Cancel' @click='toggleAddBookModal'>

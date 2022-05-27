@@ -20,7 +20,6 @@ const toggleRemoveFromRentalListModal = () => {
 <template>
   <div id='rentalLists'>
     <h1>All Rental Lists</h1>
-    <p>Manage Rental Lists</p>
     <router-link to='/admin/users' style='margin-right: 10px'>Back to Users</router-link>
     <br />
   </div>
