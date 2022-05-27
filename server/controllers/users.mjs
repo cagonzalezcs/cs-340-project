@@ -56,7 +56,6 @@ const updateUser = async (request, response) => {
       userData.state,
       userData.password,
     );
-
     response.json({ message: 'User has been successfully updated.' });
   } catch (error) {
     response.status(500).json({ error });

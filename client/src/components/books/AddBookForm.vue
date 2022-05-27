@@ -6,9 +6,9 @@ const baseUrl = import.meta.env.VITE_SERVER_URI;
 const bookUrl = `${ baseUrl }books`;
 
 const props = defineProps({
-  'isAddBookModalActive': Boolean,
-  'authors': Array,
-  'genres': Array,
+  isAddBookModalActive: Boolean,
+  authors: { type: Array, required: false, default: () => [] },
+  genres: { type: Array, required: false, default: () => [] },
 });
 const emit = defineEmits(['toggleAddBookModal', 'bookAdded']);
 const state = reactive({
@@ -63,7 +63,7 @@ const addBook = async () => {
       quantity_rented: '',
     };
     toggleAddBookModal();
-  } catch(error) {
+  } catch (error) {
     console.error(error);
   }
 };
@@ -101,7 +101,7 @@ const addBook = async () => {
               <label for='book-genre'> genre </label>
               <select v-model='state.newBook.genre_id' name='genre_id' required>
                 <option value='0'>&nbsp;</option>
-                <option v-for='genre in props.genres' :key='`author-${genre.id}`' :value="genre.id">{{ genre.name }}
+                <option v-for='genre in props.genres' :key='`author-${genre.id}`' :value='genre.id'>{{ genre.name }}
                 </option>
               </select>
             </div>
@@ -118,9 +118,13 @@ const addBook = async () => {
           <label for='book-cover-image'> cover_image </label>
           <input id='book-cover-image' v-model='state.newBook.cover_image' type='text' name='cover_image'>
           <label for='book-qty-available'> quantity_available </label>
-          <input id='book-qty-available' v-model='state.newBook.quantity_available' type='number' name='quantity_available' required>
+          <input
+id='book-qty-available' v-model='state.newBook.quantity_available' type='number'
+                 name='quantity_available' required>
           <label for='book-qty-rented'> quantity_rented </label>
-          <input id='book-qty-rented' v-model='state.newBook.quantity_rented' type='number' name='quantity_rented' required>
+          <input
+id='book-qty-rented' v-model='state.newBook.quantity_rented' type='number' name='quantity_rented'
+                 required>
         </fieldset>
         <input id='addBook' class='btn' type='button' value='Add New Book' @click='addBook'>
         <input class='btn' type='button' value='Cancel' @click='toggleAddBookModal'>

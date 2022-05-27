@@ -19,7 +19,7 @@ const getAllUsers = async () => {
 
 const getUser = async (userId, withPassword = false) => {
   if (!userId) {
-    throw 'User Id is a required parameter to get a user';
+    throw 'User id is a required parameter to get a user';
   }
 
   if (withPassword) {
@@ -68,11 +68,10 @@ const createUser = async (userRoleId, firstName, lastName, email, addressLine1, 
 
 const updateUser = async (userId, userRoleId, firstName, lastName, email, addressLine1, addressLine2, city, state, password) => {
   if (!userId) {
-    throw 'User Id is a required parameter to update a user.';
+    throw 'User id is a required parameter to update a user.';
   }
 
   let userRecord = await getUser(userId, true);
-  console.log(userRecord[0]);
   userRecord = userRecord[0];
   if (!userRecord) {
     throw 'User not found, unable to update user';
@@ -87,7 +86,6 @@ const updateUser = async (userId, userRoleId, firstName, lastName, email, addres
   const updatedCity = city || userRecord.city;
   const updatedState = state || userRecord.state;
   const updatedPassword = password || userRecord.password;
-  console.log(updatedPassword);
 
   await dbQuery(
     `UPDATE users
@@ -118,7 +116,7 @@ const updateUser = async (userId, userRoleId, firstName, lastName, email, addres
 
 const deleteUser = async (userId) => {
   if (!userId) {
-    throw 'User Id is a required parameter to delete a book.';
+    throw 'User id is a required parameter to delete a user.';
   }
 
   return await dbQuery('DELETE FROM users WHERE users.id = ?', [userId]);

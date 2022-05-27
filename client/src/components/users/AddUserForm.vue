@@ -7,12 +7,13 @@ const userUrl = `${ baseUrl }users`;
 
 const props = defineProps({
   'isAddUserModalActive': Boolean,
+  userRoles: { type: Array, required: false, default: () => [] },
 });
 const emit = defineEmits(['toggleAddUserModal', 'userAdded']);
 
 const state = reactive({
   newUser: {
-    user_role_id: 0,
+    user_role_id: 1,
     first_name: '',
     last_name: '',
     email: '',
@@ -46,7 +47,7 @@ const addUser = async () => {
     alert('Success!');
     emit('userAdded');
     state.newUser = {
-      user_role_id: 0,
+      user_role_id: 1,
       first_name: '',
       last_name: '',
       email: '',
@@ -67,16 +68,12 @@ const addUser = async () => {
 <template>
   <app-modal :is-modal-active='props.isAddUserModalActive' @toggle-active-status='toggleAddUserModal'>
     <div id='insert'>
-      <form id='addUser' method='POST' class='app-form' @submit.prevent>
+      <form id='addUserForm' method='POST' class='app-form' @submit.prevent>
         <legend><strong>Add User</strong></legend>
         <fieldset class='fields'>
           <label for='user-role-id'> user role </label>
-          <select id='user-role-id' v-model='state.newUser.user_role_id'>
-            <option value='0'>&nbsp;</option>
-            <option value='1'>admin</option>
-            <option value='2'>manager</option>
-            <option value='3'>sales</option>
-            <option value='4'>customer</option>
+          <select id='user-role-id' v-model='state.newUser.user_role_id' required>
+            <option v-for='userRole in userRoles' :key='`user-role-${userRole.id}`' :value='userRole.id'>{{ userRole.type }}</option>
           </select>
           <label for='first-name'> first_name </label>
           <input id='first-name' v-model='state.newUser.first_name' type='text' name='first-name'>
@@ -86,7 +83,7 @@ const addUser = async () => {
           <input id='email' v-model='state.newUser.email' type='text' name='email'>
           <br>
           <label for='address-line-1'> address_line_1 </label>
-          <input id='address-line-2' v-model='state.newUser.address_line_1' type='text' name='address-line-1'>
+          <input id='address-line-1' v-model='state.newUser.address_line_1' type='text' name='address-line-1'>
           <label for='address-line-2'> address_line_2 </label>
           <input id='address-line-2' v-model='state.newUser.address_line_2' type='text' name='address-line-2'>
           <label for='city'> city </label>

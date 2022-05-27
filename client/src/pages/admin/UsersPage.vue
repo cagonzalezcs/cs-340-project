@@ -13,6 +13,7 @@ let state = reactive({
   isUserWishListModalActive: false,
   isUserRentalListModalActive: false,
   users: [],
+  userRoles: [],
   currentlySelectedUserIndex: 0,
 });
 
@@ -58,6 +59,14 @@ const setUsers = (users) => {
   state.users = users;
 };
 
+const setUserRoles = (userRoles) => {
+  if (!userRoles?.length) {
+    return;
+  }
+
+  state.userRoles = userRoles;
+};
+
 const getUsers = async () => {
   const usersUrl = `${ baseUrl }users`;
   try {
@@ -77,7 +86,29 @@ const getUsers = async () => {
   }
 };
 
-onMounted(() => getUsers());
+const getUserRoles = async () => {
+  const userRolesUrl = `${ baseUrl }user-roles`;
+  try {
+    const response = await fetch(userRolesUrl, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+    const data = await response.json();
+    if (!data.length) {
+      return;
+    }
+    setUserRoles(data);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+onMounted(async () => {
+  await getUsers();
+  await getUserRoles();
+});
 
 const currentlySelectedUser = computed(() => {
   if (state.currentlySelectedUserIndex < 0) {
@@ -156,10 +187,12 @@ const handleUserDeleted = () => {
 
   <add-user-form
     :is-add-user-modal-active='state.isAddUserModalActive'
+    :user-roles='state.userRoles'
     @toggle-add-user-modal='toggleAddUserModal'
     @user-added='handleUserAdded' />
   <update-user-form
     :user='currentlySelectedUser'
+    :user-roles='state.userRoles'
     :is-update-user-modal-active='state.isUpdateUserModalActive'
     @toggle-update-user-modal='toggleUpdateUserModal'
     @user-updated='handleUserUpdated' />

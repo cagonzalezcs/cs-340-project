@@ -4,12 +4,13 @@ import { reactive, watch } from 'vue';
 const props = defineProps({
   'isUpdateUserModalActive': Boolean,
   user: { type: Object, default: () => {}, required: false },
+  userRoles: { type: Array, required: false, default: () => [] },
 });
 const emit = defineEmits(['toggleUpdateUserModal', 'userUpdated']);
 
 const state = reactive({
   updatedUser: {
-    user_role_id: 0,
+    user_role_id: 1,
     first_name: '',
     last_name: '',
     email: '',
@@ -26,8 +27,10 @@ watch(() => props.isUpdateUserModalActive, async () => {
     return;
   }
 
+  console.log(props.user);
+
   state.updatedUser = {
-    user_role: props.user.user_role_id,
+    user_role_id: props.user.user_role_id,
     first_name: props.user.first_name,
     last_name: props.user.last_name,
     email: props.user.email,
@@ -71,17 +74,13 @@ const updateUser = async () => {
 <template>
   <app-modal :is-modal-active='props.isUpdateUserModalActive' @toggle-active-status='toggleUpdateUserModal'>
     <div id='update'>
-      <form id='updateUser' method='POST' class='app-form' @submit.prevent>
+      <form id='updateUserForm' method='POST' class='app-form' @submit.prevent>
         <legend><strong>Update User</strong></legend>
         <fieldset class='fields'>
           <input id='updateUserID' type='hidden' name='userID' value='1'>
           <label for='user-role-id'> user role </label>
-          <select id='user-role-id' v-model='state.updatedUser.user_role_id'>
-            <option value='0'>&nbsp;</option>
-            <option value='1'>admin</option>
-            <option value='2'>manager</option>
-            <option value='3'>sales</option>
-            <option value='4'>customer</option>
+          <select id='user-role-id' v-model='state.updatedUser.user_role_id' required>
+            <option v-for='userRole in userRoles' :key='`user-role-${userRole.id}`' :value='userRole.id'>{{ userRole.type }}</option>
           </select>
           <label for='first-name'> first_name </label>
           <input id='first-name' v-model='state.updatedUser.first_name' type='text' name='first-name'>
@@ -91,7 +90,7 @@ const updateUser = async () => {
           <input id='email' v-model='state.updatedUser.email' type='text' name='email'>
           <br>
           <label for='address-line-1'> address_line_1 </label>
-          <input id='address-line-2' v-model='state.updatedUser.address_line_1' type='text' name='address-line-1'>
+          <input id='address-line-1' v-model='state.updatedUser.address_line_1' type='text' name='address-line-1'>
           <label for='address-line-2'> address_line_2 </label>
           <input id='address-line-2' v-model='state.updatedUser.address_line_2' type='text' name='address-line-2'>
           <label for='city'> city </label>
@@ -101,7 +100,7 @@ const updateUser = async () => {
           <label for='password'> password </label>
           <input id='password' v-model='state.updatedUser.password' type='password' name='password'>
         </fieldset>
-        <input id='addUser' class='btn' type='submit' value='Update User' @click='updateUser'>
+        <input id='updateUser' class='btn' type='submit' value='Update User' @click='updateUser'>
         <input id='user' class='btn' type='button' value='Cancel' @click='toggleUpdateUserModal'>
       </form>
     </div><!-- update -->
