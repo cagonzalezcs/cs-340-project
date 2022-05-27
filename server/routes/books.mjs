@@ -18,7 +18,7 @@ booksRouter.get('/', async (request, response) => {
 /**
  * Get a single book
  */
-booksRouter.get('/:id', async (request, response) => {
+booksRouter.get('/:bookId', async (request, response) => {
   try {
     const bookId = request.params.bookId;
     const book = await getBook(bookId);
@@ -32,27 +32,26 @@ booksRouter.get('/:id', async (request, response) => {
  * Create book
  */
 
- booksRouter.post('/', async (request, response) => {
-    try {
-        const newBookData = request.body;
-        let genre_id = parseInt(request.body.genre_id);
-        if (isNaN(genre_id))
-        {
-            genre_id = 'NULL'
-        }
-        await createBook(
-            newBookData.title,
-            newBookData.authors,
-            genre_id,
-            newBookData.isbn,
-            newBookData.cover_image,
-            newBookData.quantity_available,
-            newBookData.quantity_rented
-        );
-        response.json({message: 'Book has been successfully created.'})
-    } catch (error) {
-        response.status(500).json({ error });
+booksRouter.post('/', async (request, response) => {
+  try {
+    const newBookData = request.body;
+    let genreId = parseInt(newBookData.genre_id);
+    if (isNaN(genreId)) {
+      genreId = 'NULL';
     }
+    await createBook(
+      newBookData.title,
+      newBookData.authors,
+      genreId,
+      newBookData.isbn,
+      newBookData.cover_image,
+      newBookData.quantity_available,
+      newBookData.quantity_rented,
+    );
+    response.json({ message: 'Book has been successfully created.' });
+  } catch (error) {
+    response.status(500).json({ error });
+  }
 });
 
 /**

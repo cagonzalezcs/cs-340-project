@@ -27,25 +27,16 @@ const getBook = async (bookId) => {
   if (!bookId) {
     throw 'Book Id is a required parameter to get a book';
   }
-  return await dbQuery('SELECT * FROM books WHERE books.id = ?', [bookId]);
+  return await dbQuery('SELECT * FROM books WHERE books.id = ? LIMIT 1', [bookId]);
 };
 
 
 // Create a new book
 const createBook = async (title, authors, genreId, isbn, coverImage, quantityAvailable, quantityRented) => {
   const newBook = await dbQuery(
-    `INSERT INTO books(title,
-                       genre_id,
-                       isbn,
-                       cover_image,
-                       quantity_available,
-                       quantity_rented)
-     VALUES (?,
-             ?,
-             ?,
-             ?,
-             ?,
-             ?)`, [title, genreId, isbn, coverImage, quantityAvailable, quantityRented],
+    `INSERT INTO books(title, genre_id, isbn, cover_image, quantity_available, quantity_rented)
+     VALUES (?, ?, ?, ?, ?, ?)`,
+    [title, genreId, isbn, coverImage, quantityAvailable, quantityRented],
   );
   const bookId = newBook.insertId;
   for (const authorName of authors) {
@@ -54,10 +45,9 @@ const createBook = async (title, authors, genreId, isbn, coverImage, quantityAva
     );
     const authorId = authorData[0].id;
     await dbQuery(
-      `INSERT INTO book_authors(book_id,
-                                author_id)
-       VALUES (?,
-               ?)`, [bookId, authorId],
+      `INSERT INTO book_authors(book_id, author_id)
+       VALUES (?, ?)`,
+      [bookId, authorId],
     );
   }
 };
@@ -114,10 +104,9 @@ const updateBook = async (bookId, title, genreId, isbn, coverImage, quantityAvai
     const authorId = authorData[0].id;
 
     await dbQuery(
-      `INSERT INTO book_authors(book_id,
-                                author_id)
-       VALUES (?,
-               ?)`, [bookId, authorId],
+      `INSERT INTO book_authors(book_id, author_id)
+       VALUES (?, ?)`,
+      [bookId, authorId],
     );
   }
 };

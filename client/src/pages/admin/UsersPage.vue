@@ -1,5 +1,5 @@
 <script setup>
-import { reactive } from 'vue';
+import { reactive, onMounted, computed } from 'vue';
 import AddUserForm from '../../components/users/AddUserForm.vue';
 import UpdateUserForm from '../../components/users/UpdateUserForm.vue';
 import DeleteUserForm from '../../components/users/DeleteUserForm.vue';
@@ -11,24 +11,95 @@ let state = reactive({
   isUpdateUserModalActive: false,
   isDeleteUserModalActive: false,
   isUserWishListModalActive: false,
-  isUserRentalListModalActive: false
+  isUserRentalListModalActive: false,
+  users: [],
+  currentlySelectedUserIndex: 0,
 });
+
+const baseUrl = import.meta.env.VITE_SERVER_URI;
 
 const toggleAddUserModal = () => {
   state.isAddUserModalActive = !state.isAddUserModalActive;
 };
-const toggleUpdateUserModal = () => {
+const toggleUpdateUserModal = (userIndex) => {
+  if (!isNaN(userIndex)) {
+    state.currentlySelectedUserIndex = userIndex;
+  }
+
   state.isUpdateUserModalActive = !state.isUpdateUserModalActive;
 };
-const toggleDeleteUserModal = () => {
+const toggleDeleteUserModal = (userIndex) => {
+  if (!isNaN(userIndex)) {
+    state.currentlySelectedUserIndex = userIndex;
+  }
+
   state.isDeleteUserModalActive = !state.isDeleteUserModalActive;
 };
-const toggleUserWishListModal = () => {
+const toggleUserWishListModal = (userIndex) => {
+  if (!isNaN(userIndex)) {
+    state.currentlySelectedUserIndex = userIndex;
+  }
+
   state.isUserWishListModalActive = !state.isUserWishListModalActive;
 };
-const toggleUserRentalListModal = () => {
+const toggleUserRentalListModal = (userIndex) => {
+  if (!isNaN(userIndex)) {
+    state.currentlySelectedUserIndex = userIndex;
+  }
+
   state.isUserRentalListModalActive = !state.isUserRentalListModalActive;
 };
+
+const setUsers = (users) => {
+  if (!users?.length) {
+    return;
+  }
+
+  state.users = users;
+};
+
+const getUsers = async () => {
+  const usersUrl = `${ baseUrl }users`;
+  try {
+    const response = await fetch(usersUrl, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+    const data = await response.json();
+    if (!data.length) {
+      return;
+    }
+    setUsers(data);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+onMounted(() => getUsers());
+
+const currentlySelectedUser = computed(() => {
+  if (state.currentlySelectedUserIndex < 0) {
+    return [];
+  }
+
+  return state.users[state.currentlySelectedUserIndex];
+});
+
+const handleUserAdded = () => {
+  getUsers();
+};
+
+const handleUserUpdated = () => {
+  getUsers();
+};
+
+const handleUserDeleted = () => {
+  state.users.splice(state.currentlySelectedUserIndex, 1);
+  state.currentlySelectedUserIndex = 0;
+};
+
 </script>
 
 <template>
@@ -53,165 +124,56 @@ const toggleUserRentalListModal = () => {
         <th></th>
         <th></th>
         <th></th>
-        <th><button @click='toggleAddUserModal'>Add New User</button></th>
+        <th>
+          <button @click='toggleAddUserModal'>Add New User</button>
+        </th>
       </tr>
-      <tr>
-        <td>1</td>
-        <td>1</td>
-        <td>Baryram</td>
-        <td>Basil</td>
-        <td>bbasil0@thetimes.co.uk</td>
-        <td>6 Farwell Trail</td>
-        <td>NULL</td>
-        <td>New York City</td>
-        <td>New York</td>
-        <td><button @click='toggleUserWishListModal'>View Wish List</button></td>
-        <td><button @click='toggleUserRentalListModal'>View Rental List</button></td>
-        <td><button @click='toggleUpdateUserModal'>Edit User</button></td>
-        <td><button @click='toggleDeleteUserModal'>Delete User</button></td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>1</td>
-        <td>Kerry</td>
-        <td>Wybern</td>
-        <td>kwybern6@paginegialle.it</td>
-        <td>24448 Stang Street</td>
-        <td>Suite 3</td>
-        <td>Lancaster</td>
-        <td>Pennsylvania</td>
-        <td><button @click='toggleUserWishListModal'>View Wish List</button></td>
-        <td><button @click='toggleUserRentalListModal'>View Rental List</button></td>
-        <td><button @click='toggleUpdateUserModal'>Edit User</button></td>
-        <td><button @click='toggleDeleteUserModal'>Delete User</button></td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>3</td>
-        <td>Christye</td>
-        <td>Vinck</td>
-        <td>cvinck1@washington.edu</td>
-        <td>188 Tennyson Plaza</td>
-        <td>NULL</td>
-        <td>Reno</td>
-        <td>Nevada</td>
-        <td><button @click='toggleUserWishListModal'>View Wish List</button></td>
-        <td><button @click='toggleUserRentalListModal'>View Rental List</button></td>
-        <td><button @click='toggleUpdateUserModal'>Edit User</button></td>
-        <td><button @click='toggleDeleteUserModal'>Delete User</button></td>
-      </tr>
-      <tr>
-        <td>4</td>
-        <td>2</td>
-        <td>Gwenni</td>
-        <td>Preece</td>
-        <td>gpreece2@seesaa.net</td>
-        <td>4 Melody Plaza</td>
-        <td>Apartment 4</td>
-        <td>Denver</td>
-        <td>Colorado</td>
-        <td><button @click='toggleUserWishListModal'>View Wish List</button></td>
-        <td><button @click='toggleUserRentalListModal'>View Rental List</button></td>
-        <td><button @click='toggleUpdateUserModal'>Edit User</button></td>
-        <td><button @click='toggleDeleteUserModal'>Delete User</button></td>
-      </tr>
-      <tr>
-        <td>5</td>
-        <td>2</td>
-        <td>Glennis</td>
-        <td>Spours</td>
-        <td>gspours3@sohu.com</td>
-        <td>21 Memorial Crossing</td>
-        <td>NULL</td>
-        <td>Sacramento</td>
-        <td>California</td>
-        <td><button @click='toggleUserWishListModal'>View Wish List</button></td>
-        <td><button @click='toggleUserRentalListModal'>View Rental List</button></td>
-        <td><button @click='toggleUpdateUserModal'>Edit User</button></td>
-        <td><button @click='toggleDeleteUserModal'>Delete User</button></td>
-      </tr>
-      <tr>
-        <td>6</td>
-        <td>4</td>
-        <td>Saba</td>
-        <td>Bainton</td>
-        <td>sbainton4@sohu.com</td>
-        <td>1771 Scoville Street</td>
-        <td>NULL</td>
-        <td>Jacksonville</td>
-        <td>Florida</td>
-        <td><button @click='toggleUserWishListModal'>View Wish List</button></td>
-        <td><button @click='toggleUserRentalListModal'>View Rental List</button></td>
-        <td><button @click='toggleUpdateUserModal'>Edit User</button></td>
-        <td><button @click='toggleDeleteUserModal'>Delete User</button></td>
-      </tr>
-      <tr>
-        <td>7</td>
-        <td>4</td>
-        <td>Maxine</td>
-        <td>Kiellor</td>
-        <td>mkiellor5@amazon.co.jp</td>
-        <td>347 Kropf Drive</td>
-        <td>Suite 451</td>
-        <td>Memphis</td>
-        <td>Tennessee</td>
-        <td><button @click='toggleUserWishListModal'>View Wish List</button></td>
-        <td><button @click='toggleUserRentalListModal'>View Rental List</button></td>
-        <td><button @click='toggleUpdateUserModal'>Edit User</button></td>
-        <td><button @click='toggleDeleteUserModal'>Delete User</button></td>
-      </tr>
-      <tr>
-        <td>8</td>
-        <td>4</td>
-        <td>Deerdre</td>
-        <td>Van Bruggen</td>
-        <td>dvanbruggen7@soup.io</td>
-        <td>371 Lindbergh Road</td>
-        <td>NULL</td>
-        <td>Atlanta</td>
-        <td>Georgia</td>
-        <td><button @click='toggleUserWishListModal'>View Wish List</button></td>
-        <td><button @click='toggleUserRentalListModal'>View Rental List</button></td>
-        <td><button @click='toggleUpdateUserModal'>Edit User</button></td>
-        <td><button @click='toggleDeleteUserModal'>Delete User</button></td>
-      </tr>
-      <tr>
-        <td>9</td>
-        <td>4</td>
-        <td>Waverly</td>
-        <td>Wellbeloved</td>
-        <td>wwellbeloved8@sogou.com</td>
-        <td>096 Coleman Trail</td>
-        <td>NULL</td>
-        <td>Oklahoma City</td>
-        <td>Oklahoma</td>
-        <td><button @click='toggleUserWishListModal'>View Wish List</button></td>
-        <td><button @click='toggleUserRentalListModal'>View Rental List</button></td>
-        <td><button @click='toggleUpdateUserModal'>Edit User</button></td>
-        <td><button @click='toggleDeleteUserModal'>Delete User</button></td>
-      </tr>
-      <tr>
-        <td>10</td>
-        <td>4</td>
-        <td>Pauly</td>
-        <td>Guidotti</td>
-        <td>pguidotti9@ucoz.ru</td>
-        <td>347 Kropf Drive</td>
-        <td>NULL</td>
-        <td>Grand Rapids</td>
-        <td>Michigan</td>
-        <td><button @click='toggleUserWishListModal'>View Wish List</button></td>
-        <td><button @click='toggleUserRentalListModal'>View Rental List</button></td>
-        <td><button @click='toggleUpdateUserModal'>Edit User</button></td>
-        <td><button @click='toggleDeleteUserModal'>Delete User</button></td>
+      <tr v-for='(user, index) in state.users' :key='`user-${user.id}`'>
+        <td>{{ user.id }}</td>
+        <td>{{ user.user_role_id }}</td>
+        <td>{{ user.first_name }}</td>
+        <td>{{ user.last_name }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.address_line_1 }}</td>
+        <td>{{ user.address_line_2 }}</td>
+        <td>{{ user.city }}</td>
+        <td>{{ user.state }}</td>
+        <td>
+          <button @click='toggleUserWishListModal(index)'>View Wish List</button>
+        </td>
+        <td>
+          <button @click='toggleUserRentalListModal(index)'>View Rental List</button>
+        </td>
+        <td>
+          <button @click='toggleUpdateUserModal(index)'>Edit User</button>
+        </td>
+        <td>
+          <button @click='toggleDeleteUserModal(index)'>Delete User</button>
+        </td>
       </tr>
     </table>
   </div><!-- browse -->
 
-  <add-user-form :is-add-user-modal-active='state.isAddUserModalActive' @toggle-add-user-modal='toggleAddUserModal' />
-  <update-user-form :is-update-user-modal-active='state.isUpdateUserModalActive' @toggle-update-user-modal='toggleUpdateUserModal' />
-  <delete-user-form :is-delete-user-modal-active='state.isDeleteUserModalActive' @toggle-delete-user-modal='toggleDeleteUserModal' />
-  <user-wish-list :is-user-wish-list-modal-active='state.isUserWishListModalActive' @toggle-user-wish-list-modal='toggleUserWishListModal' />
-  <user-rental-list :is-user-rental-list-modal-active='state.isUserRentalListModalActive' @toggle-user-rental-list-modal='toggleUserRentalListModal' />
-
+  <add-user-form
+    :is-add-user-modal-active='state.isAddUserModalActive'
+    @toggle-add-user-modal='toggleAddUserModal'
+    @user-added='handleUserAdded' />
+  <update-user-form
+    :user='currentlySelectedUser'
+    :is-update-user-modal-active='state.isUpdateUserModalActive'
+    @toggle-update-user-modal='toggleUpdateUserModal'
+    @user-updated='handleUserUpdated' />
+  <delete-user-form
+    :user='currentlySelectedUser'
+    :is-delete-user-modal-active='state.isDeleteUserModalActive'
+    @toggle-delete-user-modal='toggleDeleteUserModal'
+    @user-deleted='handleUserDeleted' />
+  <user-wish-list
+    :user='currentlySelectedUser'
+    :is-user-wish-list-modal-active='state.isUserWishListModalActive'
+    @toggle-user-wish-list-modal='toggleUserWishListModal' />
+  <user-rental-list
+    :user='currentlySelectedUser'
+    :is-user-rental-list-modal-active='state.isUserRentalListModalActive'
+    @toggle-user-rental-list-modal='toggleUserRentalListModal' />
 </template>

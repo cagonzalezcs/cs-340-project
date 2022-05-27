@@ -35,19 +35,19 @@ const toggleDeleteBookModal = (bookIndex) => {
   state.isDeleteBookModalActive = !state.isDeleteBookModalActive;
 };
 
-function setBook(books) {
+function setBooks(books) {
   if (books?.length) {
     state.books = books;
   }
 }
 
-function setAuthor(authors) {
+function setAuthors(authors) {
   if (authors?.length) {
     state.authors = authors;
   }
 }
 
-function setGenre(genres) {
+function setGenres(genres) {
   if (genres?.length) {
     state.genres = genres;
   }
@@ -66,7 +66,7 @@ async function getBooks() {
     if (!data.length) {
       return;
     }
-    setBook(data);
+    setBooks(data);
   } catch (error) {
     console.error(error);
   }
@@ -85,7 +85,7 @@ async function getAuthors() {
     if (!authorData.length) {
       return;
     }
-    setAuthor(authorData);
+    setAuthors(authorData);
   } catch (error) {
     console.error(error);
   }
@@ -104,7 +104,7 @@ async function getGenres() {
     if (!genreData.length) {
       return;
     }
-    setGenre(genreData);
+    setGenres(genreData);
   } catch (error) {
     console.error(error);
   }
@@ -118,7 +118,7 @@ onMounted(() => {
 });
 
 const currentlySelectedBook = computed(() => {
-  if ( state.currentlySelectedBookIndex < 0) {
+  if (state.currentlySelectedBookIndex < 0) {
     return [];
   }
 
@@ -135,7 +135,7 @@ const handleBookDeleted = () => {
   state.currentlySelectedBookIndex = 0;
 };
 
-const handleBookUpdated = (updatedBook) => {
+const handleBookUpdated = () => {
   getBooks();
 };
 
@@ -165,7 +165,7 @@ const handleBookUpdated = (updatedBook) => {
           <button @click='toggleAddBookModal'>Add New Book</button>
         </th>
       </tr>
-      <tr v-for='(book, index) in state.books' :key='book.id'>
+      <tr v-for='(book, index) in state.books' :key='`book-${book.id}`'>
         <td> {{ book.id }}</td>
         <td> {{ book.title }}</td>
         <td> {{ book.authors }}</td>
@@ -197,7 +197,7 @@ const handleBookUpdated = (updatedBook) => {
     :authors='state.authors'
     :genres='state.genres'
     @toggle-update-book-modal='toggleUpdateBookModal'
-    @book-updated='handleBookUpdated'/>
+    @book-updated='handleBookUpdated' />
   <delete-book-form
     :is-delete-book-modal-active='state.isDeleteBookModalActive'
     :book='currentlySelectedBook'
