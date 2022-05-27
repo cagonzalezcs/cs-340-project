@@ -27,25 +27,16 @@ const getBook = async (bookId) => {
   if (!bookId) {
     throw 'Book Id is a required parameter to get a book';
   }
-  return await dbQuery('SELECT * FROM books WHERE books.id = ?', [bookId]);
+  return await dbQuery('SELECT * FROM books WHERE books.id = ? LIMIT 1', [bookId]);
 };
 
 
 // Create a new book
 const createBook = async (title, authors, genreId, isbn, coverImage, quantityAvailable, quantityRented) => {
   const newBook = await dbQuery(
-    `INSERT INTO books(title,
-                       genre_id,
-                       isbn,
-                       cover_image,
-                       quantity_available,
-                       quantity_rented)
-     VALUES (?,
-             ?,
-             ?,
-             ?,
-             ?,
-             ?)`, [title, genreId, isbn, coverImage, quantityAvailable, quantityRented],
+    `INSERT INTO books(title, genre_id, isbn, cover_image, quantity_available, quantity_rented)
+     VALUES (?, ?, ?, ?, ?, ?)`,
+    [title, genreId, isbn, coverImage, quantityAvailable, quantityRented],
   );
   const bookId = newBook.insertId;
   for (const authorName of authors) {
@@ -54,10 +45,9 @@ const createBook = async (title, authors, genreId, isbn, coverImage, quantityAva
     );
     const authorId = authorData[0].id;
     await dbQuery(
-      `INSERT INTO book_authors(book_id,
-                                author_id)
-       VALUES (?,
-               ?)`, [bookId, authorId],
+      `INSERT INTO book_authors(book_id, author_id)
+       VALUES (?, ?)`,
+      [bookId, authorId],
     );
   }
 };
@@ -100,7 +90,10 @@ const updateBook = async (bookId, title, genreId, isbn, coverImage, quantityAvai
     ],
   );
 
-  await dbQuery(`DELETE FROM book_authors WHERE book_id = ?`, [bookId]);
+  await dbQuery(`
+      DELETE
+      FROM book_authors
+      WHERE book_id = ?`, [bookId]);
 
   for (const authorName of authors) {
     const authorData = await dbQuery(
@@ -111,10 +104,9 @@ const updateBook = async (bookId, title, genreId, isbn, coverImage, quantityAvai
     const authorId = authorData[0].id;
 
     await dbQuery(
-      `INSERT INTO book_authors(book_id,
-                                author_id)
-       VALUES (?,
-               ?)`, [bookId, authorId],
+      `INSERT INTO book_authors(book_id, author_id)
+       VALUES (?, ?)`,
+      [bookId, authorId],
     );
   }
 };
@@ -127,4 +119,101 @@ const deleteBook = async (bookId) => {
   return await dbQuery('DELETE FROM books WHERE books.id = ?', [bookId]);
 };
 
-export { getAllBooks, createBook, getBook, updateBook, deleteBook };
+const searchBooksByTitle = async (bookTitle) => {
+  if (!bookTitle) {
+    throw 'Book title is a required parameter to search a book by title.';
+  }
+
+  return await dbQuery(
+    `SELECT books.id,
+            books.title,
+            (SELECT GROUP_CONCAT(authors.name SEPARATOR ', ')
+             FROM authors
+                      LEFT JOIN book_authors ON authors.id = book_authors.author_id
+             WHERE book_authors.book_id = books.id) AS "authors",
+            genres.name                             AS "genre",
+            books.isbn,
+            books.cover_image,
+            books.quantity_available,
+            books.quantity_rented
+     FROM books
+              LEFT JOIN genres ON books.genre_id = genres.id
+              LEFT JOIN book_authors ON books.id = book_authors.book_id
+              LEFT JOIN authors ON book_authors.author_id = authors.id
+     WHERE books.title LIKE ?
+     GROUP BY books.id
+     ORDER BY books.id
+    `,
+    [`%${ bookTitle }%`],
+  );
+};
+
+const searchBooksByGenre = async (genreId) => {
+  if (!genreId) {
+    throw 'Genre Id is a required parameter to search a book by genre.';
+  }
+
+  return await dbQuery(
+    `SELECT books.id,
+            books.title,
+            (SELECT GROUP_CONCAT(authors.name SEPARATOR ', ')
+             FROM authors
+                      LEFT JOIN book_authors ON authors.id = book_authors.author_id
+             WHERE book_authors.book_id = books.id) AS "authors",
+            genres.name                             AS "genre",
+            books.isbn,
+            books.cover_image,
+            books.quantity_available,
+            books.quantity_rented
+     FROM books
+              LEFT JOIN genres ON books.genre_id = genres.id
+              LEFT JOIN book_authors ON books.id = book_authors.book_id
+              LEFT JOIN authors ON book_authors.author_id = authors.id
+     WHERE books.genre_id = ?
+     GROUP BY books.id
+     ORDER BY books.id
+    `,
+    [genreId],
+  );
+};
+
+const searchBooksByAuthor = async (authorId) => {
+  if (!authorId) {
+    throw 'Author Id is a required parameter to search a book by author.';
+  }
+
+  return await dbQuery(
+    `SELECT books.id,
+            books.title,
+            (SELECT GROUP_CONCAT(authors.name SEPARATOR ', ')
+             FROM authors
+                      LEFT JOIN book_authors ON authors.id = book_authors.author_id
+             WHERE book_authors.book_id = books.id) AS "authors",
+            genres.name                        AS "genre",
+            books.isbn,
+            books.cover_image,
+            books.quantity_available,
+            books.quantity_rented
+     FROM books
+              LEFT JOIN genres ON books.genre_id = genres.id
+              LEFT JOIN book_authors ON books.id = book_authors.book_id
+              LEFT JOIN authors ON book_authors.author_id = authors.id
+     WHERE book_authors.author_id = ?
+     GROUP BY books.id
+     ORDER BY books.id
+    `,
+    [authorId],
+  );
+};
+
+
+export {
+  getAllBooks,
+  createBook,
+  getBook,
+  updateBook,
+  deleteBook,
+  searchBooksByTitle,
+  searchBooksByGenre,
+  searchBooksByAuthor,
+};

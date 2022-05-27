@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, watch, ref } from 'vue';
+import { reactive, watch } from 'vue';
 import AppModal from '../../components/AppModal.vue';
 
 const props = defineProps({

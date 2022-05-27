@@ -87,8 +87,7 @@ const routes = [
     component: SearchBooksPage,
   },
   {
-    // path: '/:pathMatch(.*)*',
-    path: '/testing',
+    path: '/:pathMatch(.*)*',
     name: 'Not Found',
     component: NotFoundPage,
   },

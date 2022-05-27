@@ -20,7 +20,7 @@ const toggleRemoveFromWishListModal = () => {
 <template>
   <div id='wishLists'>
     <h1>All Wish Lists</h1>
-    <router-link to='/admin/users' style='margin-right: 10px'>Back to Users</router-link>
+    <router-link to='/admin/users' style='margin-bottom:20px; display:inline-block; font-size: 18px; font-weight: bold;'>Back to Users</router-link>
     <br />
   </div>
   <div id='browseWishLists'>
