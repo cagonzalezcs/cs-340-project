@@ -1,6 +1,7 @@
 <script setup>
 import { reactive } from 'vue';
 import AppModal from '../../components/AppModal.vue';
+import { getAuthToken } from '../../utils/cookies';
 
 const baseUrl = import.meta.env.VITE_SERVER_URI;
 const userUrl = `${ baseUrl }users`;
@@ -36,6 +37,7 @@ const addUser = async () => {
       body: JSON.stringify(state.newUser),
       headers: {
         'Content-type': 'application/json',
+        Authorization: `Bearer ${ getAuthToken() }`,
       },
     });
 

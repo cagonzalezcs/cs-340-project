@@ -1,6 +1,7 @@
 <script setup>
 import { reactive, watch } from 'vue';
 import AppModal from '../../components/AppModal.vue';
+import { getAuthToken } from '../../utils/cookies';
 
 const props = defineProps({
   isUpdateBookModalActive: Boolean,
@@ -60,6 +61,7 @@ const updateBook = async () => {
       body: JSON.stringify(bookUpdates),
       headers: {
         'Content-type': 'application/json',
+        Authorization: `Bearer ${ getAuthToken() }`,
       }
     });
 

@@ -1,7 +1,12 @@
 <script setup>
-import { reactive } from 'vue';
+import { reactive, onMounted } from 'vue';
+import { checkUserIsAdmin } from '../../router/middleware';
 import ViewWishList from '../../components/wish-lists/ViewWishList.vue';
 import RemoveFromWishList from '../../components/wish-lists/RemoveFromWishList.vue';
+
+onMounted(async () => {
+  await checkUserIsAdmin();
+});
 
 let state = reactive({
   isViewWishListModalActive: false,

@@ -1,6 +1,7 @@
 <script setup>
 import AppModal from '../../components/AppModal.vue';
 import { reactive, watch } from 'vue';
+import { getAuthToken } from '../../utils/cookies';
 
 const props = defineProps({
   'isEditRoleModalActive': Boolean,
@@ -38,6 +39,7 @@ const updateUserRole = async () => {
       body: JSON.stringify(userRoleUpdates),
       headers: {
         'Content-type': 'application/json',
+        Authorization: `Bearer ${ getAuthToken() }`,
       },
     });
 

@@ -1,6 +1,7 @@
 <script setup>
 import { reactive } from 'vue';
 import AppModal from '../../components/AppModal.vue';
+import { getAuthToken } from '../../utils/cookies';
 
 const baseUrl = import.meta.env.VITE_SERVER_URI;
 const authorUrl = `${ baseUrl }authors`; 
@@ -28,12 +29,13 @@ const addAuthor = async () => {
       method: 'POST', 
       body: JSON.stringify(state.newAuthor), 
       headers: {
-        'Content-type': 'application/json'
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${ getAuthToken() }`,
       },
     });
     if (response.status !== 200) {
-      alert('There was an error adding this Author. Please try again later.')
-      return
+      alert('There was an error adding this Author. Please try again later.');
+      return;
     }
     alert('Success!');
     emit('authorAdded');
@@ -43,7 +45,7 @@ const addAuthor = async () => {
     };
     toggleAddAuthorModal();
   } catch(error) {
-    console.error(error)
+    console.error(error);
   }
 };
 

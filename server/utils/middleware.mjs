@@ -4,12 +4,20 @@
  */
 
 import jwt from 'jsonwebtoken';
+import { decryptString } from './encryption.mjs';
+import { isAdminUser, isCustomerUser } from './../../global-utils/auth.mjs';
 
 const checkAuthToken = (request, response, next) => {
+  console.log('uh');
   const authHeader = request.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
+  if (!authHeader) {
+    return response.sendStatus(401);
+  }
 
-  if (token === null) {
+  const encryptedToken = authHeader.split(' ')[1];
+  const token = decryptString(encryptedToken);
+
+  if (!token) {
     return response.sendStatus(401);
   }
 
@@ -25,13 +33,23 @@ const checkAuthToken = (request, response, next) => {
 };
 
 const checkAdminAuth = (request, response, next) => {
-  const user = request.user;
+  const userData = request.user.user_data;
 
-  if (user?.user_role_id !== 1) {
+  if (!isAdminUser(userData?.user_role_id)) {
     return response.sendStatus(401);
   }
 
   next();
 };
 
-export { checkAuthToken, checkAdminAuth };
+const checkIsCurrentCustomer = (request, response, next) => {
+  const userId = request.params.userId;
+
+  if (isCustomerUser(userData?.user_role_id) && userData?.id !== userId) {
+    return response.sendStatus(401);
+  }
+
+  next();
+};
+
+export { checkAuthToken, checkAdminAuth, checkIsCurrentCustomer };

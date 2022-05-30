@@ -1,6 +1,7 @@
 <script setup>
 import { reactive, watch } from 'vue';
 import AppModal from '../../components/AppModal.vue';
+import { getAuthToken } from '../../utils/cookies';
 
 const props = defineProps({
   isEditGenreModalActive: Boolean,
@@ -36,10 +37,11 @@ const updateGenre = async () => {
       body: JSON.stringify(genreUpdates), 
       headers: {
         'Content-type': 'application/json',
+        Authorization: `Bearer ${ getAuthToken() }`,
       }
     });
     if (response.status !== 200) {
-      alert('ERROR: Something went wrong updating this genre.')
+      alert('ERROR: Something went wrong updating this genre.');
       return;
     }
     alert('Success!');

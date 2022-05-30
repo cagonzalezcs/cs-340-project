@@ -1,4 +1,11 @@
-<script setup></script>
+<script setup>
+import { onMounted } from 'vue';
+import { checkUserIsCustomer } from '../../router/middleware.js';
+
+onMounted(async () => {
+  await checkUserIsCustomer();
+});
+</script>
 
 <template>
   <div class='customer-wish-list-page'>

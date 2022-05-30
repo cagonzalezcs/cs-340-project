@@ -1,15 +1,22 @@
 <script setup>
 import { reactive, onMounted, computed } from 'vue';
+import { checkUserIsAdmin } from '../../router/middleware';
 import AddRoleForm from '../../components/roles/AddRoleForm.vue';
 import EditRoleForm from '../../components/roles/EditRoleForm.vue';
 import DeleteRoleForm from '../../components/roles/DeleteRoleForm.vue';
+import { getAuthToken } from '../../utils/cookies';
+
+onMounted(async () => {
+  await checkUserIsAdmin();
+  await getUserRoles();
+});
 
 let state = reactive({
   isAddRoleModalActive: false,
   isEditRoleModalActive: false,
   isDeleteRoleModalActive: false,
   userRoles: [],
-  currentlySelectedUserRoleIndex: 0
+  currentlySelectedUserRoleIndex: 0,
 });
 
 const baseUrl = import.meta.env.VITE_SERVER_URI;
@@ -47,6 +54,7 @@ const getUserRoles = async () => {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
+        Authorization: `Bearer ${ getAuthToken() }`,
       },
     });
     const data = await response.json();
@@ -58,10 +66,6 @@ const getUserRoles = async () => {
     console.error(error);
   }
 };
-
-onMounted(async () => {
-  await getUserRoles();
-});
 
 const currentlySelectedUserRole = computed(() => {
   if (state.currentlySelectedUserRoleIndex < 0) {
@@ -101,7 +105,7 @@ const handleUserRoleDeleted = () => {
       </tr>
       <tr v-for='(userRole, index) in state.userRoles' :key='`user-role-${userRole.id}`'>
         <td>{{ userRole.id }}</td>
-        <td>{{ userRole.type}}</td>
+        <td>{{ userRole.type }}</td>
         <td>
           <button @click='toggleEditRoleModal(index)'>Edit Role</button>
         </td>

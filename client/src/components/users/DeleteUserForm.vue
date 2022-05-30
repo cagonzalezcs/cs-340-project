@@ -1,5 +1,6 @@
 <script setup>
 import AppModal from '../../components/AppModal.vue';
+import { getAuthToken } from '../../utils/cookies';
 const props = defineProps({
   'isDeleteUserModalActive': Boolean,
   user: { type: Object, default: null, required: false },
@@ -17,6 +18,7 @@ const deleteUser = async () => {
         method: 'DELETE',
         headers: {
           'Content-type': 'application/json',
+          Authorization: `Bearer ${ getAuthToken() }`,
         },
       });
 

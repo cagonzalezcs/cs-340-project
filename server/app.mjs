@@ -7,7 +7,7 @@ import morgan from 'morgan';
 import session from 'express-session';
 import MySQLSession from 'express-mysql-session';
 import { cookieOptions } from './utils/cookies.mjs';
-// import authRouter from './routes/auth.mjs';
+import authRouter from './routes/auth.mjs';
 import usersRouter from './routes/users.mjs';
 import userRolesRouter from './routes/user-roles.mjs';
 import booksRouter from './routes/books.mjs';
@@ -44,7 +44,7 @@ router.use(
 
 router.use(express.json());
 
-// router.use('/auth', authRouter);
+router.use('/auth', authRouter);
 
 router.use('/users', usersRouter);
 

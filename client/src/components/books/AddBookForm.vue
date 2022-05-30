@@ -1,6 +1,7 @@
 <script setup>
 import { reactive } from 'vue';
 import AppModal from '../../components/AppModal.vue';
+import { getAuthToken } from '../../utils/cookies';
 
 const baseUrl = import.meta.env.VITE_SERVER_URI;
 const bookUrl = `${ baseUrl }books`;
@@ -43,6 +44,7 @@ const addBook = async () => {
       body: JSON.stringify(state.newBook),
       headers: {
         'Content-type': 'application/json',
+        Authorization: `Bearer ${ getAuthToken() }`,
       },
     });
 

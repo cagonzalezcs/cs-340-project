@@ -1,4 +1,5 @@
 import { dbQuery } from '../db/db-connection.mjs';
+import { encryptString, decryptString } from '../utils/encryption.mjs';
 
 const getAllUsers = async () => {
   return await dbQuery(
@@ -17,28 +18,28 @@ const getAllUsers = async () => {
   );
 };
 
-const getUser = async (userId, withPassword = false) => {
+const getUserById = async (userId, withPassword = false) => {
   if (!userId) {
     throw 'User id is a required parameter to get a user';
   }
 
   if (withPassword) {
     return await dbQuery(`SELECT users.id,
-                               users.user_role_id,
-                               users.first_name,
-                               users.last_name,
-                               users.email,
-                               users.address_line_1,
-                               users.address_line_2,
-                               users.city,
-                               users.state,
-                               users.password,
-                               users.password_updated_at,
-                               users.created_at,
-                               users.updated_at
-                        FROM users
-                        WHERE users.id = ?
-                        LIMIT 1`, [userId]);
+                                 users.user_role_id,
+                                 users.first_name,
+                                 users.last_name,
+                                 users.email,
+                                 users.address_line_1,
+                                 users.address_line_2,
+                                 users.city,
+                                 users.state,
+                                 users.password,
+                                 users.password_updated_at,
+                                 users.created_at,
+                                 users.updated_at
+                          FROM users
+                          WHERE users.id = ?
+                          LIMIT 1`, [userId]);
   }
 
   return await dbQuery(`SELECT users.id,
@@ -57,12 +58,72 @@ const getUser = async (userId, withPassword = false) => {
                         LIMIT 1`, [userId]);
 };
 
+const getUserByEmail = async (userEmail, withPassword = false) => {
+  if (!userEmail) {
+    throw 'User email required to get a user';
+  }
+
+  if (withPassword) {
+    return await dbQuery(`SELECT users.id,
+                                 users.user_role_id,
+                                 users.first_name,
+                                 users.last_name,
+                                 users.email,
+                                 users.address_line_1,
+                                 users.address_line_2,
+                                 users.city,
+                                 users.state,
+                                 users.password,
+                                 users.password_updated_at,
+                                 users.created_at,
+                                 users.updated_at
+                          FROM users
+                          WHERE users.email = ?
+                          LIMIT 1`, [userEmail]);
+  }
+
+  return await dbQuery(`SELECT users.id,
+                               users.user_role_id,
+                               users.first_name,
+                               users.last_name,
+                               users.email,
+                               users.address_line_1,
+                               users.address_line_2,
+                               users.city,
+                               users.state
+                        FROM users
+                        WHERE users.email = ?
+                        LIMIT 1`, [userEmail]);
+};
+
+const getUserByPassword = async (userEmail, userPassword) => {
+  if (!userEmail || !userPassword) {
+    throw 'User email and user password required to get a user';
+  }
+
+  let foundUser = await getUserByEmail(userEmail, true);
+  foundUser = foundUser[0];
+
+  if (!foundUser) {
+    return;
+  }
+
+  const decryptedPassword = decryptString(foundUser.password);
+  if (decryptedPassword !== userPassword) {
+    return;
+  }
+
+  return foundUser;
+};
+
 const createUser = async (userRoleId, firstName, lastName, email, addressLine1, addressLine2, city, state, password) => {
+  const encryptedPassword = encryptString(password);
+
   await dbQuery(
     `INSERT INTO users(user_role_id, first_name, last_name, email, address_line_1, address_line_2, city, state,
                        password)
      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-    [userRoleId, firstName, lastName, email, addressLine1, addressLine2, city, state, password],
+    [userRoleId, firstName, lastName, email, addressLine1, addressLine2, city, state, encryptedPassword],
   );
 };
 
@@ -71,7 +132,7 @@ const updateUser = async (userId, userRoleId, firstName, lastName, email, addres
     throw 'User id is a required parameter to update a user.';
   }
 
-  let userRecord = await getUser(userId, true);
+  let userRecord = await getUserById(userId, true);
   userRecord = userRecord[0];
   if (!userRecord) {
     throw 'User not found, unable to update user';
@@ -85,7 +146,7 @@ const updateUser = async (userId, userRoleId, firstName, lastName, email, addres
   const updatedAddressLine2 = addressLine2 || userRecord.address_line_2;
   const updatedCity = city || userRecord.city;
   const updatedState = state || userRecord.state;
-  const updatedPassword = password || userRecord.password;
+  const updatedPassword = password ? encryptString(password) : userRecord.password;
 
   await dbQuery(
     `UPDATE users
@@ -122,4 +183,4 @@ const deleteUser = async (userId) => {
   return await dbQuery('DELETE FROM users WHERE users.id = ?', [userId]);
 };
 
-export { getAllUsers, getUser, createUser, updateUser, deleteUser };
+export { getAllUsers, getUserById, getUserByEmail, getUserByPassword, createUser, updateUser, deleteUser };

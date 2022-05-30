@@ -1,10 +1,18 @@
 <script setup>
 import { reactive, onMounted, computed } from 'vue';
+import { checkUserIsAdmin } from '../../router/middleware';
 import AddUserForm from '../../components/users/AddUserForm.vue';
 import UpdateUserForm from '../../components/users/UpdateUserForm.vue';
 import DeleteUserForm from '../../components/users/DeleteUserForm.vue';
 import UserWishList from '../../components/users/UserWishList.vue';
 import UserRentalList from '../../components/users/UserRentalList.vue';
+import { getAuthToken } from '../../utils/cookies';
+
+onMounted(async () => {
+  await checkUserIsAdmin();
+  await getUsers();
+  await getUserRoles();
+});
 
 let state = reactive({
   isAddUserModalActive: false,
@@ -74,6 +82,7 @@ const getUsers = async () => {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
+        Authorization: `Bearer ${ getAuthToken() }`,
       },
     });
     const data = await response.json();
@@ -93,6 +102,7 @@ const getUserRoles = async () => {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
+        Authorization: `Bearer ${ getAuthToken() }`,
       },
     });
     const data = await response.json();
@@ -104,11 +114,6 @@ const getUserRoles = async () => {
     console.error(error);
   }
 };
-
-onMounted(async () => {
-  await getUsers();
-  await getUserRoles();
-});
 
 const currentlySelectedUser = computed(() => {
   if (state.currentlySelectedUserIndex < 0) {
@@ -136,8 +141,15 @@ const handleUserDeleted = () => {
 <template>
   <div>
     <h1>Users</h1>
-    <router-link to='/admin/rental-lists' style='margin-right: 15px; margin-bottom:20px; display:inline-block; font-size: 18px; font-weight: bold;'>View Rental Lists</router-link>
-    <router-link to='/admin/wish-lists' style='margin-bottom:20px; display:inline-block; font-size: 18px; font-weight: bold;'>View Wish Lists</router-link>
+    <router-link
+to='/admin/rental-lists'
+                 style='margin-right: 15px; margin-bottom:20px; display:inline-block; font-size: 18px; font-weight: bold;'>
+      View Rental Lists
+    </router-link>
+    <router-link
+to='/admin/wish-lists'
+                 style='margin-bottom:20px; display:inline-block; font-size: 18px; font-weight: bold;'>View Wish Lists
+    </router-link>
     <br />
   </div>
   <div id='browse'>

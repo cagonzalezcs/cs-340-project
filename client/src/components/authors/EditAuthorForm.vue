@@ -1,19 +1,23 @@
 <script setup>
 import { reactive, watch } from 'vue';
 import AppModal from '../../components/AppModal.vue';
+import { getAuthToken } from '../../utils/cookies';
 
 const props = defineProps({
   'isEditAuthorModalActive': Boolean,
-  author: { type: Object, default: () => {}, required: false }
+  author: {
+    type: Object, default: () => {
+    }, required: false,
+  },
 });
 
 const emit = defineEmits(['toggleEditAuthorModal', 'authorUpdated']);
 
 const state = reactive({
   updatedAuthor: {
-    name: '', 
+    name: '',
     birth_date: '',
-  }
+  },
 });
 
 watch(() => props.isEditAuthorModalActive, async () => {
@@ -21,9 +25,9 @@ watch(() => props.isEditAuthorModalActive, async () => {
     return;
   }
   state.updatedAuthor = {
-    name: props.author.name, 
+    name: props.author.name,
     birth_date: props.author.birth_date,
-  }
+  };
 });
 
 const toggleEditAuthorModal = () => {
@@ -34,18 +38,19 @@ const updateAuthor = async () => {
   try {
     const authorUpdates = state.updatedAuthor;
     const response = await fetch(`${ import.meta.env.VITE_SERVER_URI }authors/${ props.author.id }`, {
-      method: 'PUT', 
+      method: 'PUT',
       body: JSON.stringify(authorUpdates),
       headers: {
         'Content-type': 'application/json',
-      }
+        Authorization: `Bearer ${ getAuthToken() }`,
+      },
     });
     if (response.status !== 200) {
-      alert('ERROR: Something went wrong updated this author.')
+      alert('ERROR: Something went wrong updated this author.');
       return;
     }
     alert('Success!');
-    emit('authorUpdated', {...state.updatedAuthor, id: props.author.id});
+    emit('authorUpdated', { ...state.updatedAuthor, id: props.author.id });
     toggleEditAuthorModal();
   } catch (error) {
     console.error(error);

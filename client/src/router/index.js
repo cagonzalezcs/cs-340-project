@@ -27,11 +27,6 @@ const routes = [
     component: RegisterPage,
   },
   {
-    path: '/forgot-password',
-    name: 'Forgot Password',
-    component: ForgotPassword,
-  },
-  {
     path: '/rental-list',
     name: 'Customer Rental List',
     component: CustomerRentalListPage,

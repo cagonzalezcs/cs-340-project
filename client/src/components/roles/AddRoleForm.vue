@@ -1,6 +1,7 @@
 <script setup>
 import { reactive } from 'vue';
 import AppModal from '../../components/AppModal.vue';
+import { getAuthToken } from '../../utils/cookies';
 const props = defineProps({
   'isAddRoleModalActive': Boolean,
 });
@@ -30,6 +31,7 @@ const addUserRole = async () => {
       body: JSON.stringify(state.newUserRole),
       headers: {
         'Content-type': 'application/json',
+        Authorization: `Bearer ${ getAuthToken() }`,
       },
     });
 
