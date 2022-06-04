@@ -7,8 +7,7 @@ import AppNavigationCustomer from './AppNavigationCustomer.vue';
 const user = useUserStore();
 
 async function logUserOut() {
-  user.logout();
-
+  await user.logout();
   await router.push('/');
 }
 </script>

@@ -1,22 +1,45 @@
 <script setup>
+import { onMounted, reactive } from 'vue';
 import router from '../../router';
+import { checkUserIsLoggedOut } from '../../router/middleware.js';
 import { useUserStore } from '../../stores/user';
+
+onMounted(async () => {
+  await checkUserIsLoggedOut();
+});
 
 const user = useUserStore();
 
-async function onSubmit(formData) {
-  if (!formData.target.elements.email.value) {
+const form = reactive({
+  email: '',
+  password: '',
+});
+
+async function onSubmit() {
+  if (!form.email || !form.password) {
+    alert('Username and password required to log in.');
     return;
   }
 
-  user.login(formData.target.elements.email.value);
+  const userLoginData = {
+    email: form.email,
+    password: form.password,
+  };
+  const isLoginSuccessful = await user.login(userLoginData);
+  form.email = '';
+  form.password = '';
+
+  if (!isLoginSuccessful) {
+    alert('A user with those credentials was not found.');
+    return;
+  }
 
   if (user.isAdmin) {
-    await router.push({ path: '/admin/users'});
+    await router.push({ path: '/admin/users' });
     return;
   }
 
-  await router.push({ path: '/rental-list'});
+  await router.push({ path: '/rental-list' });
 }
 </script>
 
@@ -27,21 +50,21 @@ async function onSubmit(formData) {
         Welcome to Novel Pursuits!
       </h1>
 
-      <form action='#' class='login-form' @submit.prevent='onSubmit'>
+      <form action='#' class='login-form' @submit.prevent>
         <fieldset class='login-form__fields'>
           <label for='login-email' class='login-form__label'>
-            <span class='login-form__label-text'>Email Address**</span>
-            <input id='login-email' type='email' name='email' class='login-form__input' value='admin@admin.com' />
-            <small class='login-form__temp-note'>**Note: In this mockup, use the email <em>"admin@admin.com"</em> to access the admin route. Use any other email to access the customer route.</small>
+            <span class='login-form__label-text'>Email Address*</span>
+            <input id='login-email' v-model='form.email' type='email' name='email' class='login-form__input' required />
+            <small class='login-form__temp-note'>admin user: admin@admin.com <br> admin password: adminpassword <br><br> customer user: customer@customer.com <br> customer password: customerpassword</small>
           </label>
 
           <label for='login-password' class='login-form__label'>
-            <span class='login-form__label-text'>Password**</span>
-            <input id='login-password' type='password' name='password' class='login-form__input'>
-            <small class='login-form__temp-note'>**Note: For now this can be any value, auth validation has yet to be implemented.</small>
+            <span class='login-form__label-text'>Password*</span>
+            <input
+id='login-password' v-model='form.password' type='password' name='password'
+                   class='login-form__input'>
           </label>
-          <input type='submit' value='Login' class='login-form__submit'>
-          <router-link to='/forgot-password' class='app-navigation__link'>I forgot my password.</router-link>
+          <input type='submit' value='Login' class='login-form__submit' required @click='onSubmit'>
         </fieldset>
       </form>
       <router-link to='/register' class='app-navigation__link'>Need an account? Create one now!</router-link>

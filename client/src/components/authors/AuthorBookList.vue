@@ -1,17 +1,20 @@
 <script setup>
 import { reactive, watch } from 'vue';
 import AppModal from '../../components/AppModal.vue';
+import { getAuthToken } from '../../utils/cookies';
 
 const baseUrl = import.meta.env.VITE_SERVER_URI;
-const authorBooksUrl = `${ baseUrl }authors/books`;
 
 let state = reactive({
-  booksByAuthor: []
-})
+  booksByAuthor: [],
+});
 
 const props = defineProps({
   'isAuthorBookListModalActive': Boolean,
-  author: { type: Object, default: () => {}, required: false}, 
+  author: {
+    type: Object, default: () => {
+    }, required: false,
+  },
 });
 
 const emit = defineEmits(['toggleAuthorBookListModal']);
@@ -22,20 +25,21 @@ const toggleAuthorBookListModal = () => {
 
 function setBooksByAuthor(books) {
   if (books?.length) {
-    state.booksByAuthor = books
+    state.booksByAuthor = books;
   }
 }
 
 watch(() => props.isAuthorBookListModalActive, async () => {
   if (!props.isAuthorBookListModalActive) {
-    return 
+    return;
   }
-  let authorId = props.author.id
+  let authorId = props.author.id;
   try {
     const response = await fetch(`${ baseUrl }authors/books/${ authorId }`, {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
+        Authorization: `Bearer ${ getAuthToken() }`,
       },
     });
     const data = await response.json();
@@ -43,8 +47,8 @@ watch(() => props.isAuthorBookListModalActive, async () => {
       return;
     }
     setBooksByAuthor(data);
-  } catch(error) {
-    console.error(error)
+  } catch (error) {
+    console.error(error);
   }
 });
 

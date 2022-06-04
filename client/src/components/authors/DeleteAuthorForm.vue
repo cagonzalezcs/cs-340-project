@@ -1,5 +1,6 @@
 <script setup>
 import AppModal from '../../components/AppModal.vue';
+import { getAuthToken } from '../../utils/cookies';
 
 const props = defineProps({
   'isDeleteAuthorModalActive': Boolean,
@@ -19,6 +20,7 @@ const deleteAuthor = async () => {
       method: 'DELETE', 
       headers: {
         'Content-type': 'application/json',
+        Authorization: `Bearer ${ getAuthToken() }`,
       },
     });
     if (response.status !== 200) {

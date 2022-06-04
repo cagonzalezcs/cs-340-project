@@ -1,4 +1,11 @@
-<script setup></script>
+<script setup>
+import { onMounted } from 'vue';
+import { checkUserIsLoggedOut } from '../../router/middleware.js';
+
+onMounted(async () => {
+  await checkUserIsLoggedOut();
+});
+</script>
 
 <template>
   <div class='forgot-password-page'>
@@ -12,7 +19,7 @@
           <label for='forgot-password-email' class='forgot-password-form__label'>
             <span class='forgot-password-form__label-text'>Email Address**</span>
             <input id='forgot-password-email' type='text' name='email' class='forgot-password-form__input' />
-            <small class='forgot-password-form__temp-note'>**Note: This currently does nothing</small>
+            <small class='forgot-password-form__temp-note'>**Note: This currently does nothing. If we were running requests through a email server, it would send a password reset link to the user that would allow the user to reset the password. This is out of the scope of hte p </small>
           </label>
 
           <input type='submit' value='Send Reset Password Link' class='forgot-password-form__submit'>

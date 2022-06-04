@@ -1,6 +1,7 @@
 <script setup>
 import { reactive } from 'vue';
 import AppModal from '../../components/AppModal.vue';
+import { getAuthToken } from '../../utils/cookies';
 
 const baseUrl = import.meta.env.VITE_SERVER_URI;
 const genreUrl = `${ baseUrl }genres`;
@@ -12,7 +13,7 @@ const emit = defineEmits(['toggleAddGenreModal', 'genreAdded']);
 const state = reactive({
   newGenre: {
     name: '',
-  }
+  },
 });
 
 const toggleAddGenreModal = () => {
@@ -22,24 +23,25 @@ const toggleAddGenreModal = () => {
 const addGenre = async () => {
   try {
     const response = await fetch(genreUrl, {
-      method: 'POST', 
-      body: JSON.stringify(state.newGenre), 
+      method: 'POST',
+      body: JSON.stringify(state.newGenre),
       headers: {
-        'Content-type': 'application/json'
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${ getAuthToken() }`,
       },
     });
     if (response.status !== 200) {
       alert('There was an error adding this Genre. Please try again later.');
-      return 
+      return;
     }
     alert('Success!');
     emit('genreAdded');
     state.newGenre = {
-      name: ''
+      name: '',
     };
     toggleAddGenreModal();
-  } catch(error) {
-    console.error(error)
+  } catch (error) {
+    console.error(error);
   }
 };
 

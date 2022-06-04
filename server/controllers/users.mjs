@@ -9,10 +9,10 @@ const getAllUsers = async (request, response) => {
   }
 };
 
-const getUser = async (request, response) => {
+const getUserById = async (request, response) => {
   try {
     const userId = request.params.userId;
-    const user = await usersModel.getUser(userId);
+    const user = await usersModel.getUserById(userId);
     response.json(user);
   } catch (error) {
     response.status(500).json({ error });
@@ -34,6 +34,33 @@ const createUser = async (request, response) => {
       newUserData.password,
     );
     response.json({ message: 'User has been successfully created.' });
+  } catch (error) {
+    response.status(500).json({ error });
+  }
+};
+
+const registerUser = async (request, response) => {
+  try {
+    const newUserData = request.body;
+
+    const existingUser = await usersModel.getUserByEmail(newUserData.email);
+
+    if (existingUser.length) {
+      return response.status(422).json({ message: 'A user with that email already exists, try a different email address.' });
+    }
+
+    await usersModel.createUser(
+      4,
+      newUserData.first_name,
+      newUserData.last_name,
+      newUserData.email,
+      newUserData.address_line_1,
+      newUserData.address_line_2,
+      newUserData.city,
+      newUserData.state,
+      newUserData.password,
+    );
+    response.json({ message: 'User has been successfully registered.' });
   } catch (error) {
     response.status(500).json({ error });
   }
@@ -66,10 +93,11 @@ const deleteUser = async (request, response) => {
   try {
     const userId = request.params.userId;
     await usersModel.deleteUser(userId);
-    response.json({ message: 'User has been successfully deleted'});
+    response.json({ message: 'User has been successfully deleted' });
   } catch (error) {
     response.status(500).json({ error });
   }
-}
+};
 
-export { getAllUsers, getUser, createUser, updateUser, deleteUser };
+
+export { getAllUsers, getUserById, createUser, registerUser, updateUser, deleteUser };

@@ -1,21 +1,48 @@
 import router from './index';
 import { useUserStore } from '../stores/user';
 
-const checkUserAuth = async (newRoute) => {
-  const user = useUserStore();
-  const authRoutes = ['/', '/register', '/forgot-password'];
-
-  if (!user.isLoggedIn && !authRoutes.includes(newRoute.path)) {
-    return await router.push('/');
+const checkUserIsLoggedIn = async (isLoggedIn) => {
+  if (isLoggedIn) {
+    return;
   }
 
-  if (user.isLoggedIn && authRoutes.includes(newRoute.path)) {
-    if (user.isAdmin) {
-      return await router.push('/admin/users');
-    }
-
-    return await router.push('/rental-list');
-  }
+  await router.push('/');
 };
 
-export default checkUserAuth;
+const checkUserIsCustomer = async () => {
+  const user = useUserStore();
+  checkUserIsLoggedIn(user.isLoggedIn);
+
+  if (!user.isAdmin) {
+    return;
+  }
+
+  await router.push('/admin/users');
+};
+
+const checkUserIsAdmin = async () => {
+  const user = useUserStore();
+  checkUserIsLoggedIn(user.isLoggedIn);
+
+  if (user.isAdmin) {
+    return;
+  }
+
+  await router.push('/rental-list');
+};
+
+const checkUserIsLoggedOut = async () => {
+  const user = useUserStore();
+
+  if (!user.isLoggedIn) {
+    return;
+  }
+
+  if (user.isAdmin) {
+    return await router.push('/admin/users');
+  }
+
+  await router.push('/rental-list');
+};
+
+export { checkUserIsCustomer, checkUserIsAdmin, checkUserIsLoggedOut };

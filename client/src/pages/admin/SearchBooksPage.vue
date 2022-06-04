@@ -1,6 +1,14 @@
 <script setup>
 import { reactive, onMounted } from 'vue';
+import { checkUserIsAdmin } from '../../router/middleware';
 import SearchBookResults from '../../components/books/SearchBookResults.vue';
+import { getAuthToken } from '../../utils/cookies';
+
+onMounted(async () => {
+  await checkUserIsAdmin();
+  await getAuthors();
+  await getGenres();
+});
 
 let state = reactive({
   isBooksResultsModalActive: false,
@@ -45,6 +53,7 @@ async function getAuthors() {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
+        Authorization: `Bearer ${ getAuthToken() }`,
       },
     });
     const authorData = await responseAuthors.json();
@@ -64,6 +73,7 @@ async function getGenres() {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
+        Authorization: `Bearer ${ getAuthToken() }`,
       },
     });
     const genreData = await responseGenres.json();
@@ -88,6 +98,7 @@ const searchByTitle = async () => {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
+        Authorization: `Bearer ${ getAuthToken() }`,
       },
     });
     const bookData = await response.json();
@@ -110,6 +121,7 @@ const searchByAuthor = async () => {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
+        Authorization: `Bearer ${ getAuthToken() }`,
       },
     });
     const bookData = await response.json();
@@ -131,6 +143,7 @@ const searchByGenre = async () => {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
+        Authorization: `Bearer ${ getAuthToken() }`,
       },
     });
     const bookData = await response.json();
@@ -144,11 +157,6 @@ const searchByGenre = async () => {
     console.error(error);
   }
 };
-
-onMounted(async () => {
-  await getAuthors();
-  await getGenres();
-});
 </script>
 
 <template>

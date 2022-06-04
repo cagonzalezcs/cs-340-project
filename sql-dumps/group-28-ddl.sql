@@ -158,7 +158,7 @@ CREATE TABLE wish_list_books (
 -- Insert Authors
 -- 
 
-INSERT INTO authors (name, birth_date) 
+INSERT INTO authors (name, birth_date)
 VALUES ('Adiana Pavlishchev', '2020-07-11'),
 ('Perren Benzi', '2020-11-16'),
 ('Berne Yele', '2019-03-22'),
@@ -171,7 +171,7 @@ VALUES ('Adiana Pavlishchev', '2020-07-11'),
 -- Insert Genres
 -- 
 
-INSERT INTO genres (name) 
+INSERT INTO genres (name)
 VALUES ('Non-Ficton'),
 ('Fiction'),
 ('Horror'),
@@ -184,7 +184,7 @@ VALUES ('Non-Ficton'),
 -- Insert Books
 -- 
 
-INSERT INTO books (title, genre_id, isbn, cover_image, quantity_available, quantity_rented) 
+INSERT INTO books (title, genre_id, isbn, cover_image, quantity_available, quantity_rented)
 VALUES ('lobortis vel dapibus at diam nam tristique tortor eu', 4, '488010340-3', 'http://dummyimage.com/220x.png/dddddd/000000', 13, 10),
 ('bibendum imperdiet nullam orci pede venenatis non sodales sed', 1, '255899754-8', 'http://dummyimage.com/167x.png/5fa2dd/ffffff', 15, 9),
 ('nisi venenatis tristique fusce', 3, '930917083-2', 'http://dummyimage.com/222x.png/cc0000/ffffff', 17, 11),
@@ -234,17 +234,17 @@ VALUES ('admin'),
 -- Insert User
 -- 
 
-INSERT INTO users (user_role_id, first_name, last_name, email, address_line_1, address_line_2, city, state, password) 
-VALUES (1, 'Baryram', 'Basil', 'bbasil0@thetimes.co.uk', '6 Farwell Trail', NULL, 'New York City', 'New York', 'ai2lYKdzx'),
-(1, 'Kerry', 'Wybern', 'kwybern6@paginegialle.it', '24448 Stang Street', 'Suite 3', 'Lancaster', 'Pennsylvania', 'vSK0NgLFBIo'),
-(3, 'Christye', 'Vinck', 'cvinck1@washington.edu', '188 Tennyson Plaza', NULL, 'Reno', 'Nevada', 'xcKqRge9j'),
-(2, 'Gwenni', 'Preece', 'gpreece2@seesaa.net', '4 Melody Plaza', 'Apartment 4', 'Denver', 'Colorado', 'gFO5UApqA'),
-(2, 'Glennis', 'Spours', 'gspours3@sohu.com', '21 Memorial Crossing', NULL, 'Sacramento', 'California', 'cUH5NAwdG5zR'),
-(4, 'Saba', 'Bainton', 'sbainton4@sohu.com', '1771 Scoville Street', NULL, 'Jacksonville', 'Florida', '6be40v'),
-(4, 'Maxine', 'Kiellor', 'mkiellor5@amazon.co.jp', '347 Kropf Drive', 'Suite 451', 'Memphis', 'Tennessee', 'rztKgHD'),
-(4, 'Deerdre', 'Van Bruggen', 'dvanbruggen7@soup.io', '371 Lindbergh Road', NULL, 'Atlanta', 'Georgia', 'sM9ksN4wN'),
-(4, 'Waverly', 'Wellbeloved', 'wwellbeloved8@sogou.com', '096 Coleman Trail', NULL, 'Oklahoma City', 'Oklahoma', 'k5eyFr'),
-(4, 'Pauly', 'Guidotti', 'pguidotti9@ucoz.ru', '49 Debs Center', NULL, 'Grand Rapids', 'Michigan', 'k5Wr95');
+INSERT INTO users (user_role_id, first_name, last_name, email, address_line_1, address_line_2, city, state, password)
+VALUES (1, 'Admin', 'User', 'admin@admin.com', '6 Farwell Trail', NULL, 'New York City', 'New York', 'a3b8d72264c6d0b156bdd5aae509b3a8:ca4cb82dfaa990ec76f4f0fd61a6b321'),
+(4, 'Saba', 'Bainton', 'customer@customer.com', '1771 Scoville Street', NULL, 'Jacksonville', 'Florida', '778745835ebf5abd5c570c43b4474af7:a2dba8c7e0b0fd1e55000659b24ec41dd50284382804939d54a378590f94eba7'),
+(1, 'Kerry', 'Wybern', 'kwybern6@paginegialle.it', '24448 Stang Street', 'Suite 3', 'Lancaster', 'Pennsylvania', '18790dd34b8d36775f61b8ca01f7b74a:e28471bc3eaa001fd06d47b6463dc5a4'),
+(3, 'Christye', 'Vinck', 'cvinck1@washington.edu', '188 Tennyson Plaza', NULL, 'Reno', 'Nevada', 'ad0a888842984d4f2929c86d10d593ce:894e2bd0102b0c575fbabe63ae5a68c2'),
+(2, 'Gwenni', 'Preece', 'gpreece2@seesaa.net', '4 Melody Plaza', 'Apartment 4', 'Denver', 'Colorado', '18790dd34b8d36775f61b8ca01f7b74a:e28471bc3eaa001fd06d47b6463dc5a4'),
+(2, 'Glennis', 'Spours', 'gspours3@sohu.com', '21 Memorial Crossing', NULL, 'Sacramento', 'California', '7ddbcab91e741b53d19bbf1c59b31093:77c7626f92880c4068a5a694c03a1aef'),
+(4, 'Maxine', 'Kiellor', 'mkiellor5@amazon.co.jp', '347 Kropf Drive', 'Suite 451', 'Memphis', 'Tennessee', 'ad0a888842984d4f2929c86d10d593ce:894e2bd0102b0c575fbabe63ae5a68c2'),
+(4, 'Deerdre', 'Van Bruggen', 'dvanbruggen7@soup.io', '371 Lindbergh Road', NULL, 'Atlanta', 'Georgia', '18790dd34b8d36775f61b8ca01f7b74a:e28471bc3eaa001fd06d47b6463dc5a4'),
+(4, 'Waverly', 'Wellbeloved', 'wwellbeloved8@sogou.com', '096 Coleman Trail', NULL, 'Oklahoma City', 'Oklahoma', 'ad0a888842984d4f2929c86d10d593ce:894e2bd0102b0c575fbabe63ae5a68c2'),
+(4, 'Pauly', 'Guidotti', 'pguidotti9@ucoz.ru', '49 Debs Center', NULL, 'Grand Rapids', 'Michigan', '7ddbcab91e741b53d19bbf1c59b31093:77c7626f92880c4068a5a694c03a1aef');
 
 -- --------------------------------------------------------
 
@@ -252,7 +252,7 @@ VALUES (1, 'Baryram', 'Basil', 'bbasil0@thetimes.co.uk', '6 Farwell Trail', NULL
 -- Insert Rental List Books
 -- 
 
-INSERT INTO rental_list_books (user_id, book_id) 
+INSERT INTO rental_list_books (user_id, book_id)
 VALUES (6, 9),
 (6, 2),
 (7, 9),
@@ -270,7 +270,7 @@ VALUES (6, 9),
 -- Insert Wish List Books
 -- 
 
-INSERT INTO wish_list_books (user_id, book_id) 
+INSERT INTO wish_list_books (user_id, book_id)
 VALUES (6, 3),
 (6, 4),
 (7, 10),

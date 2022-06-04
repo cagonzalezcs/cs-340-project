@@ -1,8 +1,15 @@
 <script setup>
 import { onMounted, reactive, computed } from 'vue';
+import { checkUserIsAdmin } from '../../router/middleware.js';
 import AddGenreForm from '../../components/genres/AddGenreForm.vue';
 import EditGenreForm from '../../components/genres/EditGenreForm.vue';
 import DeleteGenreForm from '../../components/genres/DeleteGenreForm.vue';
+import { getAuthToken } from '../../utils/cookies';
+
+onMounted(async () => {
+  await checkUserIsAdmin();
+  await getGenres();
+});
 
 let state = reactive({
   isAddGenreModalActive: false,
@@ -26,7 +33,7 @@ const toggleEditGenreModal = (genreIndex) => {
 };
 const toggleDeleteGenreModal = (genreIndex) => {
   if (!isNaN(genreIndex)) {
-    state.currentlySelectedGenreIndex = genreIndex
+    state.currentlySelectedGenreIndex = genreIndex;
   }
 
   state.isDeleteGenreModalActive = !state.isDeleteGenreModalActive;
@@ -45,6 +52,7 @@ async function getGenres() {
       method: 'GET', 
       headers: {
         'Content-type': 'application/json',
+        Authorization: `Bearer ${ getAuthToken() }`,
       },
     });
     const genreData = await response.json();
@@ -53,13 +61,9 @@ async function getGenres() {
     }
     setGenre(genreData);
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
 }
-
-onMounted(() => {
-  getGenres();
-});
 
 const currentlySeletedGenre = computed(() => {
   if (state.currentlySelectedGenreIndex < 0) {
@@ -72,11 +76,11 @@ const handleGenreAdded = () => {
   getGenres();
 };
 
-const handleGenreUpdated = (updatedGenre) => {
+const handleGenreUpdated = () => {
   getGenres();
 };
 
-const handleGenreDeleted = (updatedGenre) => {
+const handleGenreDeleted = () => {
   getGenres();
 };
 
@@ -119,7 +123,8 @@ const handleGenreDeleted = (updatedGenre) => {
   <delete-genre-form 
     :is-delete-genre-modal-active='state.isDeleteGenreModalActive' 
     :genre='currentlySeletedGenre'
-    @toggle-delete-genre-modal='toggleDeleteGenreModal' 
+    @toggle-delete-genre-modal='toggleDeleteGenreModal'
+    @genre-deleted='handleGenreDeleted'
   />
 
 </template>

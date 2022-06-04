@@ -1,8 +1,20 @@
 <script setup>
 import { onMounted, reactive, computed } from 'vue';
+import { checkUserIsAdmin } from '../../router/middleware.js';
 import AddBookForm from '../../components/books/AddBookForm.vue';
 import UpdateBookForm from '../../components/books/UpdateBookForm.vue';
 import DeleteBookForm from '../../components/books/DeleteBookForm.vue';
+import { getAuthToken } from '../../utils/cookies';
+
+onMounted(() => {
+  checkUserIsAdmin()
+    .then(() => {
+      getBooks().then(() => {
+        getAuthors();
+        getGenres();
+      });
+    });
+});
 
 let state = reactive({
   isAddBookModalActive: false,
@@ -59,6 +71,7 @@ async function getBooks() {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
+        Authorization: `Bearer ${ getAuthToken() }`,
       },
     });
     const data = await response.json();
@@ -78,6 +91,7 @@ async function getAuthors() {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
+        Authorization: `Bearer ${ getAuthToken() }`,
       },
     });
     const authorData = await responseAuthors.json();
@@ -97,6 +111,7 @@ async function getGenres() {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
+        Authorization: `Bearer ${ getAuthToken() }`,
       },
     });
     const genreData = await responseGenres.json();
@@ -108,13 +123,6 @@ async function getGenres() {
     console.error(error);
   }
 }
-
-onMounted(() => {
-  getBooks().then(() => {
-    getAuthors();
-    getGenres();
-  });
-});
 
 const currentlySelectedBook = computed(() => {
   if (state.currentlySelectedBookIndex < 0) {
@@ -143,7 +151,10 @@ const handleBookUpdated = () => {
 <template>
   <div>
     <h1>Books</h1>
-    <router-link to='/admin/search-books' style='margin-bottom:20px; display:inline-block; font-size: 18px; font-weight: bold;'>Search All Books</router-link>
+    <router-link
+to='/admin/search-books'
+                 style='margin-bottom:20px; display:inline-block; font-size: 18px; font-weight: bold;'>Search All Books
+    </router-link>
     <br />
   </div>
   <div id='browse'>

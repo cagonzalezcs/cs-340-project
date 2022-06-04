@@ -1,11 +1,16 @@
 <script setup>
-import { reactive } from 'vue';
+import { reactive, onMounted } from 'vue';
+import { checkUserIsAdmin } from '../../router/middleware.js';
 import ViewRentalList from '../../components/rental-lists/ViewRentalList.vue';
 import RemoveFromRentalList from '../../components/rental-lists/RemoveFromRentalList.vue';
 
+onMounted(async () => {
+  await checkUserIsAdmin();
+});
+
 let state = reactive({
   isViewRentalListModalActive: false,
-  isRemoveFromRentalListModalActive: false
+  isRemoveFromRentalListModalActive: false,
 });
 
 const toggleViewRentalListModal = () => {
@@ -20,7 +25,10 @@ const toggleRemoveFromRentalListModal = () => {
 <template>
   <div id='rentalLists'>
     <h1>All Rental Lists</h1>
-    <router-link to='/admin/users' style='margin-bottom:20px; display:inline-block; font-size: 18px; font-weight: bold;'>Back to Users</router-link>
+    <router-link
+to='/admin/users'
+                 style='margin-bottom:20px; display:inline-block; font-size: 18px; font-weight: bold;'>Back to Users
+    </router-link>
     <br />
   </div>
   <div id='browseRentalLists'>
@@ -32,53 +40,73 @@ const toggleRemoveFromRentalListModal = () => {
       </tr>
       <tr>
         <td>1</td>
-        <td><button @click='toggleViewRentalListModal'>View User Rental List</button></td>
+        <td>
+          <button @click='toggleViewRentalListModal'>View User Rental List</button>
+        </td>
         <td><a href='#'>Delete User Rental List</a></td>
 
       </tr>
       <tr>
         <td>2</td>
-        <td><button @click='toggleViewRentalListModal'>View User Rental List</button></td>
+        <td>
+          <button @click='toggleViewRentalListModal'>View User Rental List</button>
+        </td>
         <td><a href='#'>Delete User Rental List</a></td>
       </tr>
       <tr>
         <td>3</td>
-        <td><button @click='toggleViewRentalListModal'>View User Rental List</button></td>
+        <td>
+          <button @click='toggleViewRentalListModal'>View User Rental List</button>
+        </td>
         <td><a href='#'>Delete User Rental List</a></td>
       </tr>
       <tr>
         <td>4</td>
-        <td><button @click='toggleViewRentalListModal'>View User Rental List</button></td>
+        <td>
+          <button @click='toggleViewRentalListModal'>View User Rental List</button>
+        </td>
         <td><a href='#'>Delete User Rental List</a></td>
       </tr>
       <tr>
         <td>5</td>
-        <td><button @click='toggleViewRentalListModal'>View User Rental List</button></td>
+        <td>
+          <button @click='toggleViewRentalListModal'>View User Rental List</button>
+        </td>
         <td><a href='#'>Delete User Rental List</a></td>
       </tr>
       <tr>
         <td>6</td>
-        <td><button @click='toggleViewRentalListModal'>View User Rental List</button></td>
+        <td>
+          <button @click='toggleViewRentalListModal'>View User Rental List</button>
+        </td>
         <td><a href='#'>Delete User Rental List</a></td>
       </tr>
       <tr>
         <td>7</td>
-        <td><button @click='toggleViewRentalListModal'>View User Rental List</button></td>
+        <td>
+          <button @click='toggleViewRentalListModal'>View User Rental List</button>
+        </td>
         <td><a href='#'>Delete User Rental List</a></td>
       </tr>
       <tr>
         <td>8</td>
-        <td><button @click='toggleViewRentalListModal'>View User Rental List</button></td>
+        <td>
+          <button @click='toggleViewRentalListModal'>View User Rental List</button>
+        </td>
         <td><a href='#'>Delete User Rental List</a></td>
       </tr>
       <tr>
         <td>9</td>
-        <td><button @click='toggleViewRentalListModal'>View User Rental List</button></td>
+        <td>
+          <button @click='toggleViewRentalListModal'>View User Rental List</button>
+        </td>
         <td><a href='#'>Delete User Rental List</a></td>
       </tr>
       <tr>
         <td>10</td>
-        <td><button @click='toggleViewRentalListModal'>View User Rental List</button></td>
+        <td>
+          <button @click='toggleViewRentalListModal'>View User Rental List</button>
+        </td>
         <td><a href='#'>Delete User Rental List</a></td>
       </tr>
     </table>
