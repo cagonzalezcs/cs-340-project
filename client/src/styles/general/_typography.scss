@@ -1,0 +1,54 @@
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('@/assets/fonts/Poppins-Light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('@/assets/fonts/Poppins-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('@/assets/fonts/Poppins-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('@/assets/fonts/Poppins-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('@/assets/fonts/Poppins-Bold.ttf') format('truetype');
+}
+
+.app-button,
+button:not(.Vue-Toastification__close-button),
+input[type="button"],
+input[type="submit"] {
+  @apply py-5 px-2 font-bold max-w-full cursor-pointer bg-gradient-to-br from-blue-400 to-blue-700 text-white rounded text-sm sm:text-base;
+
+  transition: 0.35s ease box-shadow, 0.35s ease transform;
+
+  &:hover {
+    @apply shadow-lg;
+
+    transform: scale(1.015)
+  }
+}

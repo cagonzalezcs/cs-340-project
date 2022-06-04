@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import LoginPage from '../pages/auth/LoginPage.vue';
 import RegisterPage from '../pages/auth/RegisterPage.vue';
-import ForgotPassword from '../pages/auth/ForgotPasswordPage.vue';
 import CustomerRentalListPage from '../pages/customer/CustomerRentalListPage.vue';
 import CustomerWishListPage from '../pages/customer/CustomerWishListPage.vue';
 import CustomerSearchBooksPage from '../pages/customer/CustomerSearchBooksPage.vue';

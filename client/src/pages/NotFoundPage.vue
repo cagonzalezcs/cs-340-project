@@ -18,18 +18,20 @@
   justify-content: center;
 
   &__header {
-    margin-bottom: 15px;
+    @apply text-5xl mb-12;
   }
 
   &__link {
-    border: 1px solid #222;
+    @apply rounded bg-slate-100 text-lg border border-slate-200 shadow cursor-pointer;
+
     padding: 12px 25px;
     color: #222;
-    transition: background-color 0.32s ease, color 0.25s ease;
+    transition: background-color 0.32s ease, color 0.25s ease, border-color 0.32s ease;
 
     &:hover {
       color: #fff;
       background-color: #222;
+      border-color: #222;
     }
   }
 }

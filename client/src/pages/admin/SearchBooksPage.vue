@@ -3,6 +3,8 @@ import { reactive, onMounted } from 'vue';
 import { checkUserIsAdmin } from '../../router/middleware';
 import SearchBookResults from '../../components/books/SearchBookResults.vue';
 import { getAuthToken } from '../../utils/cookies';
+import AdminLayout from '../../components/layouts/AdminLayout.vue';
+
 
 onMounted(async () => {
   await checkUserIsAdmin();
@@ -160,47 +162,49 @@ const searchByGenre = async () => {
 </script>
 
 <template>
-  <div>
-    <h1>Search Books</h1>
-  </div>
-  <div id='search-title' style='display: block'>
-    <form id='searchBookTitles' method='POST' @submit.prevent>
-      <legend><strong>Enter a Title</strong></legend>
-      <fieldset class='fields'>
-        <label for='book-title'> Title: </label>
-        <input id='book-title' v-model='state.selectedTitle' type='text' name='book-title'>
-      </fieldset>
-      <input id='BookSearchTitle' class='btn' type='submit' value='Search for Books by Title' @click='searchByTitle'>
-    </form>
-  </div><!-- search by title -->
-  <br />
-  <div v-if='state?.authors' id='search-author' style='display: block'>
-    <form id='searchBookTitles' method='POST' @submit.prevent>
-      <legend><strong>Choose an Author</strong></legend>
-      <fieldset class='fields'>
-        <label for='author_id'> Genre: </label>
-        <select id='author_id' v-model='state.selectedAuthorId'>
-          <option v-for='author of state.authors' :key='`author-${author.id}`' :value='author.id'>{{ author.name }}
-          </option>
-        </select>
-      </fieldset>
-      <input id='BookSearchAuthor' class='btn' type='submit' value='Search for Books by Author' @click='searchByAuthor'>
-    </form>
-  </div><!-- search by author -->
-  <br />
-  <div v-if='state?.genres' id='search-genre' style='display: block'>
-    <form id='searchBookGenres' method='POST' @submit.prevent>
-      <legend><strong>Select a Genre</strong></legend>
-      <fieldset class='fields'>
-        <label for='genre-id'> Genre: </label>
-        <select id='genre-id' v-model='state.selectedGenreId'>
-          <option v-for='genre of state.genres' :key='`genre-${genre.id}`' :value='genre.id'>{{ genre.name }}</option>
-        </select>
-      </fieldset>
-      <input id='BookSearchGenre' class='btn' type='submit' value='Search for Books by Genre' @click='searchByGenre'>
-    </form>
-  </div><!-- search by genre -->
-  <search-book-results :books='state.books' :is-books-results-modal-active='state.isBooksResultsModalActive' @toggle-book-results-modal='toggleBookResultsModal' />
+  <admin-layout>
+    <div>
+      <h1>Search Books</h1>
+    </div>
+    <div id='search-title' style='display: block'>
+      <form id='searchBookTitles' method='POST' @submit.prevent>
+        <legend><strong>Enter a Title</strong></legend>
+        <fieldset class='fields'>
+          <label for='book-title'> Title: </label>
+          <input id='book-title' v-model='state.selectedTitle' type='text' name='book-title'>
+        </fieldset>
+        <input id='BookSearchTitle' class='btn' type='submit' value='Search for Books by Title' @click='searchByTitle'>
+      </form>
+    </div><!-- search by title -->
+    <br />
+    <div v-if='state?.authors' id='search-author' style='display: block'>
+      <form id='searchBookTitles' method='POST' @submit.prevent>
+        <legend><strong>Choose an Author</strong></legend>
+        <fieldset class='fields'>
+          <label for='author_id'> Genre: </label>
+          <select id='author_id' v-model='state.selectedAuthorId'>
+            <option v-for='author of state.authors' :key='`author-${author.id}`' :value='author.id'>{{ author.name }}
+            </option>
+          </select>
+        </fieldset>
+        <input id='BookSearchAuthor' class='btn' type='submit' value='Search for Books by Author' @click='searchByAuthor'>
+      </form>
+    </div><!-- search by author -->
+    <br />
+    <div v-if='state?.genres' id='search-genre' style='display: block'>
+      <form id='searchBookGenres' method='POST' @submit.prevent>
+        <legend><strong>Select a Genre</strong></legend>
+        <fieldset class='fields'>
+          <label for='genre-id'> Genre: </label>
+          <select id='genre-id' v-model='state.selectedGenreId'>
+            <option v-for='genre of state.genres' :key='`genre-${genre.id}`' :value='genre.id'>{{ genre.name }}</option>
+          </select>
+        </fieldset>
+        <input id='BookSearchGenre' class='btn' type='submit' value='Search for Books by Genre' @click='searchByGenre'>
+      </form>
+    </div><!-- search by genre -->
+    <search-book-results :books='state.books' :is-books-results-modal-active='state.isBooksResultsModalActive' @toggle-book-results-modal='toggleBookResultsModal' />
+  </admin-layout>
 </template>
 
 <style lang='scss' scoped>

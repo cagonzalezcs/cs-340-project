@@ -1,5 +1,4 @@
 <script setup>
-import './styles/global.scss';
 import { useUserStore } from './stores/user.js';
 import AppNavigation from './components/app-navigation/AppNavigation.vue';
 import { getAuthToken } from './utils/cookies';
@@ -51,13 +50,5 @@ const setUserAuth = async () => {
 </script>
 
 <template>
-  <app-navigation v-if='user.isLoggedIn' />
   <router-view v-if='state.isUserAuthSet'></router-view>
 </template>
-
-<style>
-#app {
-  padding-bottom: 40px;
-  overflow: hidden;
-}
-</style>

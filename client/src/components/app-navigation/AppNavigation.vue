@@ -1,10 +1,17 @@
 <script setup>
 import { useUserStore } from '../../stores/user';
 import router from '../../router';
-import AppNavigationAdmin from './AppNavigationAdmin.vue';
-import AppNavigationCustomer from './AppNavigationCustomer.vue';
+// import AppNavigationCustomer from './AppNavigationCustomer.vue';
 
 const user = useUserStore();
+
+defineProps({
+  isAdminNavigation: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+});
 
 async function logUserOut() {
   await user.logout();
@@ -13,44 +20,27 @@ async function logUserOut() {
 </script>
 
 <template>
-  <div class='app-navigation'>
+  <div class='app-navigation' :class='{ "app-navigation--admin": isAdminNavigation, "app-navigation--customer": !isAdminNavigation }'>
     <div class='app-navigation__logo'>
-      Novel Pursuits  {{ user.isAdmin ? 'Admin Dashboard' : ''}}
+      <slot name='logoText' />
     </div>
 
-    <app-navigation-admin v-if='user.isAdmin' class='app-navigation__items' />
-    <app-navigation-customer v-else class='app-navigation__items' />
-
-    <button class='app-navigation__button' @click='logUserOut'>Logout</button>
+    <slot name='navigationItems' />
+    <button class='app-navigation__logout-button' @click='logUserOut'>Logout</button>
   </div>
 </template>
 
 <style lang='scss'>
 .app-navigation {
-  display: flex;
-  justify-content: space-between;
-  align-content: center;
-  align-items: center;
-  background-color: #f1f1f1;
-  padding: 12px 20px;
-  margin-bottom: 80px;
+  @apply fixed top-0 left-0 flex bg-gradient-to-br from-blue-800 to-blue-900;
 
-  &__logo {
-    font-size: 1.2rem;
-    font-weight: bold;
+  &__logo,
+  &__inner {
+    @apply text-white font-bold;
   }
 
-  &__items {
-    margin-left: auto;
-    margin-right: 30px;
-
-    & > a {
-      margin-left: 20px;
-    }
-  }
-
-  &__button {
-    width: 150px;
+  &__link {
+    @apply text-white font-semibold;
   }
 }
 </style>

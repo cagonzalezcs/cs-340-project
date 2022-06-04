@@ -25,3 +25,10 @@
     padding-right: 10px;
   }
 }
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select {
+  @apply w-full py-3.5 px-4 bg-gray-100 rounded shadow-md border border-gray-200;
+}
