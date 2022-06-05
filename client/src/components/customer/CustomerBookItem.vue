@@ -57,7 +57,7 @@ v-if='book.date_rented' class='customer-book-item__date-rented customer-book-ite
 
 <style lang='scss'>
 .customer-book-item {
-  @apply font-semibold text-left w-[31%] mx-[1%] flex flex-col rounded-md overflow-hidden shadow-lg mb-10;
+  @apply font-semibold text-left w-[30%] mx-[1.5%] flex flex-col rounded-md overflow-hidden shadow-lg mb-10;
 
   background-color: lighten(#e2e8f0, 3%);
 

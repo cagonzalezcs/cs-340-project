@@ -35,7 +35,7 @@ defineProps({
     @apply relative text-left text-3xl font-bold mb-6;
 
     &::before {
-      @apply absolute z-0 content-[''] w-[98%] h-0.5 bg-blue-900;
+      @apply absolute z-0 content-[''] w-[97.5%] h-0.5 bg-blue-900;
 
       left: 1px;
       top: 50%;
@@ -43,7 +43,7 @@ defineProps({
     }
 
     &-mask {
-      @apply relative z-10 pl-[1%] bg-neutral-50 pr-5;
+      @apply relative z-10 pl-[1.5%] bg-neutral-50 pr-6;
     }
   }
 
