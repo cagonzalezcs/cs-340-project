@@ -32,6 +32,18 @@ const getGenre = async (genreId) => {
     [genreId]);
 };
 
+const getGenreIdByName = async (genreName) => {
+  if (!genreName) {
+    throw 'Genre name is a required parameter to get a genre id';
+  }
+  return await dbQuery(
+    `SELECT genres.id
+    FROM genres
+    WHERE genres.name = ?`,
+    [genreName]
+  )
+};
+
 
 const createGenre = async (name) => {
   return await dbQuery(
@@ -67,4 +79,4 @@ const deleteGenre = async (genreId) => {
 };
 
 
-export { getAllGenres, getGenresPage, getGenre, createGenre, updateGenre, deleteGenre };
+export { getAllGenres, getGenresPage, getGenre, getGenreIdByName, createGenre, updateGenre, deleteGenre };

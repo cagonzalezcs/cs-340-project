@@ -17,13 +17,20 @@ const state = reactive({
   isAddingGenre: false,
   newBook: {
     title: '',
-    authors: '',
+    authors: [''],
     genre_id: '',
     isbn: '',
     cover_image: '',
     quantity_available: '',
     quantity_rented: '',
   },
+  newAuthor: {
+    name: '', 
+    birth_date: ''
+  },
+  newGenre: {
+    name: '',
+  }
 });
 
 const toggleIsAddingNewAuthor = () => {
@@ -37,36 +44,84 @@ const toggleAddBookModal = () => {
   emit('toggleAddBookModal');
 };
 
+const addNewAuthor = async (name, birthDate) => {
+  if (name !== '' && birthDate !== '') {
+    try {
+      await fetch(`${baseUrl}authors`, {
+         method: 'POST', 
+         body: JSON.stringify({ name, birth_date: birthDate }), 
+         headers: {
+           'Content-type': 'application/json',
+           Authorization: `Bearer ${ getAuthToken() }`,
+         },
+       })
+    } catch(e) {
+      return new Error({ message: 'Error adding new author' })
+    }
+  }
+}
+
+const addNewGenre = async (name) => {
+  if (name !== '') {
+    try {
+      await fetch(`${baseUrl}genres`, {
+        method: 'POST', 
+        body: JSON.stringify({ name }), 
+        headers: {
+          'Content-type': 'application/json',
+          Authorization: `Bearer ${ getAuthToken() }`,
+        },
+      });
+    } catch(e) {
+      return new Error({ message: 'Error adding new genre' })
+    }
+  }
+}
+
 const addBook = async () => {
   try {
-    const response = await fetch(bookUrl, {
-      method: 'POST',
-      body: JSON.stringify(state.newBook),
-      headers: {
-        'Content-type': 'application/json',
-        Authorization: `Bearer ${ getAuthToken() }`,
-      },
-    });
+      await addNewAuthor(state.newAuthor?.name, state.newAuthor?.birth_date)
+        .then(async () => await addNewGenre(state.newGenre?.name))
+        .then(async () => {
+            const response = await fetch(bookUrl, {
+              method: 'POST',
+              body: JSON.stringify(
+                {
+                  title: state.newBook.title,
+                  authors: state.newAuthor.name || state.newBook.authors,
+                  genre_id: state.newGenre.name || state.newBook.genre_id,
+                  isbn: state.newBook.isbn,
+                  cover_image: state.newBook.cover_image,
+                  quantity_available: state.newBook.quantity_available,
+                  quantity_rented: state.newBook.quantity_rented,
+                }
+                ),
+              headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${ getAuthToken() }`,
+              },
+            });
+            if (response.status !== 200) {
+              alert('There was an error adding this Book. Please try again later.');
+              return;
+            }
+        
+            alert('Success!');
+            emit('bookAdded');
+            state.newBook = {
+              title: '',
+              authors: [''],
+              genre_id: '',
+              isbn: '',
+              cover_image: '',
+              quantity_available: '',
+              quantity_rented: '',
+            };
+            toggleAddBookModal();
+      })
 
-    if (response.status !== 200) {
-      alert('There was an error adding this Book. Please try again later.');
-      return;
-    }
-
-    alert('Success!');
-    emit('bookAdded');
-    state.newBook = {
-      title: '',
-      authors: '',
-      genre_id: '',
-      isbn: '',
-      cover_image: '',
-      quantity_available: '',
-      quantity_rented: '',
-    };
-    toggleAddBookModal();
   } catch (error) {
-    console.error(error);
+    return new Error({ message: 'Error adding new book' })
   }
 };
 
@@ -89,9 +144,9 @@ const addBook = async () => {
             </div>
             <div v-else class='input-group__content author-input-group__new'>
               <label for='author-name'> new author name </label>
-              <input id='author-name' type='text' name='name'>
+              <input id='author-name' v-model='state.newAuthor.name' type='text' name='name'>
               <label for='author-birth-date'> author birth_date </label>
-              <input id='author-birth-date' type='date' name='birth_date'>
+              <input id='author-birth-date' v-model='state.newAuthor.birth_date' type='date' name='birth_date'>
             </div>
             <button class='input-group__button' @click='toggleIsAddingNewAuthor'>
               {{ state.isAddingAuthor ? 'Cancel' : 'Add New Author' }}
@@ -109,9 +164,9 @@ const addBook = async () => {
             </div>
             <div v-else class='input-group__content genre-input-group__new'>
               <label for='genre-name'> new genre name </label>
-              <input id='genre-name' type='text' name='genreName'>
+              <input id='genre-name' v-model='state.newGenre.name' type='text' name='genreName'>
             </div>
-            <button class='input-group__button' disabled @click='toggleIsAddingNewGenre'>
+            <button class='input-group__button' @click='toggleIsAddingNewGenre'>
               {{ state.isAddingGenre ? 'Cancel' : 'Add New Genre' }}
             </button>
           </div>

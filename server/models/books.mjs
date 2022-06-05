@@ -31,7 +31,7 @@ const getBook = async (bookId) => {
 };
 
 
-// Create a new book
+// Create a new book ** this will take some attention tomorrow - works with add new genre, not with add new author
 const createBook = async (title, authors, genreId, isbn, coverImage, quantityAvailable, quantityRented) => {
   const newBook = await dbQuery(
     `INSERT INTO books(title, genre_id, isbn, cover_image, quantity_available, quantity_rented)
@@ -41,7 +41,7 @@ const createBook = async (title, authors, genreId, isbn, coverImage, quantityAva
   const bookId = newBook.insertId;
   for (const authorName of authors) {
     const authorData = await dbQuery(
-      'SELECT id FROM authors WHERE name= ?', [authorName],
+      'SELECT id FROM authors WHERE name = ?', [authorName],
     );
     const authorId = authorData[0].id;
     await dbQuery(

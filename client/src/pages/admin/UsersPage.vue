@@ -151,7 +151,9 @@ to='/admin/wish-lists'
                  style='margin-bottom:20px; display:inline-block; font-size: 18px; font-weight: bold;'>View Wish Lists
     </router-link>
     <br />
+    <button @click='toggleAddUserModal'>Add New User</button>
   </div>
+  <br />
   <div id='browse'>
     <table border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;'>
       <tr>
@@ -167,9 +169,7 @@ to='/admin/wish-lists'
         <th></th>
         <th></th>
         <th></th>
-        <th>
-          <button @click='toggleAddUserModal'>Add New User</button>
-        </th>
+        <th></th>
       </tr>
       <tr v-for='(user, index) in state.users' :key='`user-${user.id}`'>
         <td>{{ user.id }}</td>
