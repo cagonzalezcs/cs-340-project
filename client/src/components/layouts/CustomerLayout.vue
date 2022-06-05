@@ -27,27 +27,15 @@ import AppNavigationCustomer from '../app-navigation/AppNavigationCustomer.vue';
 
   .app-navigation {
     &--customer {
-      @apply flex items-center content-center w-full h-16;
+      @apply flex items-center content-center w-full h-14;
     }
 
     &__logo {
-      @apply mr-auto text-2xl ml-6;
-    }
-
-    &__links {
-      @apply h-full flex items-center content-center justify-center;
-    }
-
-    &__link {
-      @apply h-full px-4 flex items-center content-center justify-center transition-colors bg-transparent;
-
-      &:hover {
-       @apply bg-black/10;
-      }
+      @apply mr-auto text-2xl ml-6 leading-none;
     }
 
     &__logout-button {
-      @apply w-32 h-full py-2 rounded-none shadow-none ml-8;
+      @apply w-32 h-full py-2 rounded-none shadow-none;
 
       &:hover {
         @apply shadow-none;

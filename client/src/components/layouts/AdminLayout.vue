@@ -27,7 +27,7 @@ import AppNavigationAdmin from '../app-navigation/AppNavigationAdmin.vue';
 <style lang='scss'>
 .admin-layout{
   &__logo-top {
-    @apply text-sm pt-4;
+    @apply text-sm pt-6;
   }
 
   &__logo-bottom {
@@ -45,23 +45,11 @@ import AppNavigationAdmin from '../app-navigation/AppNavigationAdmin.vue';
 
   .app-navigation {
     &--admin {
-      @apply overflow-auto flex-col w-[220px] h-screen from-zinc-600 to-zinc-900 p-0;
-    }
-
-    &__links {
-      @apply flex flex-col text-left mt-8 py-4;
-    }
-
-    &__link {
-      @apply py-3 px-6 w-full transition-colors;
-
-      &:hover {
-        @apply bg-black/10;
-      }
+      @apply overflow-auto flex-col w-[220px] h-screen from-zinc-800 to-zinc-900 p-0;
     }
 
     &__logout-button {
-      @apply from-zinc-600 to-zinc-800 mt-auto rounded-none shadow-none;
+      @apply from-zinc-700 to-zinc-800 mt-auto rounded-none shadow-none;
 
       &:hover {
         transform: none;

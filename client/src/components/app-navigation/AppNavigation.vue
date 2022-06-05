@@ -1,7 +1,6 @@
 <script setup>
 import { useUserStore } from '../../stores/user';
 import router from '../../router';
-// import AppNavigationCustomer from './AppNavigationCustomer.vue';
 
 const user = useUserStore();
 
@@ -32,7 +31,7 @@ async function logUserOut() {
 
 <style lang='scss'>
 .app-navigation {
-  @apply fixed top-0 left-0 flex bg-gradient-to-br from-blue-800 to-blue-900;
+  @apply fixed top-0 left-0 z-50 flex bg-gradient-to-br from-blue-800 to-blue-900;
 
   &__logo,
   &__inner {

@@ -22,7 +22,7 @@ const props = defineProps({
       <header class='auth-layout__header'>
         <h1 class='auth-layout__heading'> {{ props.heading }}</h1>
       </header>
-      <form action='#' class='auth-layout__form'>
+      <form action='#' class='auth-layout__form' @submit.prevent>
         <fieldset class='auth-layout__form-fields'>
           <slot name='form-fields'></slot>
         </fieldset>

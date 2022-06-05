@@ -28,7 +28,7 @@ const checkUserIsAdmin = async () => {
     return;
   }
 
-  await router.push('/rental-list');
+  await router.push('/my-books');
 };
 
 const checkUserIsLoggedOut = async () => {
@@ -42,7 +42,7 @@ const checkUserIsLoggedOut = async () => {
     return await router.push('/admin/users');
   }
 
-  await router.push('/rental-list');
+  await router.push('/my-books');
 };
 
 export { checkUserIsCustomer, checkUserIsAdmin, checkUserIsLoggedOut };

@@ -42,7 +42,7 @@ async function onSubmit() {
     return;
   }
 
-  await router.push({ path: '/rental-list' });
+  await router.push({ path: '/my-books' });
 }
 </script>
 
@@ -69,7 +69,7 @@ async function onSubmit() {
 <style lang='scss'>
 .login-form {
   &__temp-note {
-    @apply block leading-tight mb-5 text-xs text-left font-normal sm:text-sm;
+    @apply block leading-tight mb-5 text-xs text-left font-normal sm:text-sm sm:leading-tight;
   }
 }
 </style>
