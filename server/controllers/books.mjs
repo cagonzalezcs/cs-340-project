@@ -1,5 +1,6 @@
 import * as booksModel from '../models/books.mjs';
 import * as genresController from './genres.mjs';
+import * as authorsController from './authors.mjs';
 
 const getAllBooks = async (request, response) => {
   try {
@@ -23,13 +24,23 @@ const getBook = async (request, response) => {
 const createBook = async (request, response) => {
   try {
     const newBookData = request.body;
+    const authors = newBookData.authors;
+    let authorId = null
     let genreId = parseInt(newBookData.genre_id)
     if (isNaN(genreId)) {
-      let lookup_id = newBookData.genre_id
+      const lookupId = newBookData.genre_id
       try {
-        genreId = await genresController.getGenreByName(lookup_id);
-      } catch(e) {
+        genreId = await genresController.getGenreByName(lookupId);
+      } catch (error) {
         throw new Error({ message: 'Error looking up genre by name'})
+      }
+    }
+    if (typeof(authors) === 'string') {
+      try {
+        const lookupAuthor = authors
+        authorId = await authorsController.getAuthorByName(lookupAuthor);
+      } catch (error) {
+        throw new Error ({ message: 'Error lookup up author by name'})
       }
     }
     await booksModel.createBook(
@@ -40,6 +51,7 @@ const createBook = async (request, response) => {
       newBookData.cover_image,
       newBookData.quantity_available,
       newBookData.quantity_rented,
+      authorId,
     );
     response.json({ message: 'Book has been successfully created.' });
   } catch (error) {
