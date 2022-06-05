@@ -8,7 +8,6 @@ import { decryptString } from './encryption.mjs';
 import { isAdminUser, isCustomerUser } from './../../global-utils/auth.mjs';
 
 const checkAuthToken = (request, response, next) => {
-  console.log('uh');
   const authHeader = request.headers['authorization'];
   if (!authHeader) {
     return response.sendStatus(401);
