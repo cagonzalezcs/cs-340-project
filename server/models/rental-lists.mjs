@@ -6,7 +6,6 @@ const getAllRentalListItemsForUser = async (userId) => {
   }
 
   return await dbQuery(`SELECT rental_list_books.book_id,
-
                                books.title,
                                books.isbn,
                                books.cover_image,
@@ -25,4 +24,28 @@ const getAllRentalListItemsForUser = async (userId) => {
                         GROUP BY rental_list_books.book_id;`, [userId]);
 };
 
-export { getAllRentalListItemsForUser };
+const createRentalListItem = async (userId, bookId) => {
+  if (!userId || !bookId) {
+    throw 'A User Id and Book Id are required to add a rental list item';
+  }
+
+  return await dbQuery(`
+      INSERT INTO rental_list_books (user_id, book_id)
+      VALUES (?, ?);
+  `, [userId, bookId]);
+};
+
+const deleteRentalListItem = async (userId, bookId) => {
+  if (!userId || !bookId) {
+    throw 'A User Id and Book Id are required to remove a rental list item';
+  }
+
+  return await dbQuery(`
+      DELETE
+      FROM rental_list_books
+      WHERE rental_list_books.user_id = ?
+        AND rental_list_books.book_id = ?;
+  `, [userId, bookId]);
+};
+
+export { getAllRentalListItemsForUser, createRentalListItem, deleteRentalListItem };

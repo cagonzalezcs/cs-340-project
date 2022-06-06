@@ -24,5 +24,9 @@
     @apply relative pl-6;
 
     bottom: 1px;
+
+    &:hover {
+      @apply shadow-none transform-none;
+    }
   }
 }

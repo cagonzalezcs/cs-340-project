@@ -19,15 +19,11 @@ const userBooks = reactive({
 });
 
 const setRentalList = (rentalList) => {
-  if (rentalList?.length) {
-    userBooks.rentalList = rentalList;
-  }
+  userBooks.rentalList = rentalList;
 };
 
 const setWishList = (wishList) => {
-  if (wishList?.length) {
-    userBooks.wishList = wishList;
-  }
+  userBooks.wishList = wishList;
 };
 
 const baseUrl = import.meta.env.VITE_SERVER_URI;
@@ -67,6 +63,19 @@ async function getWishListItems() {
     console.error(error);
   }
 }
+
+const rentalListItemDeleted = async () => {
+  await getRentalListItems();
+};
+
+const wishListItemDeleted = async () => {
+  await getWishListItems();
+};
+
+const rentalListItemAdded = async () => {
+  await getRentalListItems();
+  await getWishListItems();
+};
 </script>
 
 <template>
@@ -75,18 +84,32 @@ async function getWishListItems() {
       <header class='my-books__header'>
         <h1 class='my-books__heading'>My Books</h1>
       </header>
-      <customer-book-grid heading='Currently Rented Books' :books='userBooks.rentalList'></customer-book-grid>
-      <customer-book-grid heading='Books Wish List' :books='userBooks.wishList'></customer-book-grid>
+      <customer-book-grid
+        heading='Currently Rented Books'
+        :books='userBooks.rentalList'
+        is-rentals-list
+        :total-on-rental-list='userBooks.rentalList.length'
+        :total-on-wish-list='userBooks.wishList.length'
+        @rental-list-item-deleted='rentalListItemDeleted'
+      ></customer-book-grid>
+      <customer-book-grid
+        heading='Books Wish List'
+        :books='userBooks.wishList'
+        :total-on-rental-list='userBooks.rentalList.length'
+        :total-on-wish-list='userBooks.wishList.length'
+        @wish-list-item-deleted='wishListItemDeleted'
+        @rental-list-item-added='rentalListItemAdded'
+      ></customer-book-grid>
     </div>
   </customer-layout>
 </template>
 
 <style lang='scss'>
 .my-books {
-  @apply w-[95%] max-w-7xl mx-auto;
+  @apply w-[95%] max-w-6xl mx-auto;
 
   &__heading {
-    @apply text-5xl font-semibold mb-14;
+    @apply text-5xl font-bold mb-14 text-neutral-700;
   }
 }
 </style>

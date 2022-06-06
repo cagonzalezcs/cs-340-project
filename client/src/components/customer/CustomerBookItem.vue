@@ -7,7 +7,18 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  isOnRentalList: {
+    type: Boolean,
+    required: true,
+  },
+  isRentalSlotAvailable: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
 });
+
+const emit = defineEmits(['initBookAction']);
 
 const rentedDate = computed(() => {
   return moment(props.book.date_rented).format('MMMM Do, YYYY');
@@ -17,6 +28,9 @@ const hasMultipleAuthors = computed(() => {
   return props.book.authors.includes(',');
 });
 
+const initBookAction = (isRemovingFromWishList = false) => {
+  emit('initBookAction', props.book, isRemovingFromWishList);
+};
 </script>
 
 <template>
@@ -43,15 +57,25 @@ const hasMultipleAuthors = computed(() => {
         {{ book.genre }}
       </div>
       <time
-v-if='book.date_rented' class='customer-book-item__date-rented customer-book-item__detail'
-            :datetime='book.date_rented'>
+        v-if='isOnRentalList && book.date_rented'
+        class='customer-book-item__date-rented customer-book-item__detail'
+        :datetime='book.date_rented'>
         <span class='customer-book-item__author customer-book-item__label'>Date Rented:</span>
         {{ rentedDate }}
       </time>
     </div>
-    <button v-if='book.date_rented' class='customer-book-item__return-button' :aria-label='`Return ${book.title}`'>
-      Return Book
-    </button>
+    <div class='customer-book-item__actions'>
+      <button
+        v-if='isOnRentalList || isRentalSlotAvailable'
+        class='customer-book-item__return-button'
+        :aria-label='`${isOnRentalList ? "Return" : "Rent"} ${book.title}`'
+        @click='initBookAction(false)'>
+        {{ isOnRentalList ? 'Return' : 'Rent' }} Book
+      </button>
+      <button v-if='!isOnRentalList' class='customer-book-item__remove-button' @click='initBookAction(true)'>
+        Remove Book
+      </button>
+    </div>
   </article>
 </template>
 
@@ -81,14 +105,17 @@ v-if='book.date_rented' class='customer-book-item__date-rented customer-book-ite
     @apply mr-2;
   }
 
-  &__return-button.customer-book-item__return-button {
-    @apply flex items-center content-center justify-center mt-auto rounded-none py-3 px-5;
+  &__actions {
+    @apply flex mt-auto;
   }
 
-  &__return-image {
-    @apply w-4 mr-auto relative hidden;
+  .customer-book-item__return-button,
+  .customer-book-item__remove-button {
+    @apply  mt-auto rounded-none py-3 px-5 w-full leading-none text-sm;
+  }
 
-    top: -1px;
+  .customer-book-item__remove-button {
+    @apply from-red-400 to-red-600;
   }
 }
 </style>

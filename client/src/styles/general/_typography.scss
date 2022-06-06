@@ -39,7 +39,7 @@
 }
 
 .app-button,
-button:not(.Vue-Toastification__close-button),
+button,
 input[type="button"],
 input[type="submit"] {
   @apply py-5 px-2 font-bold max-w-full cursor-pointer bg-gradient-to-br from-blue-400 to-blue-700 text-white rounded text-sm sm:text-base;
@@ -51,4 +51,12 @@ input[type="submit"] {
 
     transform: scale(1.015)
   }
+}
+
+.app-button--accept {
+  @apply from-blue-400 to-blue-700;
+}
+
+.app-button--cancel {
+  @apply from-red-400 to-red-700;
 }

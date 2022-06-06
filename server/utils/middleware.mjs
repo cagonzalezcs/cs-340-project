@@ -15,7 +15,6 @@ const checkAuthToken = (request, response, next) => {
 
   const encryptedToken = authHeader.split(' ')[1];
   const token = decryptString(encryptedToken);
-
   if (!token) {
     return response.sendStatus(401);
   }
@@ -42,7 +41,7 @@ const checkAdminAuth = (request, response, next) => {
 };
 
 const checkIsCurrentCustomer = (request, response, next) => {
-  const userId = request.params.userId;
+  const userId = request.params.userId || request.body.user_id;
   const userData = request.user.user_data;
 
   if (isCustomerUser(userData?.user_role_id) && Number(userData?.id) !== Number(userId)) {

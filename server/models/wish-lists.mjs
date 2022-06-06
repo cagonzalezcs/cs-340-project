@@ -1,5 +1,17 @@
 import { dbQuery } from '../db/db-connection.mjs';
 
+const getSingleWishListItem = async (userId, bookId) => {
+  if (!userId || !bookId) {
+    throw 'User Id and Book Id are required parameters to get a wish list item';
+  }
+
+  console.log(bookId);
+  return await dbQuery(`SELECT *
+                        FROM wish_list_books
+                        WHERE user_id = ?
+                          AND book_id = ?`, [userId, bookId]);
+};
+
 const getAllWishListItemsForUser = async (userId) => {
   if (!userId) {
     throw 'User Id is a required parameter to get user wish list items';
@@ -23,4 +35,28 @@ const getAllWishListItemsForUser = async (userId) => {
                         GROUP BY wish_list_books.book_id;`, [userId]);
 };
 
-export { getAllWishListItemsForUser };
+const createWishListItem = async (userId, bookId) => {
+  if (!userId || !bookId) {
+    throw 'A User Id and Book Id are required to add a wish list item';
+  }
+
+  return await dbQuery(`
+      INSERT INTO wish_list_books (user_id, book_id)
+      VALUES (?, ?);
+  `, [userId, bookId]);
+};
+
+const deleteWishListItem = async (userId, bookId) => {
+  if (!userId || !bookId) {
+    throw 'A User Id and Book Id are required to remove a wish list item';
+  }
+
+  return await dbQuery(`
+      DELETE
+      FROM wish_list_books
+      WHERE wish_list_books.user_id = ?
+        AND wish_list_books.book_id = ?;
+  `, [userId, bookId]);
+};
+
+export { getSingleWishListItem, getAllWishListItemsForUser, createWishListItem, deleteWishListItem };

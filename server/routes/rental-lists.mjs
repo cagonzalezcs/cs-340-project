@@ -9,4 +9,15 @@ const rentalListsRouter = express.Router();
  */
 rentalListsRouter.get('/user/:userId', checkAuthToken, checkIsCurrentCustomer, rentalListsController.getAllRentalListItemsForUser);
 
+/**
+ * Post rental from user wish list to rental list
+ */
+
+rentalListsRouter.post('/rent-book', checkAuthToken, checkIsCurrentCustomer, rentalListsController.rentBookForUser);
+
+/**
+ * Delete rental list item
+ */
+rentalListsRouter.delete('/', checkAuthToken, checkIsCurrentCustomer, rentalListsController.deleteRentalListItem);
+
 export default rentalListsRouter;
