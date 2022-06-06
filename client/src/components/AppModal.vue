@@ -49,6 +49,7 @@ function clickOutsideModalContent() {
   padding-top: 40px;
   padding-bottom: 40px;
   pointer-events: none;
+  overflow: auto;
 
   &::before {
     content: '\2715';

@@ -100,18 +100,19 @@ const handleAuthorDeleted = () => {
 
 <template>
   <admin-layout>
-    <div id='header'>
-      <h1>Authors</h1>
-      <button @click='toggleAddAuthorModal'>Add New Author</button>
-    </div>
-    <br />
+    <header class="app-header">
+      <h1 class="app-header__heading">Authors</h1>
+      <div class="app-header__actions">
+        <button class='app-header__button' @click='toggleAddAuthorModal'>Add New Author</button>
+      </div>
+    </header>
     <div v-if='state.authors?.length' id='browseAuthors'>
-      <table border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;'>
+      <table border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;' class='app-table'>
         <tr>
           <th>id</th>
           <th>name</th>
-          <th>birth_date</th>
-          <th>books</th>
+          <th>birth date</th>
+          <th></th>
           <th></th>
           <th></th>
         </tr>
@@ -119,14 +120,12 @@ const handleAuthorDeleted = () => {
           <td>{{ author.id }}</td>
           <td>{{ author.name }}</td>
           <td>{{ author.birth_date }}</td>
-          <td>
-            <button @click='toggleAuthorBookListModal(index)'>View All Author Titles</button>
-          </td>
-          <td>
-            <button @click='toggleEditAuthorModal(index)'>Edit Author</button>
-          </td>
-          <td>
-            <button @click='toggleDeleteAuthorModal(index)'>Delete Author</button>
+          <td colspan='3'>
+            <div class='app-table__actions'>
+              <button @click='toggleAuthorBookListModal(index)'>View All Author Books</button>
+              <button @click='toggleEditAuthorModal(index)'>Edit Author</button>
+              <button class='red-button' @click='toggleDeleteAuthorModal(index)'>Delete Author</button>
+            </div>
           </td>
         </tr>
       </table>

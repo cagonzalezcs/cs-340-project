@@ -1,7 +1,11 @@
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted, reactive } from 'vue';
 import { checkUserIsCustomer } from '../../router/middleware.js';
 import CustomerLayout from '../../components/layouts/CustomerLayout.vue';
+
+const searchForm = reactive({
+  value: ''
+});
 
 onMounted(async () => {
   await checkUserIsCustomer();
@@ -10,18 +14,17 @@ onMounted(async () => {
 
 <template>
   <customer-layout>
-    <div class='customer-search-books'>
-      <h1>Search Books</h1>
-      <form action='#' class='search-books-form' @submit.prevent>
-        <label for='search-books' class='search-books-form__label'>
+    <div class='search-books'>
+      <h1 class='search-books__heading'>Search Books</h1>
+      <form action='#' class='search-books__form' @submit.prevent>
+        <label for='search-books' class='search-books__form-label'>
           Find a book
         </label>
         <div class='input-group'>
-          <input id='search-books' type='text' value='A book title query that might have been entered' class='search-books-form__input'>
-          <input type='submit' value='Search'>
+          <input id='search-books' v-model='searchForm.value' type='text' class='search-books__form-input'>
         </div>
       </form>
-      <table border="1" cellpadding="5" style="margin-left: auto; margin-right: auto;">
+      <table border="1" cellpadding="5" style="margin-left: auto; margin-right: auto;" class='search-books__results app-table'>
         <tr>
           <th>cover</th>
           <th>book title</th>
@@ -32,49 +35,13 @@ onMounted(async () => {
           <th></th>
         </tr>
         <tr>
-          <th><img src='https://picsum.photos/seed/picsum56/100/150' alt=''></th>
-          <th>nulla quisque arcu libero</th>
-          <th>Robbi Feild</th>
-          <th>Horror</th>
-          <th>810394541-2</th>
-          <th><a href='#'>Check Out</a></th>
-          <th><a href='#'>Add to Wishlist</a></th>
-        </tr>
-        <tr>
-          <th><img src='https://picsum.photos/seed/picsum1/100/150' alt=''></th>
-          <th>aliquet massa id lobortis convallis tortor</th>
-          <th>Thomasin Seakin</th>
-          <th>Horror</th>
-          <th>663570720-4</th>
-          <th><a href='#'>Check Out</a></th>
-          <th><a href='#'>Add to Wishlist</a></th>
-        </tr>
-        <tr>
-          <th><img src='https://picsum.photos/seed/picsum3/100/150' alt=''></th>
-          <th>dapibus at diam nam tristique tortor eu</th>
-          <th>Adiana Pavlishchev</th>
-          <th>Fiction</th>
-          <th>711009564-9</th>
-          <th><a href='#'>Check Out</a></th>
-          <th><a href='#'>Add to Wishlist</a></th>
-        </tr>
-        <tr>
-          <th><img src='https://picsum.photos/seed/picsum2/100/150' alt=''></th>
-          <th>convallis tortor risus dapibus augue</th>
-          <th>Perren Benzi</th>
-          <th>Comedy</th>
-          <th>941228042-4</th>
-          <th><a href='#'>Check Out</a></th>
-          <th><a href='#'>Add to Wishlist</a></th>
-        </tr>
-        <tr>
-          <th><img src='https://picsum.photos/seed/picsum4/100/150' alt=''></th>
-          <th>risus auctor sed tristique in tempus</th>
-          <th>Perren Benzi</th>
-          <th>Drama</th>
-          <th>588823922-4</th>
-          <th><a href='#'>Check Out</a></th>
-          <th><a href='#'>Add to Wishlist</a></th>
+          <td><img src='https://picsum.photos/seed/picsum56/100/150' alt=''></td>
+          <td>nulla quisque arcu libero</td>
+          <td>Robbi Feild</td>
+          <td>Horror</td>
+          <td>810394541-2</td>
+          <td><button>Check Out</button></td>
+          <td><button>Add to Wishlist</button></td>
         </tr>
       </table>
     </div>
@@ -82,31 +49,47 @@ onMounted(async () => {
 </template>
 
 <style lang='scss'>
-.search-books-form {
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-  width: 600px;
-  max-width: 100%;
-  margin: 40px auto;
+.search-books {
+  @apply w-[95%] max-w-6xl mx-auto pb-20;
 
-
-  &__label {
-    width: 100%;
-
+  &__heading {
+    @apply text-5xl font-bold mb-14 text-neutral-700;
   }
 
-  &__input {
-    padding: 10px 15px;
-    width: 100%;
-  }
+  &__form {
+    @apply w-full;
 
-  .input-group {
     display: flex;
+    flex-direction: column;
+    text-align: left;
+    max-width: 100%;
+    margin: 40px auto;
 
-    input[type="submit"] {
-      width: 150px;
-      margin-left: 10px;
+
+    &-label {
+      @apply font-semibold mb-2 ml-1;
+
+      width: 100%;
+    }
+
+    &-input {
+      padding: 10px 15px;
+      width: 100%;
+    }
+
+    .input-group {
+      padding-top: 0;
+      margin-top: 0;
+    }
+  }
+
+  &__results.app-table.app-table.app-table {
+    @apply w-full;
+
+    tr {
+      td {
+        @apply pl-0 py-0;
+      }
     }
   }
 }

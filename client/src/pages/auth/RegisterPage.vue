@@ -50,16 +50,16 @@ const registerUser = async () => {
     });
 
     if (response.status === 422) {
-      alert('A user with that email address has previously registered, please use a different email address.');
+      toast.info('A user with that email address has previously registered, please use a different email address.');
       return;
     }
 
     if (response.status !== 200) {
-      alert('An error occurred while attempting to create your user. Please try again later.');
+      toast.error('An error occurred while attempting to create your user. Please try again later.');
       return;
     }
 
-    alert('User registered successfully, you can now log in to your account');
+    toast.success('User registered successfully, you can now log in to your account');
     router.push('/');
   } catch (error) {
     console.error(error);

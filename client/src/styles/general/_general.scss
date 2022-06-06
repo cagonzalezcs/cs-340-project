@@ -11,6 +11,34 @@ body {
 
 
 a {
-  @apply text-blue-700 no-underline font-semibold;
+  @apply text-blue-700 no-underline font-semibold transition-colors;
 }
 
+.app-header {
+  @apply flex items-center content-center mb-5;
+
+  &__heading {
+    @apply mb-0 mr-auto font-bold;
+
+    font-size: 2.55rem;
+  }
+
+  &__actions {
+    @apply flex items-center content-center;
+  }
+
+  &__link {
+    @apply ml-8 font-bold;
+
+    &:hover {
+      @apply text-blue-500;
+    }
+  }
+
+  &__button {
+    @apply ml-8;
+
+    width: 220px;
+    max-width: 100%;
+  }
+}

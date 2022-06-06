@@ -141,31 +141,31 @@ const handleUserDeleted = () => {
 
 <template>
   <admin-layout>
-    <div>
-      <h1>Users</h1>
-      <router-link
-        to='/admin/rental-lists'
-        style='margin-right: 15px; margin-bottom:20px; display:inline-block; font-size: 18px; font-weight: bold;'>
-        View Rental Lists
-      </router-link>
-      <router-link
-        to='/admin/wish-lists'
-        style='margin-bottom:20px; display:inline-block; font-size: 18px; font-weight: bold;'>View Wish Lists
-      </router-link>
-      <br />
-      <button @click='toggleAddUserModal'>Add New User</button>
-    </div>
-    <br />
+    <header class="app-header">
+      <h1 class="app-header__heading">Users</h1>
+      <div class="app-header__actions">
+        <router-link
+          to='/admin/rental-lists'
+          class="app-header__link">
+          View Rental Lists
+        </router-link>
+        <router-link
+          to='/admin/wish-lists'
+          class="app-header__link">View Wish Lists
+        </router-link>
+        <button class='app-header__button' @click='toggleAddUserModal'>Add New User</button>
+      </div>
+    </header>
     <div id='browse'>
-      <table border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;'>
+      <table border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;' class='app-table'>
         <tr>
           <th>id</th>
-          <th>user_role_id</th>
-          <th>first_name</th>
-          <th>last_name</th>
+          <th>user role id</th>
+          <th>first name</th>
+          <th>last name</th>
           <th>email</th>
-          <th>address_line_1</th>
-          <th>address_line_2</th>
+          <th>address line 1</th>
+          <th>address line 2</th>
           <th>city</th>
           <th>state</th>
           <th></th>
@@ -183,17 +183,13 @@ const handleUserDeleted = () => {
           <td>{{ user.address_line_2 }}</td>
           <td>{{ user.city }}</td>
           <td>{{ user.state }}</td>
-          <td>
-            <button @click='toggleUserWishListModal(index)'>View Wish List</button>
-          </td>
-          <td>
-            <button @click='toggleUserRentalListModal(index)'>View Rental List</button>
-          </td>
-          <td>
-            <button @click='toggleUpdateUserModal(index)'>Edit User</button>
-          </td>
-          <td>
-            <button @click='toggleDeleteUserModal(index)'>Delete User</button>
+          <td colspan='4' >
+            <div class='app-table__actions'>
+              <button @click='toggleUserWishListModal(index)'>View Wish List</button>
+              <button @click='toggleUserRentalListModal(index)'>View Rental List</button>
+              <button @click='toggleUpdateUserModal(index)'>Edit User</button>
+              <button class='red-button' @click='toggleDeleteUserModal(index)'>Delete User</button>
+            </div>
           </td>
         </tr>
       </table>

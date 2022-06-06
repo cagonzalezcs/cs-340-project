@@ -2,6 +2,7 @@
 import { reactive, watch } from 'vue';
 import AppModal from '../../components/AppModal.vue';
 import { getAuthToken } from '../../utils/cookies';
+import { useToast } from 'vue-toastification';
 
 const props = defineProps({
   'isEditAuthorModalActive': Boolean,
@@ -34,6 +35,8 @@ const toggleEditAuthorModal = () => {
   emit('toggleEditAuthorModal');
 };
 
+const toast = useToast();
+
 const updateAuthor = async () => {
   try {
     const authorUpdates = state.updatedAuthor;
@@ -46,10 +49,10 @@ const updateAuthor = async () => {
       },
     });
     if (response.status !== 200) {
-      alert('ERROR: Something went wrong updated this author.');
+      toast.error('ERROR: Something went wrong updated this author.');
       return;
     }
-    alert('Success!');
+    toast.success('Author successfully updated');
     emit('authorUpdated', { ...state.updatedAuthor, id: props.author.id });
     toggleEditAuthorModal();
   } catch (error) {
@@ -67,11 +70,11 @@ const updateAuthor = async () => {
         <fieldset class='fields'>
           <label for='author-name'> name </label>
           <input id='author-name' v-model='state.updatedAuthor.name' type='text' name='name' required>
-          <label for='author-birth-date'> birth_date </label>
+          <label for='author-birth-date'> birth date </label>
           <input id='author-birth-date' v-model='state.updatedAuthor.birth_date' type='date' name='birth_date' required>
         </fieldset>
-        <input id='editAuthor' class='btn' type='submit' value='Update Author' @click='updateAuthor'>
-        <input class='btn' type='button' value='Cancel' @click='toggleEditAuthorModal'>
+        <input id='editAuthor' class='app-button app-button--accept' type='submit' value='Update Author' @click='updateAuthor'>
+        <input class='app-button app-button--cancel' type='button' value='Cancel' @click='toggleEditAuthorModal'>
       </form>
     </div><!-- update -->
   </app-modal>

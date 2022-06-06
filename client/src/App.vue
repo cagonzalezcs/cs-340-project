@@ -1,6 +1,5 @@
 <script setup>
 import { useUserStore } from './stores/user.js';
-import AppNavigation from './components/app-navigation/AppNavigation.vue';
 import { getAuthToken } from './utils/cookies';
 import {
   onMounted,

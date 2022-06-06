@@ -1,6 +1,7 @@
 <script setup>
 import AppModal from '../../components/AppModal.vue';
 import { getAuthToken } from '../../utils/cookies';
+import { useToast } from 'vue-toastification';
 
 const props = defineProps({
   'isDeleteGenreModalActive': Boolean,
@@ -13,6 +14,8 @@ const toggleDeleteGenreModal = () => {
   emit('toggleDeleteGenreModal');
 };
 
+const toast = useToast();
+
 const deleteGenre = async () => {
   try {
     const response = await fetch(`${ import.meta.env.VITE_SERVER_URI }genres/${ props.genre.id }`,
@@ -24,10 +27,10 @@ const deleteGenre = async () => {
       },
     });
     if (response.status !== 200) {
-      alert('There was an error deleting the genre. Please try again.');
+      toast.error('There was an error deleting the genre. Please try again.');
       return;
     }
-    alert('Successfully Deleted');
+    toast.success('Genre successfully deleted');
     emit('genreDeleted'); 
     toggleDeleteGenreModal();
   } catch (error) {
@@ -48,8 +51,8 @@ const deleteGenre = async () => {
           <label><strong>id:</strong></label> {{ genre.id }}
           <label> <strong>name:</strong> </label> {{ genre.name }}
         </fieldset>
-        <input id='deleteGenre' class='btn' type='submit' value='Delete Genre' @click='deleteGenre'>
-        <input class='btn' type='button' value='Cancel' @click='toggleDeleteGenreModal'>
+        <input id='deleteGenre' class='app-button app-button--accept' type='submit' value='Delete Genre' @click='deleteGenre'>
+        <input class='app-button app-button--cancel' type='button' value='Cancel' @click='toggleDeleteGenreModal'>
       </form>
     </div><!-- delete -->
   </app-modal>

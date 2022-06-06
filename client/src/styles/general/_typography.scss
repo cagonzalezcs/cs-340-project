@@ -42,7 +42,7 @@
 button,
 input[type="button"],
 input[type="submit"] {
-  @apply py-5 px-2 font-bold max-w-full cursor-pointer bg-gradient-to-br from-blue-400 to-blue-700 text-white rounded text-sm sm:text-base;
+  @apply py-3 px-4 font-bold max-w-full cursor-pointer bg-gradient-to-br from-blue-400 to-blue-700 text-white rounded text-sm sm:text-base;
 
   transition: 0.35s ease box-shadow, 0.35s ease transform;
 
@@ -53,10 +53,26 @@ input[type="submit"] {
   }
 }
 
-.app-button--accept {
-  @apply from-blue-400 to-blue-700;
+.app-button--accept,
+input[type="submit"].app-button--accept.app-button--accept {
+  @apply from-blue-400 to-blue-700 py-4 max-w-full px-6;
+
+  min-width: 225px;
 }
 
-.app-button--cancel {
-  @apply from-red-400 to-red-700;
+.app-button--cancel,
+input[type="button"].app-button--cancel.app-button--cancel {
+  @apply from-red-400 to-red-700 py-4 max-w-full px-6;
+
+  min-width: 225px;
+}
+
+.app-button--neutral.app-button--neutral {
+  @apply bg-transparent border-2 border-neutral-500 text-neutral-600 py-3 text-sm transition-colors;
+
+  background-image: none;
+
+  &:hover {
+    @apply bg-neutral-700 text-white border-neutral-700;
+  }
 }

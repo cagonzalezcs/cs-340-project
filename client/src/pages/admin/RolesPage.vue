@@ -92,13 +92,14 @@ const handleUserRoleDeleted = () => {
 
 <template>
   <admin-layout>
-    <div id='header'>
-      <h1>Roles</h1>
-      <button @click='toggleAddRoleModal'>Add New Role</button>
-    </div>
-    <br />
+    <header class="app-header">
+      <h1 class="app-header__heading">Roles</h1>
+      <div class="app-header__actions">
+        <button class='app-header__button' @click='toggleAddRoleModal'>Add New Role</button>
+      </div>
+    </header>
     <div id='browseRoles'>
-      <table border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;'>
+      <table border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;' class='app-table'>
         <tr>
           <th>id</th>
           <th>type</th>
@@ -108,11 +109,11 @@ const handleUserRoleDeleted = () => {
         <tr v-for='(userRole, index) in state.userRoles' :key='`user-role-${userRole.id}`'>
           <td>{{ userRole.id }}</td>
           <td>{{ userRole.type }}</td>
-          <td>
-            <button @click='toggleEditRoleModal(index)'>Edit Role</button>
-          </td>
-          <td>
-            <button @click='toggleDeleteRoleModal(index)'>Delete Role</button>
+          <td colspan='2'>
+            <div class='app-table__actions'>
+              <button @click='toggleEditRoleModal(index)'>Edit Role</button>
+              <button class='red-button' @click='toggleDeleteRoleModal(index)'>Delete Role</button>
+            </div>
           </td>
         </tr>
       </table>

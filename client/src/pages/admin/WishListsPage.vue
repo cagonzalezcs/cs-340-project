@@ -63,20 +63,27 @@ const currentUser = computed(() => {
 
 <template>
   <admin-layout>
-    <div id='wishLists'>
-      <h1>All Wish Lists</h1>
-      <router-link to='/admin/users' style='margin-bottom:20px; display:inline-block; font-size: 18px; font-weight: bold;'>Back to Users</router-link>
-      <br />
-    </div>
+    <header class='app-header'>
+      <h1 class='app-header__heading'>All Wish Lists</h1>
+      <div class='app-header__actions pr-1'>
+        <router-link
+          to='/admin/users'
+          class='app-header__link'>Back to Users
+        </router-link>
+      </div>
+    </header>
+
+
+
     <div id='browseWishLists'>
-      <table v-if='state.wishLists?.length' border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;'>
+      <table v-if='state.wishLists?.length' border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;' class='app-table'>
         <tr>
-          <th>user_id</th>
+          <th>user id</th>
           <th></th>
         </tr>
         <tr v-for='(user, index) in state.wishLists' :key='user.user_id'>
           <td>{{ user.user_id }}</td>
-          <td>
+          <td class='text-right'>
             <button @click='toggleViewModal(index)'>View Wish List Items</button>
           </td>
         </tr>

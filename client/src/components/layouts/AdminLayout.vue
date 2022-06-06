@@ -40,7 +40,7 @@ import AppNavigationAdmin from '../app-navigation/AppNavigationAdmin.vue';
   }
 
   &__main {
-    @apply pl-[260px] pr-10 py-10;
+    @apply pl-[290px] pr-16 py-12;
   }
 
   .app-navigation {
@@ -49,7 +49,7 @@ import AppNavigationAdmin from '../app-navigation/AppNavigationAdmin.vue';
     }
 
     &__logout-button {
-      @apply from-zinc-700 to-zinc-800 mt-auto rounded-none shadow-none;
+      @apply from-zinc-700 to-zinc-800 mt-auto rounded-none shadow-none py-4;
 
       &:hover {
         transform: none;

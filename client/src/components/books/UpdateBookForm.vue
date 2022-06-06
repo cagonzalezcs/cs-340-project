@@ -2,6 +2,9 @@
 import { reactive, watch } from 'vue';
 import AppModal from '../../components/AppModal.vue';
 import { getAuthToken } from '../../utils/cookies';
+import { useToast } from 'vue-toastification';
+
+const baseUrl = import.meta.env.VITE_SERVER_URI;
 
 const props = defineProps({
   isUpdateBookModalActive: Boolean,
@@ -22,6 +25,13 @@ const state = reactive({
     quantity_available: '',
     quantity_rented: '',
   },
+  newAuthor: {
+    name: '',
+    birth_date: ''
+  },
+  newGenre: {
+    name: '',
+  }
 });
 
 
@@ -53,9 +63,55 @@ const toggleUpdateBookModal = () => {
   emit('toggleUpdateBookModal');
 };
 
+const addNewAuthor = async (name, birthDate) => {
+  if (name !== '' && birthDate !== '') {
+    try {
+      await fetch(`${baseUrl}authors`, {
+        method: 'POST',
+        body: JSON.stringify({ name, birth_date: birthDate }),
+        headers: {
+          'Content-type': 'application/json',
+          Authorization: `Bearer ${ getAuthToken() }`,
+        },
+      });
+    } catch(e) {
+      return new Error({ message: 'Error adding new author' });
+    }
+  }
+};
+
+const toast = useToast();
+
+const addNewGenre = async (name) => {
+  if (name !== '') {
+    try {
+      await fetch(`${baseUrl}genres`, {
+        method: 'POST',
+        body: JSON.stringify({ name }),
+        headers: {
+          'Content-type': 'application/json',
+          Authorization: `Bearer ${ getAuthToken() }`,
+        },
+      });
+    } catch(e) {
+      return new Error({ message: 'Error adding new genre' });
+    }
+  }
+};
+
 const updateBook = async () => {
   try {
-    const bookUpdates = state.updatedBook;
+    await addNewAuthor(state.newAuthor?.name, state.newAuthor?.birth_date);
+    await addNewGenre(state.newGenre?.name);
+    const bookUpdates = {
+      title: state.updatedBook.title,
+      authors: state.newAuthor.name ? [state.newAuthor.name] : state.updatedBook.authors,
+      genre_id: state.newGenre.name ||  state.updatedBook.genre_id,
+      isbn:  state.updatedBook.isbn,
+      cover_image:  state.updatedBook.cover_image,
+      quantity_available:  state.updatedBook.quantity_available,
+      quantity_rented:  state.updatedBook.quantity_rented,
+    };
     const response = await fetch(`${ import.meta.env.VITE_SERVER_URI }/books/${ props.book.id }`, {
       method: 'PUT',
       body: JSON.stringify(bookUpdates),
@@ -66,12 +122,21 @@ const updateBook = async () => {
     });
 
     if (response.status !== 200) {
-      alert('ERROR: Something went wrong with updating this book.');
+      toast.error('ERROR: Something went wrong with updating this book.');
       return;
     }
 
-    alert('Success!');
+    toast.success('Book successfully updated');
     emit('bookUpdated', {...state.updatedBook, id: props.book.id});
+    state.newAuthor = {
+      name: '',
+      birth_date: '',
+    };
+    state.newGenre = {
+      name: '',
+    };
+    state.isAddingAuthor = false;
+    state.isAddingGenre =false;
     toggleUpdateBookModal();
   } catch (error) {
     console.error(error);
@@ -96,11 +161,11 @@ const updateBook = async () => {
             </div>
             <div v-else class='input-group__content author-input-group__new'>
               <label for='author-name'> new author name </label>
-              <input id='author-name' type='text' name='name'>
+              <input id='author-name' v-model='state.newAuthor.name' type='text' name='name'>
               <label for='author-birth-date'> author birth_date </label>
-              <input id='author-birth-date' type='date' name='birth_date'>
+              <input id='author-birth-date' v-model='state.newAuthor.birth_date' type='date' name='birth_date'>
             </div>
-            <button class='input-group__button' disabled @click='toggleIsAddingNewAuthor'>
+            <button class='input-group__button app-button--neutral' @click.prevent='toggleIsAddingNewAuthor'>
               {{ state.isAddingAuthor ? 'Cancel' : 'Add New Author' }}
             </button>
           </div>
@@ -116,23 +181,23 @@ const updateBook = async () => {
             </div>
             <div  v-else  class='input-group__content genre-input-group__new'>
               <label for='genre-name'> new genre name </label>
-              <input id='genre-name' type='text' name='genreName'>
+              <input id='genre-name' v-model='state.newGenre.name' type='text' name='genreName'>
             </div>
-            <button class='input-group__button' disabled @click='toggleIsAddingNewGenre'>
+            <button class='input-group__button app-button--neutral' @click.prevent='toggleIsAddingNewGenre'>
               {{ state.isAddingGenre ? 'Cancel' : 'Add New Genre' }}
             </button>
           </div>
           <label for='book-isbn'> isbn </label>
           <input id='book-isbn' v-model='state.updatedBook.isbn' type='text' name='isbn' maxlength='13'>
-          <label for='book-cover-image'> cover_image </label>
+          <label for='book-cover-image'> cover image </label>
           <input id='book-cover-image' v-model='state.updatedBook.cover_image' type='text' name='cover_image'>
-          <label for='book-qty-available'> quantity_available </label>
+          <label for='book-qty-available'> quantity available </label>
           <input v-model='state.updatedBook.quantity_available' for='book-qty-available' type='number' name='quantity_available'>
-          <label for='book-qty-rented'> quantity_rented </label>
+          <label for='book-qty-rented'> quantity rented </label>
           <input id='book-qty-rented' v-model='state.updatedBook.quantity_rented' type='number' name='quantity_rented'>
         </fieldset>
-        <input id='UpdateBook' class='btn' type='button' value='Update Book' @click='updateBook'>
-        <input class='btn' type='button' value='Cancel' @click='toggleUpdateBookModal'>
+        <input id='UpdateBook' class='app-button app-button--accept' type='submit' value='Update Book' @click='updateBook'>
+        <input class='app-button app-button--cancel' type='button' value='Cancel' @click='toggleUpdateBookModal'>
       </form>
     </div><!-- update -->
   </app-modal>
