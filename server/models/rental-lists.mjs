@@ -38,7 +38,7 @@ const getAllRentalListItemsForUser = async (userId) => {
                                  LEFT JOIN genres ON books.genre_id = genres.id
                         WHERE rental_list_books.user_id = ?
                         GROUP BY rental_list_books.book_id
-                        ORDER BY date_rented DESC;`, [userId]);
+                        ORDER BY date_rented ASC;`, [userId]);
 };
 
 const createRentalListItem = async (userId, bookId) => {
@@ -50,6 +50,17 @@ const createRentalListItem = async (userId, bookId) => {
       INSERT INTO rental_list_books (user_id, book_id)
       VALUES (?, ?);
   `, [userId, bookId]);
+};
+
+const getSingleRentalListItem = async (userId, bookId) => {
+  if (!userId || !bookId) {
+    throw 'User Id and Book Id are required parameters to get a rental list item';
+  }
+
+  return await dbQuery(`SELECT *
+                        FROM rental_list_books
+                        WHERE user_id = ?
+                          AND book_id = ?`, [userId, bookId]);
 };
 
 const deleteRentalListItem = async (userId, bookId) => {
@@ -65,4 +76,4 @@ const deleteRentalListItem = async (userId, bookId) => {
   `, [userId, bookId]);
 };
 
-export { getAllRentalLists, getAllRentalListItemsForUser, createRentalListItem, deleteRentalListItem };
+export { getAllRentalLists, getAllRentalListItemsForUser, createRentalListItem, getSingleRentalListItem, deleteRentalListItem };

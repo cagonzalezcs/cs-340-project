@@ -21,7 +21,6 @@ const getSingleWishListItem = async (userId, bookId) => {
     throw 'User Id and Book Id are required parameters to get a wish list item';
   }
 
-  console.log(bookId);
   return await dbQuery(`SELECT *
                         FROM wish_list_books
                         WHERE user_id = ?
@@ -38,6 +37,8 @@ const getAllWishListItemsForUser = async (userId) => {
                                books.title,
                                books.isbn,
                                books.cover_image,
+                               books.quantity_available,
+                               books.quantity_rented,
                                (SELECT GROUP_CONCAT(authors.name SEPARATOR ', ')
                                 FROM authors
                                          LEFT JOIN book_authors ON authors.id = book_authors.author_id
@@ -50,7 +51,7 @@ const getAllWishListItemsForUser = async (userId) => {
                                  LEFT JOIN genres ON books.genre_id = genres.id
                         WHERE wish_list_books.user_id = ?
                         GROUP BY wish_list_books.book_id
-                        ORDER BY wish_list_books.created_at DESC;`, [userId]);
+                        ORDER BY wish_list_books.created_at ASC;`, [userId]);
 };
 
 const createWishListItem = async (userId, bookId) => {

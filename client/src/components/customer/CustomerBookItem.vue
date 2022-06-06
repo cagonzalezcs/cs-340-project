@@ -28,6 +28,14 @@ const hasMultipleAuthors = computed(() => {
   return props.book.authors.includes(',');
 });
 
+const isRentalUnavailable = computed(() => {
+  if (!props.book?.quantity_available || !props.book?.quantity_rented) {
+    return false;
+  }
+
+  return Number(props.book?.quantity_available) === Number(props.book?.quantity_rented);
+});
+
 const initBookAction = (isRemovingFromWishList = false) => {
   emit('initBookAction', props.book, isRemovingFromWishList);
 };
@@ -68,9 +76,14 @@ const initBookAction = (isRemovingFromWishList = false) => {
       <button
         v-if='isOnRentalList || isRentalSlotAvailable'
         class='customer-book-item__return-button'
+        :class='{"customer-book-item__return-button--unavailable": isRentalUnavailable}'
         :aria-label='`${isOnRentalList ? "Return" : "Rent"} ${book.title}`'
+        :disabled='isRentalUnavailable'
         @click='initBookAction(false)'>
-        {{ isOnRentalList ? 'Return' : 'Rent' }} Book
+        {{ isOnRentalList ? 'Return Book' :
+        isRentalUnavailable ? 'Book Unavailable' :
+          'Rent Book'
+        }}
       </button>
       <button v-if='!isOnRentalList' class='customer-book-item__remove-button' @click='initBookAction(true)'>
         Remove Book
@@ -111,11 +124,15 @@ const initBookAction = (isRemovingFromWishList = false) => {
 
   .customer-book-item__return-button,
   .customer-book-item__remove-button {
-    @apply  mt-auto rounded-none py-3 px-5 w-full leading-none text-sm;
+    @apply rounded-none py-3 px-5 w-full leading-none text-sm;
   }
 
   .customer-book-item__remove-button {
     @apply from-red-400 to-red-600;
+  }
+
+  .customer-book-item__return-button--unavailable {
+    @apply from-neutral-200 to-neutral-300 text-neutral-400 cursor-not-allowed;
   }
 }
 </style>

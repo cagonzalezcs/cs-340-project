@@ -111,6 +111,22 @@ const updateBook = async (bookId, title, genreId, isbn, coverImage, quantityAvai
   }
 };
 
+const updateBookQuantityAvailable = async (bookId, quantityAvailable) => {
+  if (!bookId || !quantityAvailable) {
+    throw 'Book Id and quantity are required to update book quantity';
+  }
+
+  await dbQuery(`
+              UPDATE books
+              SET books.quantity_available = ?
+              WHERE books.id = ?`,
+    [
+      quantityAvailable,
+      bookId,
+    ],
+  );
+};
+
 const deleteBook = async (bookId) => {
   if (!bookId) {
     throw 'Book Id is a required parameter to delete a book.';
@@ -229,10 +245,11 @@ const searchBooksByKeyword = async (keyword) => {
                LEFT JOIN book_authors ON books.id = book_authors.book_id
                LEFT JOIN authors ON book_authors.author_id = authors.id
       WHERE books.title LIKE ?
+         OR books.isbn LIKE ?
          OR genres.name LIKE ?
          OR authors.name LIKE ?
       GROUP BY books.id
-  `, [keywordWildcard, keywordWildcard, keywordWildcard]);
+  `, [keywordWildcard, keywordWildcard, keywordWildcard, keywordWildcard]);
 };
 
 export {
@@ -245,4 +262,5 @@ export {
   searchBooksByGenre,
   searchBooksByAuthor,
   searchBooksByKeyword,
+  updateBookQuantityAvailable
 };

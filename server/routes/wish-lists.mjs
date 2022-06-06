@@ -18,6 +18,11 @@ wishListsRouter.get('/single', checkAuthToken, checkIsCurrentCustomer, wishLists
 wishListsRouter.get('/user/:userId', checkAuthToken, checkIsCurrentCustomer, wishListsController.getAllWishListItemsForUser);
 
 /**
+ * Add a book to a user's wish list
+ */
+wishListsRouter.post('/add-book', checkAuthToken, checkIsCurrentCustomer, wishListsController.createWishListItem)
+
+/**
  * Delete rental list item
  */
 wishListsRouter.delete('/', checkAuthToken, checkIsCurrentCustomer, wishListsController.deleteWishListItem);

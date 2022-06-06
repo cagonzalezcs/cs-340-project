@@ -92,7 +92,7 @@ const deleteRentalListItem = async () => {
       return;
     }
 
-    toast.success(`${state.currentlySelectedBook.title} has been successfully returned.`, {
+    toast.success(`${state.currentlySelectedBook.title} has been returned.`, {
       position: POSITION.BOTTOM_CENTER,
     });
     toggleBookActionModal();
@@ -128,7 +128,7 @@ const deleteItemFromWishList = async () => {
       return;
     }
 
-    toast.success(`${state.currentlySelectedBook.title} has been successfully removed from your wish list.`, {
+    toast.success(`${state.currentlySelectedBook.title} has been removed from your wish list.`, {
       position: POSITION.BOTTOM_CENTER,
     });
     toggleBookActionModal();
@@ -171,7 +171,7 @@ const addItemToRentalList = async () => {
       return;
     }
 
-    toast.success(`${state.currentlySelectedBook.title} has been successfully added to your rentals list.`, {
+    toast.success(`${state.currentlySelectedBook.title} has been added to your rentals list.`, {
       position: POSITION.BOTTOM_CENTER,
     });
     toggleBookActionModal();

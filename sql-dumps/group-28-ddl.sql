@@ -210,7 +210,7 @@ VALUES ('Blott on the Landscape', 4, '9780330250801', 'https://covers.openlibrar
        ('Biloxi blues', 4, '0573690405', 'https://covers.openlibrary.org/b/isbn/0573690405-L.jpg', 20, 7),
        ('Carrie', 3, '0385086954', 'https://covers.openlibrary.org/b/isbn/0385086954-L.jpg', 17, 10),
        ('The essential theatre', 5, '0030493714', 'https://covers.openlibrary.org/b/isbn/0030493714-L.jpg', 13, 6),
-       ('Misery', 3, '9780670813643', 'https://covers.openlibrary.org/b/isbn/9780670813643-L.jpg', 15, 11),
+       ('Misery', 3, '9780670813643', 'https://covers.openlibrary.org/b/isbn/9780670813643-L.jpg', 15, 15),
        ('Sapiens', 1, '9780771038501', 'https://covers.openlibrary.org/b/isbn/9780771038501-L.jpg', 12, 11),
        ('Island of Dr. Moreau', 1, '0441374212', 'https://covers.openlibrary.org/b/isbn/0441374212-L.jpg', 15, 2);
 
@@ -285,7 +285,6 @@ VALUES (1, 'Admin', 'User', 'admin@admin.com', '6 Farwell Trail', NULL, 'New Yor
 INSERT INTO rental_list_books (user_id, book_id)
 VALUES (2, 3),
        (2, 10),
-       (2, 2),
        (6, 9),
        (6, 2),
        (6, 5),

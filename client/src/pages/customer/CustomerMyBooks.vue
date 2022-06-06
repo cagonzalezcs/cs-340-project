@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, reactive } from 'vue';
+import { onMounted } from 'vue';
 import { checkUserIsCustomer } from '../../router/middleware.js';
 import { getAuthToken } from '../../utils/cookies';
 import { useUserStore } from '../../stores/user';
@@ -13,17 +13,13 @@ onMounted(async () => {
 });
 
 const user = useUserStore();
-const userBooks = reactive({
-  rentalList: [],
-  wishList: [],
-});
 
 const setRentalList = (rentalList) => {
-  userBooks.rentalList = rentalList;
+  user.rentalList = rentalList;
 };
 
 const setWishList = (wishList) => {
-  userBooks.wishList = wishList;
+  user.wishList = wishList;
 };
 
 const baseUrl = import.meta.env.VITE_SERVER_URI;
@@ -40,7 +36,6 @@ async function getRentalListItems() {
       });
 
     const rentalListData = await response.json();
-    console.log(rentalListData);
     setRentalList(rentalListData);
   } catch (error) {
     console.error(error);
@@ -59,6 +54,7 @@ async function getWishListItems() {
       });
 
     const wishListData = await response.json();
+    console.log(wishListData);
     setWishList(wishListData);
   } catch (error) {
     console.error(error);
@@ -87,17 +83,17 @@ const rentalListItemAdded = async () => {
       </header>
       <customer-book-grid
         heading='Currently Rented Books'
-        :books='userBooks.rentalList'
+        :books='user.rentalList'
         is-rentals-list
-        :total-on-rental-list='userBooks.rentalList.length'
-        :total-on-wish-list='userBooks.wishList.length'
+        :total-on-rental-list='user.rentalList.length'
+        :total-on-wish-list='user.wishList.length'
         @rental-list-item-deleted='rentalListItemDeleted'
       ></customer-book-grid>
       <customer-book-grid
         heading='Books Wish List'
-        :books='userBooks.wishList'
-        :total-on-rental-list='userBooks.rentalList.length'
-        :total-on-wish-list='userBooks.wishList.length'
+        :books='user.wishList'
+        :total-on-rental-list='user.rentalList.length'
+        :total-on-wish-list='user.wishList.length'
         @wish-list-item-deleted='wishListItemDeleted'
         @rental-list-item-added='rentalListItemAdded'
       ></customer-book-grid>

@@ -13,6 +13,8 @@ export const useUserStore = defineStore({
     addressLine1: '',
     addressLine2: '',
     city: '',
+    wishList: [],
+    rentalList: [],
     isLoggedIn: false,
     isAdmin: false,
   }),
@@ -29,6 +31,8 @@ export const useUserStore = defineStore({
           addressLine1: '',
           addressLine2: '',
           city: '',
+          wishList: [],
+          rentalList: [],
           isLoggedIn: false,
           isAdmin: false,
         });
