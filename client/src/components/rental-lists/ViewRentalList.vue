@@ -107,7 +107,7 @@ const handleToggleRemoveModal = (itemId) => {
           <tr v-for='(item) in state.userRentalList' :key='item.user_id'>
             <td>{{ item.id }}</td>
             <td>{{ item.title }}</td>
-            <td><input type='radio' @click='handleToggleRemoveModal(item.id)'></td>
+            <td><button @click='handleToggleRemoveModal(item.id)'>Delete</button></td>
           </tr>
         </table>
       </div>
