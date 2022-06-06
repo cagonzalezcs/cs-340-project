@@ -24,7 +24,7 @@ table {
     }
 
     th {
-      @apply bg-blue-700 text-white capitalize;
+      @apply bg-blue-700 text-white capitalize whitespace-nowrap;
     }
 
 
