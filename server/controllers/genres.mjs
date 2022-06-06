@@ -26,6 +26,18 @@ const getGenre = async (request, response) => {
   }
 };
 
+const getGenreByName = async (genreName) => {
+  try {
+    const genreLookUp = await genresModel.getGenreIdByName(genreName);
+    const genreId = genreLookUp[0].id;
+    return genreId;
+  } catch (error) {
+    console.log(JSON.stringify(error.message))
+    response.status(error.status  || 500).json({ message: error.message || '' })
+  }
+};
+  
+
 const createGenre = async (request, response) => {
   try {
     const newGenreData = request.body;
@@ -34,7 +46,7 @@ const createGenre = async (request, response) => {
     );
     response.json({message: 'Genre has been successfully created.'})
   } catch (error) {
-    response.status(500).json({ error })
+    response.status(error.status  || 500).json({ message: error.message || '' })
   }
 };
 
@@ -65,6 +77,7 @@ const deleteGenre = async (request, response) => {
 export {
   getAllGenres,
   getGenre,
+  getGenreByName,
   createGenre,
   updateGenre,
   deleteGenre,

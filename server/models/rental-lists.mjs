@@ -1,5 +1,21 @@
 import { dbQuery } from '../db/db-connection.mjs';
 
+const getAllRentalLists = async () => {
+  return await dbQuery(
+    `SELECT
+      rental_list_books.user_id AS user_id, 
+      books.id,
+      books.title
+    FROM
+      books
+    INNER JOIN rental_list_books ON books.id = rental_list_books.user_id
+    GROUP BY
+      rental_list_books.user_id
+    ORDER BY
+      rental_list_books.user_id;`
+  );
+};
+
 const getAllRentalListItemsForUser = async (userId) => {
   if (!userId) {
     throw 'User Id is a required parameter to get user rental list items';
@@ -23,6 +39,23 @@ const getAllRentalListItemsForUser = async (userId) => {
                         WHERE rental_list_books.user_id = ?
                         GROUP BY rental_list_books.book_id
                         ORDER BY date_rented DESC;`, [userId]);
+};
+
+const getUserRentalList = async (userId) => {
+  if (!userId) {
+    throw 'User id is required to retrieve a rental list.'
+  }
+  return await dbQuery(
+    `SELECT
+        rental_list_books.user_id AS user_id,
+        books.id, 
+        books.title
+      FROM
+        books
+      INNER JOIN rental_list_books ON books.id = rental_list_books.book_id
+      WHERE
+        rental_list_books.user_id = ?`, [userId]
+  );
 };
 
 const createRentalListItem = async (userId, bookId) => {
@@ -49,4 +82,4 @@ const deleteRentalListItem = async (userId, bookId) => {
   `, [userId, bookId]);
 };
 
-export { getAllRentalListItemsForUser, createRentalListItem, deleteRentalListItem };
+export { getAllRentalLists, getAllRentalListItemsForUser, getUserRentalList, createRentalListItem, deleteRentalListItem };

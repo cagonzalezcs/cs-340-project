@@ -18,6 +18,18 @@ const getAuthor = async (authorId) => {
     );
 };
 
+const getAuthorByName = async (authorName) => {
+  if (!authorName) {
+    throw 'Author name is a required parameter to get an author id';
+  }
+  return await dbQuery(
+    `SELECT authors.id
+    FROM authors
+    WHERE authors.name = ?`, 
+    [authorName]
+  )
+};
+
 const createAuthor = async (name, birthDate) => {
   return await dbQuery(
     `INSERT INTO authors
@@ -74,4 +86,4 @@ const getAuthorBooks = async (authorId) => {
   );
 };
 
-export { getAllAuthors, getAuthor, createAuthor, updateAuthor, deleteAuthor, getAuthorBooks };
+export { getAllAuthors, getAuthor, getAuthorByName, createAuthor, updateAuthor, deleteAuthor, getAuthorBooks };

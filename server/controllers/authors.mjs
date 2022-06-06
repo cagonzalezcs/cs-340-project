@@ -1,3 +1,4 @@
+import { response } from 'express';
 import * as authorsModel from '../models/authors.mjs';
 
 const getAllAuthors = async (request, response) => {
@@ -18,6 +19,17 @@ const getAuthor = async (request, response) => {
     response.status(500).json({ error });
   }
 }
+
+const getAuthorByName = async (authorName) => {
+  try {
+    const authorLookUp = await authorsModel.getAuthorByName(authorName);
+    const authorId = authorLookUp[0].id;
+    return authorId;
+  } catch (error) {
+    console.log(JSON.stringify(error))
+    response.status(500).json({ error });
+  }
+};
 
 const getAuthorBooks = async (request, response) => {
   try {
@@ -67,4 +79,4 @@ const deleteAuthor = async (request, response) => {
   }
 };
 
-export { getAllAuthors, getAuthor, getAuthorBooks, createAuthor, updateAuthor, deleteAuthor };
+export { getAllAuthors, getAuthor, getAuthorByName, getAuthorBooks, createAuthor, updateAuthor, deleteAuthor };

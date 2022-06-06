@@ -102,7 +102,9 @@ const handleAuthorDeleted = () => {
   <admin-layout>
     <div id='header'>
       <h1>Authors</h1>
+      <button @click='toggleAddAuthorModal'>Add New Author</button>
     </div>
+    <br />
     <div v-if='state.authors?.length' id='browseAuthors'>
       <table border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;'>
         <tr>
@@ -111,9 +113,7 @@ const handleAuthorDeleted = () => {
           <th>birth_date</th>
           <th>books</th>
           <th></th>
-          <th>
-            <button @click='toggleAddAuthorModal'>Add New Author</button>
-          </th>
+          <th></th>
         </tr>
         <tr v-for='(author, index) in state.authors' :key='author.id'>
           <td>{{ author.id }}</td>

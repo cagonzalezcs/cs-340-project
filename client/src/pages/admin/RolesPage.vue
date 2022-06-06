@@ -94,16 +94,16 @@ const handleUserRoleDeleted = () => {
   <admin-layout>
     <div id='header'>
       <h1>Roles</h1>
+      <button @click='toggleAddRoleModal'>Add New Role</button>
     </div>
+    <br />
     <div id='browseRoles'>
       <table border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;'>
         <tr>
           <th>id</th>
           <th>type</th>
           <th></th>
-          <th>
-            <button @click='toggleAddRoleModal'>Add New Role</button>
-          </th>
+          <th></th>
         </tr>
         <tr v-for='(userRole, index) in state.userRoles' :key='`user-role-${userRole.id}`'>
           <td>{{ userRole.id }}</td>

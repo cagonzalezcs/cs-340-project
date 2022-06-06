@@ -158,7 +158,9 @@ const handleBookUpdated = () => {
         style='margin-bottom:20px; display:inline-block; font-size: 18px; font-weight: bold;'>Search All Books
       </router-link>
       <br />
+      <button @click='toggleAddBookModal'>Add New Book</button>
     </div>
+    <br />
     <div id='browse'>
       <table
         v-if='state.books && state.books.length' border='1' cellpadding='5'
@@ -173,9 +175,7 @@ const handleBookUpdated = () => {
           <th>quantity_available</th>
           <th>quantity_rented</th>
           <th></th>
-          <th>
-            <button @click='toggleAddBookModal'>Add New Book</button>
-          </th>
+          <th></th>
         </tr>
         <tr v-for='(book, index) in state.books' :key='`book-${book.id}`'>
           <td> {{ book.id }}</td>
@@ -183,7 +183,7 @@ const handleBookUpdated = () => {
           <td> {{ book.authors }}</td>
           <td> {{ book.genre }}</td>
           <td> {{ book.isbn }}</td>
-          <td> {{ book.cover_image }}</td>
+          <td><img v-bind:src="book.cover_image" width='40'/></td>
           <td> {{ book.quantity_available }}</td>
           <td> {{ book.quantity_rented }}</td>
           <td>

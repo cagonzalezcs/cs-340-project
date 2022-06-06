@@ -31,25 +31,25 @@ const getBook = async (bookId) => {
 };
 
 
-// Create a new book
-const createBook = async (title, authors, genreId, isbn, coverImage, quantityAvailable, quantityRented) => {
+const createBook = async (title, authors, genreId, isbn, coverImage, quantityAvailable, quantityRented, authorId) => {
   const newBook = await dbQuery(
     `INSERT INTO books(title, genre_id, isbn, cover_image, quantity_available, quantity_rented)
      VALUES (?, ?, ?, ?, ?, ?)`,
     [title, genreId, isbn, coverImage, quantityAvailable, quantityRented],
   );
   const bookId = newBook.insertId;
-  for (const authorName of authors) {
-    const authorData = await dbQuery(
-      'SELECT id FROM authors WHERE name= ?', [authorName],
-    );
-    const authorId = authorData[0].id;
-    await dbQuery(
-      `INSERT INTO book_authors(book_id, author_id)
-       VALUES (?, ?)`,
-      [bookId, authorId],
-    );
+  if (!authorId) {
+    for (const authorName of authors) {
+      const authorData = await dbQuery(
+        'SELECT id FROM authors WHERE name = ?', [authorName],
+      );
+    authorId = authorData[0].id
+    }
   }
+  await dbQuery(
+    `INSERT INTO book_authors(book_id, author_id)
+      VALUES (?, ?)`,
+    [bookId, authorId]);
 };
 
 const updateBook = async (bookId, title, genreId, isbn, coverImage, quantityAvailable, quantityRented, authors) => {
