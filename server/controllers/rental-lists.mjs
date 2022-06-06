@@ -19,4 +19,16 @@ const getRentalList = async (request, response) => {
     }
   };
 
-  export { getRentalList, getAllRentalLists }
+  const deleteRentalListItem = async (request, response) => {
+    try {
+      const itemId = request.params.itemId;
+      const userId = request.params.userId
+      console.log('item and user id', itemId, userId)
+      await rentalListModels.deleteRentalListItem(userId, itemId);
+      response.json({ message: 'Item has been successfully deleted.' });
+    } catch (error) {
+      response.status(500).json({ error });
+    }
+  };
+
+  export { getRentalList, getAllRentalLists, deleteRentalListItem }

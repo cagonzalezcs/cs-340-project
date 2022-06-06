@@ -2,7 +2,6 @@
 import { reactive, onMounted, computed } from 'vue';
 import { checkUserIsAdmin } from '../../router/middleware.js';
 import ViewRentalList from '../../components/rental-lists/ViewRentalList.vue';
-import RemoveFromRentalList from '../../components/rental-lists/RemoveFromRentalList.vue';
 import { getAuthToken } from '../../utils/cookies';
 
 onMounted(async () => {
@@ -12,19 +11,17 @@ onMounted(async () => {
 
 let state = reactive({
   isViewRentalListModalActive: false,
-  isRemoveFromRentalListModalActive: false,
   rentalLists: [], 
   currentlySelectedRentalIndex: 0,
 });
 
 const baseUrl = import.meta.env.VITE_SERVER_URI;
 
-const toggleViewRentalListModal = () => {
+const toggleViewModal = (userIndex) => {
+  if (!isNaN(userIndex)) {
+    state.currentlySelectedRentalIndex = userIndex;
+  }
   state.isViewRentalListModalActive = !state.isViewRentalListModalActive;
-};
-const toggleRemoveFromRentalListModal = () => {
-  state.isViewRentalListModalActive = false;
-  state.isRemoveFromRentalListModalActive = !state.isRemoveFromRentalListModalActive;
 };
 
 function setRentals(items) {
@@ -53,16 +50,13 @@ async function getRentalLists() {
   }
 };
 
-const currentlySelectedRentalIndex = computed(() => {
+const currentUser = computed(() => {
   if (state.currentlySelectedRentalIndex < 0) {
     return [];
   }
-  return state.rentalLists[state.currentlySelectedRentalIndex];
+  const found = state.rentalLists[state.currentlySelectedRentalIndex];
+  return found;
 });
-
-const handleListDeleted = () => {
-  getRentalLists();
-};
 
 </script>
 
@@ -78,14 +72,12 @@ const handleListDeleted = () => {
       <tr>
         <th>user_id</th>
         <th></th>
-        <th>Actions</th>
       </tr>
       <tr v-for='(user, index) in state.rentalLists' :key='user.user_id'>
         <td>{{ user.user_id }}</td>
         <td>
-          <button @click='toggleViewRentalListModal(index)'>View User Rental List</button>
+          <button @click='toggleViewModal(index)'>View Rental List Items</button>
         </td>
-        <td><button @click='toggleRemoveFromRentalListModal(index)'></button></td>
       </tr>
      
     </table>
@@ -93,12 +85,7 @@ const handleListDeleted = () => {
 
   <view-rental-list
     :is-view-rental-list-modal-active='state.isViewRentalListModalActive'
-    @toggle-view-rental-list-modal='toggleViewRentalListModal'
-    @toggle-remove-from-rental-list-modal='toggleRemoveFromRentalListModal'
+    :user='currentUser'
+    @toggle-view-rental-list-modal='toggleViewModal'
   />
-  <remove-from-rental-list
-    :is-remove-from-rental-list-modal-active='state.isRemoveFromRentalListModalActive'
-    @toggle-remove-from-rental-list-modal='toggleRemoveFromRentalListModal'
-  />
-
 </template>
