@@ -11,7 +11,7 @@ let state = reactive({
   isRemoveFromRentalListModalActive: false
 });
 
-const emit = defineEmits(['toggleViewRentalListModal']);
+const emit = defineEmits(['toggleViewRentalListModal', 'itemDeleted']);
 
 const props = defineProps({
   'isViewRentalListModalActive': Boolean,
@@ -34,7 +34,7 @@ watch(() => props.isViewRentalListModalActive, async () => {
   }
   let userId = props.user.id;
   try {
-    const response = await fetch(`${baseUrl}rental-lists/${userId}`, {
+    const response = await fetch(`${baseUrl}rental-lists/user/${userId}`, {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
@@ -53,9 +53,14 @@ watch(() => props.isViewRentalListModalActive, async () => {
 
 const deleteRentalListItem = async (bookId) => {
   try {
-    const response = await fetch(`${ baseUrl }rental-lists/${ props.user.id }/${ bookId }`, 
+    const rentalListItemToDelete = {
+      book_id: bookId,
+      user_id: props.user.id,
+    };
+    const response = await fetch(`${ baseUrl }rental-lists`,
     {
       method: 'DELETE',
+      body: JSON.stringify(rentalListItemToDelete),
       headers: {
       'Content-type': 'application/json',
       Authorization: `Bearer ${ getAuthToken() }`,
@@ -70,25 +75,25 @@ const deleteRentalListItem = async (bookId) => {
   emit('itemDeleted');
   toggleViewRentalListModal();
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
 };
 
 const toggleViewRentalListModal = () => {
-  state.rentalBookForDelete = {}
-  state.isRemoveFromRentalListModalActive = !state.isRemoveFromRentalListModalActive
+  state.rentalBookForDelete = {};
+  state.isRemoveFromRentalListModalActive = false;
   emit('toggleViewRentalListModal');
 };
 
 const handleToggleRemoveModal = (itemId) => {
-  let foundData = {}
+  let foundData = {};
   state.userRentalList?.find(data => {
     if (data?.id === itemId) {
-      foundData = { bookId: data.id, bookTitle: data.title }
+      foundData = { bookId: data.book_id, bookTitle: data.title };
     }
   });
   state.rentalBookForDelete = foundData;
-  state.isRemoveFromRentalListModalActive = !state.isRemoveFromRentalListModalActive;
+  state.isRemoveFromRentalListModalActive = true;
 };
 
 </script>
@@ -105,7 +110,7 @@ const handleToggleRemoveModal = (itemId) => {
             <th>Delete</th>
           </tr>
           <tr v-for='(item) in state.userRentalList' :key='item.user_id'>
-            <td>{{ item.id }}</td>
+            <td>{{ item.book_id }}</td>
             <td>{{ item.title }}</td>
             <td><button @click='handleToggleRemoveModal(item.id)'>Delete</button></td>
           </tr>

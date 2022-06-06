@@ -11,7 +11,7 @@ let state = reactive({
   isRemoveFromWishListModalActive: false
 });
 
-const emit = defineEmits(['toggleViewWishListModal']);
+const emit = defineEmits(['toggleViewWishListModal', 'itemDeleted']);
 
 const props = defineProps({
   'isViewWishListModalActive': Boolean,
@@ -34,7 +34,7 @@ watch(() => props.isViewWishListModalActive, async () => {
   }
   let userId = props.user.id;
   try {
-    const response = await fetch(`${baseUrl}wish-lists/${userId}`, {
+    const response = await fetch(`${baseUrl}wish-lists/user/${userId}`, {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
@@ -53,9 +53,14 @@ watch(() => props.isViewWishListModalActive, async () => {
 
 const deleteWishListItem = async (bookId) => {
   try {
-    const response = await fetch(`${ baseUrl }wish-lists/${ props.user.id }/${ bookId }`, 
+    const wishListItemToDelete = {
+      book_id: bookId,
+      user_id: props.user.id,
+    };
+    const response = await fetch(`${ baseUrl }wish-lists`,
     {
       method: 'DELETE',
+      body: JSON.stringify(wishListItemToDelete),
       headers: {
       'Content-type': 'application/json',
       Authorization: `Bearer ${ getAuthToken() }`,
@@ -70,21 +75,21 @@ const deleteWishListItem = async (bookId) => {
   emit('itemDeleted');
   toggleViewWishListModal();
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
 };
 
 const toggleViewWishListModal = () => {
-  state.wishListBookForDelete = {}
-  state.isRemoveFromWishListModalActive = false
+  state.wishListBookForDelete = {};
+  state.isRemoveFromWishListModalActive = false;
   emit('toggleViewWishListModal');
 };
 
 const handleToggleRemoveModal = (itemId) => {
-  let foundData = {}
+  let foundData = {};
   state.userWishList?.find(data => {
     if (data?.id === itemId) {
-      foundData = { bookId: data.id, bookTitle: data.title }
+      foundData = { bookId: data.book_id, bookTitle: data.title };
     }
   });
   state.wishListBookForDelete = foundData;
@@ -104,7 +109,7 @@ const handleToggleRemoveModal = (itemId) => {
             <th>Delete</th>
           </tr>
           <tr v-for='(item) in state.userWishList' :key='item.user_id'>
-            <td>{{ item.id }}</td>
+            <td>{{ item.book_id }}</td>
             <td>{{ item.title }}</td>
             <td><button @click='handleToggleRemoveModal(item.id)'>Delete</button></td>
           </tr>

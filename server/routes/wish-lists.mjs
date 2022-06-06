@@ -4,6 +4,9 @@ import { checkAuthToken, checkIsCurrentCustomer, checkAdminAuth } from '../utils
 
 const wishListsRouter = express.Router();
 
+// GET all Wish Lists
+wishListsRouter.get('/', checkAuthToken, checkAdminAuth, wishListsController.getAllWishLists);
+
 /**
  * Get a single wish list item
  */
@@ -18,15 +21,5 @@ wishListsRouter.get('/user/:userId', checkAuthToken, checkIsCurrentCustomer, wis
  * Delete rental list item
  */
 wishListsRouter.delete('/', checkAuthToken, checkIsCurrentCustomer, wishListsController.deleteWishListItem);
-
-
-// // GET all Wish Lists
-// wishListsRouter.get('/', checkAuthToken, checkAdminAuth, wishListsController.getAllWishLists);
-//
-// // GET Wish List for User by ID
-// wishListsRouter.get('/:userId', checkAuthToken, checkAdminAuth, wishListsController.getWishList);
-//
-// // DELETE Wish List item by User and Item ID
-// wishListsRouter.delete('/:userId/:itemId', checkAuthToken, checkAdminAuth, wishListsController.deleteWishListItem);
 
 export default wishListsRouter;

@@ -41,23 +41,6 @@ const getAllRentalListItemsForUser = async (userId) => {
                         ORDER BY date_rented DESC;`, [userId]);
 };
 
-const getUserRentalList = async (userId) => {
-  if (!userId) {
-    throw 'User id is required to retrieve a rental list.'
-  }
-  return await dbQuery(
-    `SELECT
-        rental_list_books.user_id AS user_id,
-        books.id, 
-        books.title
-      FROM
-        books
-      INNER JOIN rental_list_books ON books.id = rental_list_books.book_id
-      WHERE
-        rental_list_books.user_id = ?`, [userId]
-  );
-};
-
 const createRentalListItem = async (userId, bookId) => {
   if (!userId || !bookId) {
     throw 'A User Id and Book Id are required to add a rental list item';
@@ -82,4 +65,4 @@ const deleteRentalListItem = async (userId, bookId) => {
   `, [userId, bookId]);
 };
 
-export { getAllRentalLists, getAllRentalListItemsForUser, getUserRentalList, createRentalListItem, deleteRentalListItem };
+export { getAllRentalLists, getAllRentalListItemsForUser, createRentalListItem, deleteRentalListItem };

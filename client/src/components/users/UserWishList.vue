@@ -7,7 +7,7 @@ const baseUrl = import.meta.env.VITE_SERVER_URI;
 
 let state = reactive({
   userWishList: [],
-})
+});
 
 const props = defineProps({
   'isUserWishListModalActive': Boolean,
@@ -32,7 +32,7 @@ watch(() => props.isUserWishListModalActive, async () => {
   }
   let userId = props.user.id;
   try {
-    const response = await fetch(`${baseUrl}users/wish-list/${userId}`, {
+    const response = await fetch(`${baseUrl}wish-lists/user/${userId}`, {
       method: 'GET', 
       headers: {
         'Content-type': 'application/json', 
@@ -64,7 +64,7 @@ const toggleUserWishListModal = () => {
           <th>title</th>
         </tr>
         <tr v-for='item in state.userWishList' :key='item.user_id'>
-          <td>{{ item.id }}</td>
+          <td>{{ item.book_id }}</td>
           <td>{{ item.title }}</td>
         </tr>
       </table>

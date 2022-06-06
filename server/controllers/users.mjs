@@ -99,24 +99,4 @@ const deleteUser = async (request, response) => {
   }
 };
 
-const getUserRentalList = async (request, response) => {
-  try {
-    const userId = request.params.userId;
-    const rentalData = await usersModel.getUserRentalList(userId);
-    response.json(rentalData);
-  } catch (error) {
-    response.status(500).json({ error });
-  }
-};
-
-const getUserWishList = async (request, response) => {
-  try {
-    const userId = request.params.userId;
-    const wishListData = await usersModel.getUserWishList(userId);
-    response.json(wishListData);
-  } catch (error) {
-    response.status(500).json({ error });
-  }
-};
-
-export { getAllUsers, getUserById, createUser, registerUser, updateUser, deleteUser, getUserRentalList, getUserWishList };
+export { getAllUsers, getUserById, createUser, registerUser, updateUser, deleteUser };

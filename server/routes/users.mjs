@@ -22,10 +22,4 @@ usersRouter.put('/:userId', checkAuthToken, checkAdminAuth, checkIsCurrentCustom
 // DELETE Delete User
 usersRouter.delete('/:userId', checkAuthToken, checkAdminAuth, usersController.deleteUser);
 
-// GET User Rental List by ID
-usersRouter.get('/rental-list/:userId', checkAuthToken, checkAdminAuth, usersController.getUserRentalList);
-
-// GET User Wish LIst by ID
-usersRouter.get('/wish-list/:userId', checkAuthToken, checkAdminAuth, usersController.getUserWishList);
-
 export default usersRouter;

@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, onMounted, computed } from 'vue';
+import { computed, onMounted, reactive } from 'vue';
 import { checkUserIsAdmin } from '../../router/middleware.js';
 import ViewRentalList from '../../components/rental-lists/ViewRentalList.vue';
 import { getAuthToken } from '../../utils/cookies';
@@ -42,7 +42,7 @@ async function getRentalLists() {
       },
     });
     const rentalData = await response.json();
-    if(!rentalData.length) {
+    if (!rentalData.length) {
       return;
     }
     setRentals(rentalData);
@@ -55,8 +55,7 @@ const currentUser = computed(() => {
   if (state.currentlySelectedRentalIndex < 0) {
     return [];
   }
-  const found = state.rentalLists[state.currentlySelectedRentalIndex];
-  return found;
+  return state.rentalLists[state.currentlySelectedRentalIndex];
 });
 
 </script>

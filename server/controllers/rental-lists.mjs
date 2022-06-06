@@ -20,16 +20,6 @@ const getAllRentalListItemsForUser = async (request, response) => {
   }
 };
 
-const getRentalList = async (request, response) => {
-  try {
-    const userId = request.params.userId;
-    const rentalListData = await rentalListModels.getUserRentalList(userId);
-    response.json(rentalListData)
-  } catch (error) {
-    response.status(500).json({ error });
-  }
-};
-
 const createRentalListItem = async (request, response) => {
   try {
     const newRentalListItemData = request.body;
@@ -72,22 +62,9 @@ const deleteRentalListItem = async (request, response) => {
   }
 };
 
-// const deleteRentalListItem = async (request, response) => {
-//   try {
-//     const itemId = request.params.itemId;
-//     const userId = request.params.userId
-//     console.log('item and user id', itemId, userId)
-//     await rentalListModels.deleteRentalListItem(userId, itemId);
-//     response.json({ message: 'Item has been successfully deleted.' });
-//   } catch (error) {
-//     response.status(500).json({ error });
-//   }
-// };
-
 export {
   getAllRentalLists,
   getAllRentalListItemsForUser,
-  getRentalList,
   createRentalListItem,
   rentBookForUser,
   deleteRentalListItem,

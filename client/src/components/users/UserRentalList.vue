@@ -23,7 +23,7 @@ function setUserRentalList(items) {
   if(items?.length) {
     state.userRentalList = items;
   }
-};
+}
 
 watch(() => props.isUserRentalListModalActive, async () => {
   if(!props.isUserRentalListModalActive) {
@@ -32,7 +32,7 @@ watch(() => props.isUserRentalListModalActive, async () => {
   }
   let userId = props.user.id;
   try {
-    const response = await fetch(`${baseUrl}users/rental-list/${userId}`, {
+    const response = await fetch(`${baseUrl}rental-lists/user/${userId}`, {
       method: 'GET',
       headers: {
         'Content-type': 'application/json',
@@ -66,7 +66,7 @@ const toggleUserRentalListModal = () => {
           <th>title</th>
         </tr>
         <tr v-for='(item) in state.userRentalList' :key='item.user_id'>
-          <td>{{ item.id }}</td>
+          <td>{{ item.book_id }}</td>
           <td>{{ item.title }}</td>
         </tr>
       </table>
