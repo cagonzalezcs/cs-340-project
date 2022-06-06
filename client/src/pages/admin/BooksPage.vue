@@ -180,7 +180,7 @@ const handleBookUpdated = () => {
         <td> {{ book.authors }}</td>
         <td> {{ book.genre }}</td>
         <td> {{ book.isbn }}</td>
-        <td> {{ book.cover_image }}</td>
+        <td><img v-bind:src="book.cover_image" width='40'/></td>
         <td> {{ book.quantity_available }}</td>
         <td> {{ book.quantity_rented }}</td>
         <td>
