@@ -8,7 +8,6 @@ import { decryptString } from './encryption.mjs';
 import { isAdminUser, isCustomerUser } from './../../global-utils/auth.mjs';
 
 const checkAuthToken = (request, response, next) => {
-  console.log('uh');
   const authHeader = request.headers['authorization'];
   if (!authHeader) {
     return response.sendStatus(401);
@@ -16,7 +15,6 @@ const checkAuthToken = (request, response, next) => {
 
   const encryptedToken = authHeader.split(' ')[1];
   const token = decryptString(encryptedToken);
-
   if (!token) {
     return response.sendStatus(401);
   }
@@ -43,9 +41,10 @@ const checkAdminAuth = (request, response, next) => {
 };
 
 const checkIsCurrentCustomer = (request, response, next) => {
-  const userId = request.params.userId;
+  const userId = request.params.userId || request.body.user_id;
+  const userData = request.user.user_data;
 
-  if (isCustomerUser(userData?.user_role_id) && userData?.id !== userId) {
+  if (isCustomerUser(userData?.user_role_id) && Number(userData?.id) !== Number(userId)) {
     return response.sendStatus(401);
   }
 

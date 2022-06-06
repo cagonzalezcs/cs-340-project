@@ -1,6 +1,7 @@
 <script setup>
 import AppModal from '../../components/AppModal.vue';
 import { getAuthToken } from '../../utils/cookies';
+import { useToast } from 'vue-toastification';
 
 const props = defineProps({
   'isDeleteAuthorModalActive': Boolean,
@@ -8,6 +9,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['toggleDeleteAuthorModal', 'authorDeleted']);
+const toast = useToast();
 
 const toggleDeleteAuthorModal = () => {
   emit('toggleDeleteAuthorModal');
@@ -24,10 +26,10 @@ const deleteAuthor = async () => {
       },
     });
     if (response.status !== 200) {
-      alert('There was an error delet the author. Please try again.');
+      toast.error('There was an error deleting the author. Please try again.');
       return;
     }
-    alert('Successfully Deleted');
+    toast.success('Author successfully deleted');
     emit('authorDeleted');
     toggleDeleteAuthorModal();
   } catch (error) {
@@ -47,8 +49,8 @@ const deleteAuthor = async () => {
           <label><strong>id:</strong></label> {{ author.id }}
           <label> <strong>name:</strong> </label> {{ author.name }}
         </fieldset>
-        <input id='deleteAuthor' class='btn' type='submit' value='Delete Author' @click='deleteAuthor'>
-        <input class='btn' type='button' value='Cancel' @click='toggleDeleteAuthorModal'>
+        <input id='deleteAuthor' class='app-button app-button--accept' type='submit' value='Delete Author' @click='deleteAuthor'>
+        <input class='app-button app-button--cancel' type='button' value='Cancel' @click='toggleDeleteAuthorModal'>
       </form>
     </div><!-- delete -->
   </app-modal>

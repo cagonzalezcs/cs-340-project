@@ -57,11 +57,11 @@ watch(() => props.isAuthorBookListModalActive, async () => {
 <template>
   <app-modal :is-modal-active='props.isAuthorBookListModalActive' @toggle-active-status='toggleAuthorBookListModal'>
     <div v-if='author' id='bookAuthorsTable'>
-      <h1>Books By Author</h1>
-      <p>View All Books Written by author_id: {{ author.id }} </p>
+      <h1 class='text-xl mb-1 block font-bold'>Books By Author</h1>
+      <p class='mb-4'>View All Books Written by author_id: {{ author.id }} </p>
     </div>
     <div id='viewBookAuthors'>
-      <table border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;'>
+      <table border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;' class='app-table'>
         <tr>
           <th>book_id</th>
           <th>title</th>

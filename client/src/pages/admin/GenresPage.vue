@@ -5,6 +5,7 @@ import AddGenreForm from '../../components/genres/AddGenreForm.vue';
 import EditGenreForm from '../../components/genres/EditGenreForm.vue';
 import DeleteGenreForm from '../../components/genres/DeleteGenreForm.vue';
 import { getAuthToken } from '../../utils/cookies';
+import AdminLayout from '../../components/layouts/AdminLayout.vue';
 
 onMounted(async () => {
   await checkUserIsAdmin();
@@ -63,7 +64,7 @@ async function getGenres() {
   } catch (error) {
     console.error(error);
   }
-};
+}
 
 const currentlySeletedGenre = computed(() => {
   if (state.currentlySelectedGenreIndex < 0) {
@@ -87,46 +88,55 @@ const handleGenreDeleted = () => {
 </script>
 
 <template>
-  <div id='header'>
-    <h1>Genres</h1>
-    <button @click='toggleAddGenreModal'>Add New Genre</button>
-  </div>
-  <br />
-  <div id='browseGenres'>
-    <table 
-      v-if='state.genres?.length' border='1' cellpadding='5' 
-      style='margin-left: auto; margin-right: auto;'>
-      <tr>
-        <th>id</th>
-        <th>name</th>
-        <th></th>
-        <th></th>
-      </tr>
-      <tr v-for='(genre, index) in state.genres' :key='genre.id'>
-        <td>{{ genre.id }}</td>
-        <td>{{ genre.name }}</td>
-        <td><button @click='toggleEditGenreModal(index)'>Edit Genre</button></td>
-        <td><button @click='toggleDeleteGenreModal(index)'>Delete Genre</button></td>
-      </tr>
-    </table>
-  </div><!-- browse -->
+  <admin-layout>
+    <header class="app-header">
+      <h1 class="app-header__heading">Genres</h1>
+      <div class="app-header__actions">
+        <button class='app-header__button' @click='toggleAddGenreModal'>Add New Genre</button>
+      </div>
+    </header>
 
-  <add-genre-form 
-    :is-add-genre-modal-active='state.isAddGenreModalActive' 
-    @toggle-add-genre-modal='toggleAddGenreModal' 
-    @genre-added='handleGenreAdded'
-  />
-  <edit-genre-form 
-    :is-edit-genre-modal-active='state.isEditGenreModalActive' 
-    :genre='currentlySeletedGenre'
-    @toggle-edit-genre-modal='toggleEditGenreModal' 
-    @genre-updated='handleGenreUpdated'
-  />
-  <delete-genre-form 
-    :is-delete-genre-modal-active='state.isDeleteGenreModalActive' 
-    :genre='currentlySeletedGenre'
-    @toggle-delete-genre-modal='toggleDeleteGenreModal'
-    @genre-deleted='handleGenreDeleted'
-  />
 
+    <div id='browseGenres'>
+      <table
+        v-if='state.genres?.length' border='1' cellpadding='5'
+        style='margin-left: auto; margin-right: auto;'
+        class='app-table'
+      >
+        <tr>
+          <th>id</th>
+          <th>name</th>
+          <th></th>
+          <th></th>
+        </tr>
+        <tr v-for='(genre, index) in state.genres' :key='genre.id'>
+          <td>{{ genre.id }}</td>
+          <td>{{ genre.name }}</td>
+          <td colspan='2'>
+            <div class='app-table__actions'>
+              <button @click='toggleEditGenreModal(index)'>Edit Genre</button> <button class='red-button' @click='toggleDeleteGenreModal(index)'>Delete Genre</button>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div><!-- browse -->
+
+    <add-genre-form
+      :is-add-genre-modal-active='state.isAddGenreModalActive'
+      @toggle-add-genre-modal='toggleAddGenreModal'
+      @genre-added='handleGenreAdded'
+    />
+    <edit-genre-form
+      :is-edit-genre-modal-active='state.isEditGenreModalActive'
+      :genre='currentlySeletedGenre'
+      @toggle-edit-genre-modal='toggleEditGenreModal'
+      @genre-updated='handleGenreUpdated'
+    />
+    <delete-genre-form
+      :is-delete-genre-modal-active='state.isDeleteGenreModalActive'
+      :genre='currentlySeletedGenre'
+      @toggle-delete-genre-modal='toggleDeleteGenreModal'
+      @genre-deleted='handleGenreDeleted'
+    />
+  </admin-layout>
 </template>

@@ -1,9 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import LoginPage from '../pages/auth/LoginPage.vue';
 import RegisterPage from '../pages/auth/RegisterPage.vue';
-import ForgotPassword from '../pages/auth/ForgotPasswordPage.vue';
-import CustomerRentalListPage from '../pages/customer/CustomerRentalListPage.vue';
-import CustomerWishListPage from '../pages/customer/CustomerWishListPage.vue';
+import CustomerMyBooks from '../pages/customer/CustomerMyBooks.vue';
 import CustomerSearchBooksPage from '../pages/customer/CustomerSearchBooksPage.vue';
 import UsersPage from '../pages/admin/UsersPage.vue';
 import RolesPage from '../pages/admin/RolesPage.vue';
@@ -27,14 +25,9 @@ const routes = [
     component: RegisterPage,
   },
   {
-    path: '/rental-list',
-    name: 'Customer Rental List',
-    component: CustomerRentalListPage,
-  },
-  {
-    path: '/wish-list',
-    name: 'Customer Wish List',
-    component: CustomerWishListPage,
+    path: '/my-books',
+    name: 'My Books',
+    component: CustomerMyBooks,
   },
   {
     path: '/search-books',

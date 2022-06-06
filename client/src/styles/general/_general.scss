@@ -1,32 +1,44 @@
-* {
-  box-sizing: border-box;
-}
-
 html {
   font-size: 16px;
 }
 
 body {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  @apply bg-zinc-50 text-stone-900 text-center font-sans;
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
 }
 
-.app-button,
-button,
-input[type="button"],
-input[type="submit"] {
-  padding: 10px 0;
-  font-weight: bold;
-  max-width: 100%;
-  cursor: pointer;
-}
 
 a {
-  color: darken(royalblue, 10%);
-  text-decoration: none;
-  font-weight: 500;
+  @apply text-blue-700 no-underline font-semibold transition-colors;
 }
 
+.app-header {
+  @apply flex items-center content-center mb-5;
+
+  &__heading {
+    @apply mb-0 mr-auto font-bold;
+
+    font-size: 2.55rem;
+  }
+
+  &__actions {
+    @apply flex items-center content-center;
+  }
+
+  &__link {
+    @apply ml-8 font-bold;
+
+    &:hover {
+      @apply text-blue-500;
+    }
+  }
+
+  &__button {
+    @apply ml-8;
+
+    width: 220px;
+    max-width: 100%;
+  }
+}

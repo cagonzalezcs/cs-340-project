@@ -2,6 +2,7 @@
 import AppModal from '../../components/AppModal.vue';
 import { reactive, watch } from 'vue';
 import { getAuthToken } from '../../utils/cookies';
+import { useToast } from 'vue-toastification';
 
 const props = defineProps({
   'isEditRoleModalActive': Boolean,
@@ -31,6 +32,8 @@ watch(() => props.isEditRoleModalActive, async () => {
   };
 });
 
+const toast = useToast();
+
 const updateUserRole = async () => {
   try {
     const userRoleUpdates = state.updatedUserRole;
@@ -44,11 +47,11 @@ const updateUserRole = async () => {
     });
 
     if (response.status !== 200) {
-      alert('ERROR: Something went wrong with updating this user.');
+      toast.error('ERROR: Something went wrong with updating this user.');
       return;
     }
 
-    alert('Success!');
+    toast.success('Role successfully updated');
     emit('userRoleUpdated', { ...state.updatedUserRole, id: props.userRole.id });
     toggleEditRoleModal();
   } catch (error) {
@@ -66,8 +69,8 @@ const updateUserRole = async () => {
           <label for='role-type'> type </label>
           <input id='role-type' v-model='state.updatedUserRole.type' type='text' name='type'>
         </fieldset>
-        <input id='editRole' class='btn' type='submit' value='Edit Role' @click='updateUserRole'>
-        <input class='btn' type='button' value='Cancel' @click='toggleEditRoleModal'>
+        <input id='editRole' class='app-button app-button--accept' type='submit' value='Edit Role' @click='updateUserRole'>
+        <input class='app-button app-button--cancel' type='button' value='Cancel' @click='toggleEditRoleModal'>
       </form>
     </div><!-- update -->
   </app-modal>

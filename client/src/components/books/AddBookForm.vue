@@ -2,6 +2,7 @@
 import { reactive } from 'vue';
 import AppModal from '../../components/AppModal.vue';
 import { getAuthToken } from '../../utils/cookies';
+import { useToast } from 'vue-toastification';
 
 const baseUrl = import.meta.env.VITE_SERVER_URI;
 const bookUrl = `${ baseUrl }books`;
@@ -25,12 +26,12 @@ const state = reactive({
     quantity_rented: '',
   },
   newAuthor: {
-    name: '', 
-    birth_date: ''
+    name: '',
+    birth_date: '',
   },
   newGenre: {
     name: '',
-  }
+  },
 });
 
 const toggleIsAddingNewAuthor = () => {
@@ -47,81 +48,90 @@ const toggleAddBookModal = () => {
 const addNewAuthor = async (name, birthDate) => {
   if (name !== '' && birthDate !== '') {
     try {
-      await fetch(`${baseUrl}authors`, {
-         method: 'POST', 
-         body: JSON.stringify({ name, birth_date: birthDate }), 
-         headers: {
-           'Content-type': 'application/json',
-           Authorization: `Bearer ${ getAuthToken() }`,
-         },
-       })
-    } catch(e) {
-      return new Error({ message: 'Error adding new author' })
-    }
-  }
-}
-
-const addNewGenre = async (name) => {
-  if (name !== '') {
-    try {
-      await fetch(`${baseUrl}genres`, {
-        method: 'POST', 
-        body: JSON.stringify({ name }), 
+      await fetch(`${ baseUrl }authors`, {
+        method: 'POST',
+        body: JSON.stringify({ name, birth_date: birthDate }),
         headers: {
           'Content-type': 'application/json',
           Authorization: `Bearer ${ getAuthToken() }`,
         },
       });
-    } catch(e) {
-      return new Error({ message: 'Error adding new genre' })
+    } catch (e) {
+      return new Error({ message: 'Error adding new author' });
     }
   }
-}
+};
+
+const addNewGenre = async (name) => {
+  if (name !== '') {
+    try {
+      await fetch(`${ baseUrl }genres`, {
+        method: 'POST',
+        body: JSON.stringify({ name }),
+        headers: {
+          'Content-type': 'application/json',
+          Authorization: `Bearer ${ getAuthToken() }`,
+        },
+      });
+    } catch (e) {
+      return new Error({ message: 'Error adding new genre' });
+    }
+  }
+};
+
+const toast = useToast();
 
 const addBook = async () => {
   try {
-      await addNewAuthor(state.newAuthor?.name, state.newAuthor?.birth_date)
-        .then(async () => await addNewGenre(state.newGenre?.name))
-        .then(async () => {
-            const response = await fetch(bookUrl, {
-              method: 'POST',
-              body: JSON.stringify(
-                {
-                  title: state.newBook.title,
-                  authors: state.newAuthor.name || state.newBook.authors,
-                  genre_id: state.newGenre.name || state.newBook.genre_id,
-                  isbn: state.newBook.isbn,
-                  cover_image: state.newBook.cover_image,
-                  quantity_available: state.newBook.quantity_available,
-                  quantity_rented: state.newBook.quantity_rented,
-                }
-                ),
-              headers: {
-                'Content-type': 'application/json',
-                Authorization: `Bearer ${ getAuthToken() }`,
-              },
-            });
-            if (response.status !== 200) {
-              alert('There was an error adding this Book. Please try again later.');
-              return;
-            }
-        
-            alert('Success!');
-            emit('bookAdded');
-            state.newBook = {
-              title: '',
-              authors: [''],
-              genre_id: '',
-              isbn: '',
-              cover_image: '',
-              quantity_available: '',
-              quantity_rented: '',
-            };
-            toggleAddBookModal();
-      })
+    await addNewAuthor(state.newAuthor?.name, state.newAuthor?.birth_date);
+    await addNewGenre(state.newGenre?.name);
+    const response = await fetch(bookUrl, {
+      method: 'POST',
+      body: JSON.stringify(
+        {
+          title: state.newBook.title,
+          authors: state.newAuthor.name || state.newBook.authors,
+          genre_id: state.newGenre.name || state.newBook.genre_id,
+          isbn: state.newBook.isbn,
+          cover_image: state.newBook.cover_image,
+          quantity_available: state.newBook.quantity_available,
+          quantity_rented: state.newBook.quantity_rented,
+        },
+      ),
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${ getAuthToken() }`,
+      },
+    });
+    if (response.status !== 200) {
+      toast.error('There was an error adding this Book. Please try again later.');
+      return;
+    }
+
+    toast.success('Book was successfully added');
+    emit('bookAdded');
+    state.newBook = {
+      title: '',
+      authors: [''],
+      genre_id: '',
+      isbn: '',
+      cover_image: '',
+      quantity_available: '',
+      quantity_rented: '',
+    };
+    state.newAuthor = {
+      name: '',
+      birth_date: '',
+    };
+    state.newGenre = {
+      name: '',
+    };
+    state.isAddingAuthor = false;
+    state.isAddingGenre =false;
+    toggleAddBookModal();
 
   } catch (error) {
-    return new Error({ message: 'Error adding new book' })
+    return new Error({ message: 'Error adding new book' });
   }
 };
 
@@ -148,7 +158,7 @@ const addBook = async () => {
               <label for='author-birth-date'> author birth_date </label>
               <input id='author-birth-date' v-model='state.newAuthor.birth_date' type='date' name='birth_date'>
             </div>
-            <button class='input-group__button' @click='toggleIsAddingNewAuthor'>
+            <button class='input-group__button app-button--neutral' @click.prevent='toggleIsAddingNewAuthor'>
               {{ state.isAddingAuthor ? 'Cancel' : 'Add New Author' }}
             </button>
           </div>
@@ -166,25 +176,25 @@ const addBook = async () => {
               <label for='genre-name'> new genre name </label>
               <input id='genre-name' v-model='state.newGenre.name' type='text' name='genreName'>
             </div>
-            <button class='input-group__button' @click='toggleIsAddingNewGenre'>
+            <button class='input-group__button app-button--neutral' @click.prevent='toggleIsAddingNewGenre'>
               {{ state.isAddingGenre ? 'Cancel' : 'Add New Genre' }}
             </button>
           </div>
           <label for='book-isbn'> isbn </label>
           <input id='book-isbn' v-model='state.newBook.isbn' type='text' name='isbn' maxlength='13'>
-          <label for='book-cover-image'> cover_image </label>
+          <label for='book-cover-image'> cover image </label>
           <input id='book-cover-image' v-model='state.newBook.cover_image' type='text' name='cover_image'>
-          <label for='book-qty-available'> quantity_available </label>
+          <label for='book-qty-available'> quantity available </label>
           <input
-id='book-qty-available' v-model='state.newBook.quantity_available' type='number'
-                 name='quantity_available' required>
-          <label for='book-qty-rented'> quantity_rented </label>
+            id='book-qty-available' v-model='state.newBook.quantity_available' type='number'
+            name='quantity_available' required>
+          <label for='book-qty-rented'> quantity rented </label>
           <input
-id='book-qty-rented' v-model='state.newBook.quantity_rented' type='number' name='quantity_rented'
-                 required>
+            id='book-qty-rented' v-model='state.newBook.quantity_rented' type='number' name='quantity_rented'
+            required>
         </fieldset>
-        <input id='addBook' class='btn' type='button' value='Add New Book' @click='addBook'>
-        <input class='btn' type='button' value='Cancel' @click='toggleAddBookModal'>
+        <input id='addBook' class='app-button app-button--accept' type='submit' value='Add New Book' @click='addBook'>
+        <input class='app-button app-button--cancel' type='button' value='Cancel' @click='toggleAddBookModal'>
       </form>
     </div><!-- insert -->
   </app-modal>

@@ -1,5 +1,10 @@
-@import './vendor/_normalize';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+@import './general/typography';
 @import './general/general';
 @import './general/forms';
 @import './general/tables';
+
+@import './vendor-edits/vue-toast';

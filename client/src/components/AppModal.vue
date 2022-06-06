@@ -49,6 +49,7 @@ function clickOutsideModalContent() {
   padding-top: 40px;
   padding-bottom: 40px;
   pointer-events: none;
+  overflow: auto;
 
   &::before {
     content: '\2715';
@@ -66,11 +67,12 @@ function clickOutsideModalContent() {
   }
 
   &__content {
+    @apply bg-neutral-50;
+
     width: auto;
     max-width: 95%;
     margin-top: auto;
     margin-bottom: auto;
-    background-color: #fff;
     padding: 30px 50px;
     border-radius: 5px;
     cursor: auto;

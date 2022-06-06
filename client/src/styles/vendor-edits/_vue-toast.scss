@@ -1,0 +1,32 @@
+.Vue-Toastification {
+  &__toast {
+    @apply py-5 px-7;
+
+    &--default,
+    &--info {
+      @apply bg-gradient-to-br from-blue-400 to-blue-700;
+    }
+
+    &--success {
+      @apply bg-gradient-to-br from-green-500 to-emerald-700;
+    }
+
+    &--warning {
+      @apply bg-gradient-to-br from-amber-400 to-yellow-500;
+    }
+
+    &--error {
+      @apply bg-gradient-to-br from-red-500 to-red-700;
+    }
+  }
+
+  &__close-button {
+    @apply relative pl-6;
+
+    bottom: 1px;
+
+    &:hover {
+      @apply shadow-none transform-none;
+    }
+  }
+}

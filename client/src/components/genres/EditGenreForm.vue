@@ -2,6 +2,7 @@
 import { reactive, watch } from 'vue';
 import AppModal from '../../components/AppModal.vue';
 import { getAuthToken } from '../../utils/cookies';
+import { useToast } from 'vue-toastification';
 
 const props = defineProps({
   isEditGenreModalActive: Boolean,
@@ -29,6 +30,8 @@ const toggleEditGenreModal = () => {
   emit('toggleEditGenreModal');
 };
 
+const toast = useToast();
+
 const updateGenre = async () => {
   try {
     const genreUpdates = state.updatedGenre;
@@ -41,10 +44,10 @@ const updateGenre = async () => {
       }
     });
     if (response.status !== 200) {
-      alert('ERROR: Something went wrong updating this genre.');
+      toast.error('ERROR: Something went wrong updating this genre.');
       return;
     }
-    alert('Success!');
+    toast.success('Genre successfully updated');
     emit('genreUpdated', {...state.updatedGenre, id: props.genre.id});
     toggleEditGenreModal();
   } catch (error) {
@@ -63,8 +66,8 @@ const updateGenre = async () => {
           <label for='genre-name'> name </label>
           <input id='genre-name' v-model='state.updatedGenre.name' type='text' name='name' required>
         </fieldset>
-        <input id='editGenre' class='btn' type='submit' value='Update Genre' @click='updateGenre'>
-        <input class='btn' type='button' value='Cancel' @click='toggleEditGenreModal'>
+        <input id='editGenre' class='app-button app-button--accept' type='submit' value='Update Genre' @click='updateGenre'>
+        <input class='app-button app-button--cancel' type='button' value='Cancel' @click='toggleEditGenreModal'>
       </form>
     </div><!-- update -->
   </app-modal>

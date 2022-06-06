@@ -2,6 +2,8 @@
 import { reactive } from 'vue';
 import AppModal from '../../components/AppModal.vue';
 import { getAuthToken } from '../../utils/cookies';
+import { useToast } from 'vue-toastification';
+
 const props = defineProps({
   'isAddRoleModalActive': Boolean,
 });
@@ -15,6 +17,7 @@ const state = reactive({
     type: ''
   }
 });
+const toast = useToast();
 
 const toggleAddRoleModal = () => {
   emit('toggleAddRoleModal');
@@ -23,7 +26,7 @@ const toggleAddRoleModal = () => {
 const addUserRole = async () => {
   try {
     if (!state.newUserRole.type) {
-      return alert('User role type must be populated to enter');
+      return toast.info('User role type must be populated to enter');
     }
 
     const response = await fetch(userRoleUrl, {
@@ -36,11 +39,11 @@ const addUserRole = async () => {
     });
 
     if (response.status !== 200) {
-      alert('There was an error adding this user role. Please try again later.');
+      toast.error('There was an error adding this user role. Please try again later.');
       return;
     }
 
-    alert('Success!');
+    toast.success('Role successfully added');
     emit('userRoleAdded');
     state.newUserRole = {
       type: ''
@@ -59,11 +62,11 @@ const addUserRole = async () => {
       <form id='addRole' method='POST' class='app-form' @submit.prevent>
         <legend><strong>Add User Role</strong></legend>
         <fieldset class='fields'>
-          <label for='role-type'> type </label>
+          <label for='role-type'> Type </label>
           <input id='role-type' v-model='state.newUserRole.type' type='text' name='type'>
         </fieldset>
-        <input id='addRole' class='btn' type='submit' value='Add New Role' @click='addUserRole'>
-        <input class='btn' type='button' value='Cancel' @click='toggleAddRoleModal'>
+        <input id='addRole' class='app-button app-button--accept' type='submit' value='Add New Role' @click='addUserRole'>
+        <input class='app-button app-button--cancel' type='button' value='Cancel' @click='toggleAddRoleModal'>
       </form>
     </div><!-- insert -->
   </app-modal>

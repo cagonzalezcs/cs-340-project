@@ -2,6 +2,7 @@
 import { reactive } from 'vue';
 import AppModal from '../../components/AppModal.vue';
 import { getAuthToken } from '../../utils/cookies';
+import { useToast } from 'vue-toastification';
 
 const baseUrl = import.meta.env.VITE_SERVER_URI;
 const genreUrl = `${ baseUrl }genres`;
@@ -20,6 +21,8 @@ const toggleAddGenreModal = () => {
   emit('toggleAddGenreModal');
 };
 
+const toast = useToast();
+
 const addGenre = async () => {
   try {
     const response = await fetch(genreUrl, {
@@ -31,10 +34,10 @@ const addGenre = async () => {
       },
     });
     if (response.status !== 200) {
-      alert('There was an error adding this Genre. Please try again later.');
+      toast.error('There was an error adding this Genre. Please try again later.');
       return;
     }
-    alert('Success!');
+    toast.success('Genre successfully added');
     emit('genreAdded');
     state.newGenre = {
       name: '',
@@ -56,8 +59,10 @@ const addGenre = async () => {
           <label for='genre-name'> name </label>
           <input id='genre-name' v-model='state.newGenre.name' type='text' name='name' required />
         </fieldset>
-        <input id='addGenre' class='btn' type='submit' value='Add New Genre' @click='addGenre'>
-        <input class='btn' type='button' value='Cancel' @click='toggleAddGenreModal'>
+        <input
+id='addGenre' class='app-button app-button--accept' type='submit' value='Add New Genre'
+               @click='addGenre'>
+        <input class='app-button app-button--cancel' type='button' value='Cancel' @click='toggleAddGenreModal'>
       </form>
     </div><!-- insert -->
   </app-modal>

@@ -13,7 +13,7 @@ import userRolesRouter from './routes/user-roles.mjs';
 import booksRouter from './routes/books.mjs';
 import authorsRouter from './routes/authors.mjs';
 import genresRouter from './routes/genres.mjs';
-import rentalListRouter from './routes/rental-lists.mjs';
+import rentalListsRouter from './routes/rental-lists.mjs';
 import wishListsRouter from './routes/wish-lists.mjs';
 
 const BASE_URL = '/api/';
@@ -45,21 +45,13 @@ router.use(
 );
 
 router.use(express.json());
-
 router.use('/auth', authRouter);
-
 router.use('/users', usersRouter);
-
 router.use('/user-roles', userRolesRouter);
-
 router.use('/books', booksRouter);
-
 router.use('/authors', authorsRouter);
-
 router.use('/genres', genresRouter);
-
-router.use('/rental-lists', rentalListRouter);
-
+router.use('/rental-lists', rentalListsRouter);
 router.use('/wish-lists', wishListsRouter);
 
 app.listen(process.env.SERVER_PORT, () => {

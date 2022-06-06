@@ -2,6 +2,7 @@
 import { reactive } from 'vue';
 import AppModal from '../../components/AppModal.vue';
 import { getAuthToken } from '../../utils/cookies';
+import { useToast } from 'vue-toastification';
 
 const baseUrl = import.meta.env.VITE_SERVER_URI;
 const authorUrl = `${ baseUrl }authors`; 
@@ -19,6 +20,8 @@ const state = reactive({
   },
 });
 
+const toast = useToast();
+
 const toggleAddAuthorModal = () => {
   emit('toggleAddAuthorModal');
 };
@@ -34,10 +37,10 @@ const addAuthor = async () => {
       },
     });
     if (response.status !== 200) {
-      alert('There was an error adding this Author. Please try again later.');
+      toast.error('There was an error adding this Author. Please try again later.');
       return;
     }
-    alert('Success!');
+    toast.success('Author successfully added');
     emit('authorAdded');
     state.newAuthor = {
       name: '', 
@@ -59,11 +62,11 @@ const addAuthor = async () => {
         <fieldset class='fields'>
           <label for='author-name'> name </label>
           <input id='author-name' v-model='state.newAuthor.name' type='text' name='name'>
-          <label for='author-birth-date'> birth_date </label>
+          <label for='author-birth-date'> birth date </label>
           <input id='author-birth-date' v-model='state.newAuthor.birth_date' type='date' name='birth_date'>
         </fieldset>
-        <input id='addAuthor' class='btn' type='submit' value='Add New Author' @click='addAuthor'>
-        <input class='btn' type='button' value='Cancel' @click='toggleAddAuthorModal'>
+        <input id='addAuthor' class='app-button app-button--accept' type='submit' value='Add New Author' @click='addAuthor'>
+        <input class='app-button app-button--cancel' type='button' value='Cancel' @click='toggleAddAuthorModal'>
       </form>
     </div><!-- insert -->
   </app-modal>

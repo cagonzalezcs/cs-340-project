@@ -2,6 +2,7 @@
 import { reactive, onMounted, computed } from 'vue';
 import { checkUserIsAdmin } from '../../router/middleware.js';
 import ViewWishList from '../../components/wish-lists/ViewWishList.vue';
+import AdminLayout from '../../components/layouts/AdminLayout.vue';
 import { getAuthToken } from '../../utils/cookies';
 
 onMounted(async () => {
@@ -11,7 +12,7 @@ onMounted(async () => {
 
 let state = reactive({
   isViewWishListModalActive: false,
-  wishLists: [], 
+  wishLists: [],
   currentlySelectedWishListIndex: 0,
 });
 
@@ -34,7 +35,7 @@ async function getWishLists() {
   const wishListUrl = `${ baseUrl }wish-lists`;
   try {
     const response = await fetch(wishListUrl, {
-      method: 'GET', 
+      method: 'GET',
       headers: {
         'Content-type': 'application/json',
         Authorization: `Bearer ${ getAuthToken() }`,
@@ -61,31 +62,38 @@ const currentUser = computed(() => {
 </script>
 
 <template>
-  <div id='wishLists'>
-    <h1>All Wish Lists</h1>
-    <router-link to='/admin/users' style='margin-bottom:20px; display:inline-block; font-size: 18px; font-weight: bold;'>Back to Users
-    </router-link>
-    <br />
-  </div>
-  <div id='browseWishLists'>
-    <table v-if='state.wishLists?.length' border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;'>
-      <tr>
-        <th>user_id</th>
-        <th></th>
-      </tr>
-      <tr v-for='(user, index) in state.wishLists' :key='user.user_id'>
-        <td>{{ user.user_id }}</td>
-        <td>
-          <button @click='toggleViewModal(index)'>View Wish List Items</button>
-        </td>
-      </tr>
-     
-    </table>
-  </div><!-- browseWishList -->
+  <admin-layout>
+    <header class='app-header'>
+      <h1 class='app-header__heading'>All Wish Lists</h1>
+      <div class='app-header__actions pr-1'>
+        <router-link
+          to='/admin/users'
+          class='app-header__link'>Back to Users
+        </router-link>
+      </div>
+    </header>
+
+
+
+    <div id='browseWishLists'>
+      <table v-if='state.wishLists?.length' border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;' class='app-table'>
+        <tr>
+          <th>user id</th>
+          <th></th>
+        </tr>
+        <tr v-for='(user, index) in state.wishLists' :key='user.user_id'>
+          <td>{{ user.user_id }}</td>
+          <td class='text-right'>
+            <button @click='toggleViewModal(index)'>View Wish List Items</button>
+          </td>
+        </tr>
+      </table>
+    </div><!-- browseWishList -->
 
   <view-wish-list
     :is-view-wish-list-modal-active='state.isViewWishListModalActive'
     :user='currentUser'
     @toggle-view-wish-list-modal='toggleViewModal'
   />
+  </admin-layout>
 </template>

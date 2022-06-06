@@ -1,6 +1,7 @@
 <script setup>
 import AppModal from '../../components/AppModal.vue';
 import { getAuthToken } from '../../utils/cookies';
+import { useToast } from 'vue-toastification';
 
 const props = defineProps({
   'isDeleteRoleModalActive': Boolean,
@@ -11,6 +12,8 @@ const emit = defineEmits(['toggleDeleteRoleModal', 'userRoleDeleted']);
 const toggleDeleteRoleModal = () => {
   emit('toggleDeleteRoleModal');
 };
+
+const toast = useToast();
 
 const deleteUserRole = async () => {
   try {
@@ -24,11 +27,11 @@ const deleteUserRole = async () => {
       });
 
     if (response.status !== 200) {
-      alert('There was an error in deleting your user. Please try again later');
+      toast.error('There was an error in deleting your user. Please try again later');
       return;
     }
 
-    alert('Successfully Deleted');
+    toast.success('Role successfully deleted');
     emit('userRoleDeleted');
     toggleDeleteRoleModal();
   } catch (error) {
@@ -48,8 +51,8 @@ const deleteUserRole = async () => {
           <label><strong>ID:</strong></label> {{ props.userRole.id }}
           <label> <strong>Type</strong> </label> {{ props.userRole.type }}
         </fieldset>
-        <input id='deleteRole' class='btn' type='submit' value='Delete Role' @click='deleteUserRole'>
-        <input class='btn' type='button' value='Cancel' @click='toggleDeleteRoleModal'>
+        <input id='deleteRole' class='app-button app-button--accept' type='submit' value='Delete Role' @click='deleteUserRole'>
+        <input class='app-button app-button--cancel' type='button' value='Cancel' @click='toggleDeleteRoleModal'>
       </form>
     </div><!-- delete -->
   </app-modal>

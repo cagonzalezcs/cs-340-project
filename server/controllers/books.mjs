@@ -25,23 +25,15 @@ const createBook = async (request, response) => {
   try {
     const newBookData = request.body;
     const authors = newBookData.authors;
-    let authorId = null
-    let genreId = parseInt(newBookData.genre_id)
+    let authorId = null;
+    let genreId = parseInt(newBookData.genre_id);
     if (isNaN(genreId)) {
-      const lookupId = newBookData.genre_id
-      try {
-        genreId = await genresController.getGenreByName(lookupId);
-      } catch (error) {
-        throw new Error({ message: 'Error looking up genre by name'})
-      }
+      const lookupId = newBookData.genre_id;
+      genreId = await genresController.getGenreByName(lookupId);
     }
-    if (typeof(authors) === 'string') {
-      try {
-        const lookupAuthor = authors
-        authorId = await authorsController.getAuthorByName(lookupAuthor);
-      } catch (error) {
-        throw new Error ({ message: 'Error lookup up author by name'})
-      }
+    if (typeof (authors) === 'string') {
+      const lookupAuthor = authors;
+      authorId = await authorsController.getAuthorByName(lookupAuthor);
     }
     await booksModel.createBook(
       newBookData.title,
@@ -63,12 +55,20 @@ const updateBook = async (request, response) => {
   try {
     const bookId = request.params.bookId;
     const bookData = request.body;
+    let genreId = bookData.genre_id;
+
+    console.log(bookData);
+
+    // GenreID might be passed in as a name for some reason... will fix later
+    if (typeof genreId === 'string') {
+      genreId = await genresController.getGenreByName(genreId);
+    }
 
     // Update Book
     await booksModel.updateBook(
       bookId,
       bookData.title,
-      bookData.genre_id,
+      genreId,
       bookData.isbn,
       bookData.cover_image,
       bookData.quantity_available,
@@ -122,6 +122,16 @@ const searchBooksByAuthor = async (request, response) => {
   }
 };
 
+const searchBooksByKeyword = async (request, response) => {
+  try {
+    const keyword = request.params.keyword;
+    const foundBooks = await booksModel.searchBooksByKeyword(keyword);
+    response.json(foundBooks);
+  } catch (error) {
+    response.status(500).json({ error });
+  }
+};
+
 export {
   getAllBooks,
   getBook,
@@ -131,4 +141,5 @@ export {
   searchBooksByTitle,
   searchBooksByGenre,
   searchBooksByAuthor,
+  searchBooksByKeyword,
 };

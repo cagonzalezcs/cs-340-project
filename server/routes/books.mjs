@@ -44,4 +44,9 @@ booksRouter.get('/search/genre/:genreId', checkAuthToken, booksController.search
  */
 booksRouter.get('/search/author/:authorId', checkAuthToken, booksController.searchBooksByAuthor);
 
+/**
+ * Search by Keyword
+ */
+booksRouter.get('/search/keyword/:keyword', booksController.searchBooksByKeyword);
+
 export default booksRouter;

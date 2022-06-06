@@ -5,6 +5,7 @@ import AddBookForm from '../../components/books/AddBookForm.vue';
 import UpdateBookForm from '../../components/books/UpdateBookForm.vue';
 import DeleteBookForm from '../../components/books/DeleteBookForm.vue';
 import { getAuthToken } from '../../utils/cookies';
+import AdminLayout from '../../components/layouts/AdminLayout.vue';
 
 onMounted(() => {
   checkUserIsAdmin()
@@ -149,69 +150,75 @@ const handleBookUpdated = () => {
 </script>
 
 <template>
-  <div>
-    <h1>Books</h1>
-    <router-link
-      to='/admin/search-books' style='margin-bottom:20px; display:inline-block; font-size: 18px; font-weight: bold;'>Search All Books
-    </router-link>
-    <br />
-    <button @click='toggleAddBookModal'>Add New Book</button>
-  </div>
-  <br />
-  <div id='browse'>
-    <table
-      v-if='state.books && state.books.length' border='1' cellpadding='5'
-      style='margin-left: auto; margin-right: auto;'>
-      <tr>
-        <th>id</th>
-        <th>title</th>
-        <th>authors</th>
-        <th>genre</th>
-        <th>isbn</th>
-        <th>cover_image</th>
-        <th>quantity_available</th>
-        <th>quantity_rented</th>
-        <th></th>
-        <th></th>
-      </tr>
-      <tr v-for='(book, index) in state.books' :key='`book-${book.id}`'>
-        <td> {{ book.id }}</td>
-        <td> {{ book.title }}</td>
-        <td> {{ book.authors }}</td>
-        <td> {{ book.genre }}</td>
-        <td> {{ book.isbn }}</td>
-        <td><img v-bind:src="book.cover_image" width='40'/></td>
-        <td> {{ book.quantity_available }}</td>
-        <td> {{ book.quantity_rented }}</td>
-        <td>
-          <button @click='toggleUpdateBookModal(index)'>Edit Book</button>
-        </td>
-        <td>
-          <button @click='toggleDeleteBookModal(index)'>Delete Book</button>
-        </td>
-      </tr>
-    </table>
-  </div><!-- browse -->
+  <admin-layout>
+    <header class="app-header">
+      <h1 class="app-header__heading">Books</h1>
+      <div class="app-header__actions">
+        <router-link
+          to='/admin/search-books'
+          class="app-header__link">Search All Books
+        </router-link>
+        <button class='app-header__button' @click='toggleAddBookModal'>Add New Book</button>
+      </div>
+    </header>
 
-  <add-book-form
-    :is-add-book-modal-active='state.isAddBookModalActive'
-    :authors='state.authors'
-    :genres='state.genres'
-    @toggle-add-book-modal='toggleAddBookModal'
-    @book-added='handleBookAdded'
-  />
-  <update-book-form
-    :is-update-book-modal-active='state.isUpdateBookModalActive'
-    :book='currentlySelectedBook'
-    :authors='state.authors'
-    :genres='state.genres'
-    @toggle-update-book-modal='toggleUpdateBookModal'
-    @book-updated='handleBookUpdated' />
-  <delete-book-form
-    :is-delete-book-modal-active='state.isDeleteBookModalActive'
-    :book='currentlySelectedBook'
-    @toggle-delete-book-modal='toggleDeleteBookModal'
-    @book-deleted='handleBookDeleted' />
 
+    <div id='browse'>
+      <table
+        v-if='state.books && state.books.length' border='1' cellpadding='5'
+        style='margin-left: auto; margin-right: auto;'
+        class='app-table'
+      >
+        <tr>
+          <th>id</th>
+          <th>title</th>
+          <th>authors</th>
+          <th>genre</th>
+          <th>isbn</th>
+          <th>cover image</th>
+          <th>quantity available</th>
+          <th>quantity rented</th>
+          <th></th>
+          <th></th>
+        </tr>
+        <tr v-for='(book, index) in state.books' :key='`book-${book.id}`'>
+          <td> {{ book.id }}</td>
+          <td> {{ book.title }}</td>
+          <td> {{ book.authors }}</td>
+          <td> {{ book.genre }}</td>
+          <td> {{ book.isbn }}</td>
+          <td><img :src="book.cover_image" width='45' class='mx-auto'/></td>
+          <td> {{ book.quantity_available }}</td>
+          <td> {{ book.quantity_rented }}</td>
+          <td colspan='2'>
+            <div class='app-table__actions'>
+              <button @click='toggleUpdateBookModal(index)'>Edit Book</button>
+              <button class='red-button' @click='toggleDeleteBookModal(index)'>Delete Book</button>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div><!-- browse -->
+
+    <add-book-form
+      :is-add-book-modal-active='state.isAddBookModalActive'
+      :authors='state.authors'
+      :genres='state.genres'
+      @toggle-add-book-modal='toggleAddBookModal'
+      @book-added='handleBookAdded'
+    />
+    <update-book-form
+      :is-update-book-modal-active='state.isUpdateBookModalActive'
+      :book='currentlySelectedBook'
+      :authors='state.authors'
+      :genres='state.genres'
+      @toggle-update-book-modal='toggleUpdateBookModal'
+      @book-updated='handleBookUpdated' />
+    <delete-book-form
+      :is-delete-book-modal-active='state.isDeleteBookModalActive'
+      :book='currentlySelectedBook'
+      @toggle-delete-book-modal='toggleDeleteBookModal'
+      @book-deleted='handleBookDeleted' />
+  </admin-layout>
 </template>
 
