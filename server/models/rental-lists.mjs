@@ -21,7 +21,8 @@ const getAllRentalListItemsForUser = async (userId) => {
                                  LEFT JOIN authors ON book_authors.author_id = authors.id
                                  LEFT JOIN genres ON books.genre_id = genres.id
                         WHERE rental_list_books.user_id = ?
-                        GROUP BY rental_list_books.book_id;`, [userId]);
+                        GROUP BY rental_list_books.book_id
+                        ORDER BY date_rented DESC;`, [userId]);
 };
 
 const createRentalListItem = async (userId, bookId) => {

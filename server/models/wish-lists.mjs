@@ -18,6 +18,7 @@ const getAllWishListItemsForUser = async (userId) => {
   }
 
   return await dbQuery(`SELECT wish_list_books.book_id,
+                               wish_list_books.created_at,
                                books.title,
                                books.isbn,
                                books.cover_image,
@@ -32,7 +33,8 @@ const getAllWishListItemsForUser = async (userId) => {
                                  LEFT JOIN authors ON book_authors.author_id = authors.id
                                  LEFT JOIN genres ON books.genre_id = genres.id
                         WHERE wish_list_books.user_id = ?
-                        GROUP BY wish_list_books.book_id;`, [userId]);
+                        GROUP BY wish_list_books.book_id
+                        ORDER BY wish_list_books.created_at DESC;`, [userId]);
 };
 
 const createWishListItem = async (userId, bookId) => {

@@ -40,6 +40,7 @@ async function getRentalListItems() {
       });
 
     const rentalListData = await response.json();
+    console.log(rentalListData);
     setRentalList(rentalListData);
   } catch (error) {
     console.error(error);
