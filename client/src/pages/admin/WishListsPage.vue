@@ -1,133 +1,91 @@
 <script setup>
-import { reactive, onMounted } from 'vue';
-import { checkUserIsAdmin } from '../../router/middleware';
+import { reactive, onMounted, computed } from 'vue';
+import { checkUserIsAdmin } from '../../router/middleware.js';
 import ViewWishList from '../../components/wish-lists/ViewWishList.vue';
-import RemoveFromWishList from '../../components/wish-lists/RemoveFromWishList.vue';
+import { getAuthToken } from '../../utils/cookies';
 
 onMounted(async () => {
   await checkUserIsAdmin();
+  await getWishLists();
 });
 
 let state = reactive({
   isViewWishListModalActive: false,
-  isRemoveFromWishListModalActive: false
+  wishLists: [], 
+  currentlySelectedWishListIndex: 0,
 });
 
-const toggleViewWishListModal = () => {
+const baseUrl = import.meta.env.VITE_SERVER_URI;
+
+const toggleViewModal = (userIndex) => {
+  if (!isNaN(userIndex)) {
+    state.currentlySelectedWishListIndex = userIndex;
+  }
   state.isViewWishListModalActive = !state.isViewWishListModalActive;
 };
-const toggleRemoveFromWishListModal = () => {
-  state.isViewWishListModalActive = false;
-  state.isRemoveFromWishListModalActive = !state.isRemoveFromWishListModalActive;
+
+function setWishs(items) {
+  if (items?.length) {
+    state.wishLists = items;
+  }
 };
+
+async function getWishLists() {
+  const wishListUrl = `${ baseUrl }wish-lists`;
+  try {
+    const response = await fetch(wishListUrl, {
+      method: 'GET', 
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${ getAuthToken() }`,
+      },
+    });
+    const wishListData = await response.json();
+    if(!wishListData.length) {
+      return;
+    }
+    setWishs(wishListData);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const currentUser = computed(() => {
+  if (state.currentlySelectedWishListIndex < 0) {
+    return [];
+  }
+  const found = state.wishLists[state.currentlySelectedWishListIndex];
+  return found;
+});
+
 </script>
 
 <template>
   <div id='wishLists'>
     <h1>All Wish Lists</h1>
-    <router-link to='/admin/users' style='margin-bottom:20px; display:inline-block; font-size: 18px; font-weight: bold;'>Back to Users</router-link>
+    <router-link to='/admin/users' style='margin-bottom:20px; display:inline-block; font-size: 18px; font-weight: bold;'>Back to Users
+    </router-link>
     <br />
   </div>
   <div id='browseWishLists'>
-    <table border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;'>
+    <table v-if='state.wishLists?.length' border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;'>
       <tr>
         <th>user_id</th>
         <th></th>
-        <th><a href='#'>Create </a></th>
       </tr>
-      <tr>
-        <td>1</td>
-        <td><button @click='toggleViewWishListModal'>View User Wish List</button></td>
-        <td><a href='#'>Delete User Wish List</a></td>
-
+      <tr v-for='(user, index) in state.wishLists' :key='user.user_id'>
+        <td>{{ user.user_id }}</td>
+        <td>
+          <button @click='toggleViewModal(index)'>View Wish List Items</button>
+        </td>
       </tr>
-      <tr>
-        <td>2</td>
-        <td><button @click='toggleViewWishListModal'>View User Wish List</button></td>
-        <td><a href='#'>Delete User Wish List</a></td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td><button @click='toggleViewWishListModal'>View User Wish List</button></td>
-        <td><a href='#'>Delete User Wish List</a></td>
-      </tr>
-      <tr>
-        <td>4</td>
-        <td><button @click='toggleViewWishListModal'>View User Wish List</button></td>
-        <td><a href='#'>Delete User Wish List</a></td>
-      </tr>
-      <tr>
-        <td>5</td>
-        <td><button @click='toggleViewWishListModal'>View User Wish List</button></td>
-        <td><a href='#'>Delete User Wish List</a></td>
-      </tr>
-      <tr>
-        <td>6</td>
-        <td><button @click='toggleViewWishListModal'>View User Wish List</button></td>
-        <td><a href='#'>Delete User Wish List</a></td>
-      </tr>
-      <tr>
-        <td>7</td>
-        <td><button @click='toggleViewWishListModal'>View User Wish List</button></td>
-        <td><a href='#'>Delete User Wish List</a></td>
-      </tr>
-      <tr>
-        <td>8</td>
-        <td><button @click='toggleViewWishListModal'>View User Wish List</button></td>
-        <td><a href='#'>Delete User Wish List</a></td>
-      </tr>
-      <tr>
-        <td>9</td>
-        <td><button @click='toggleViewWishListModal'>View User Wish List</button></td>
-        <td><a href='#'>Delete User Wish List</a></td>
-      </tr>
-      <tr>
-        <td>10</td>
-        <td><button @click='toggleViewWishListModal'>View User Wish List</button></td>
-        <td><a href='#'>Delete User Wish List</a></td>
-      </tr>
+     
     </table>
-  </div><!-- browse -->
+  </div><!-- browseWishList -->
 
   <view-wish-list
     :is-view-wish-list-modal-active='state.isViewWishListModalActive'
-    @toggle-view-wish-list-modal='toggleViewWishListModal'
-    @toggle-remove-from-wish-list-modal='toggleRemoveFromWishListModal'
+    :user='currentUser'
+    @toggle-view-wish-list-modal='toggleViewModal'
   />
-  <remove-from-wish-list
-    :is-remove-from-wish-list-modal-active='state.isRemoveFromWishListModalActive'
-    @toggle-remove-from-wish-list-modal='toggleRemoveFromWishListModal'
-  />
-
-
 </template>
-
-<style lang='scss' scoped>
-form {
-  width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-
-  .fields {
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    padding: 10px 25px 35px;
-    margin-bottom: 20px;
-
-    label {
-      margin-top: 10px;
-      margin-bottom: 3px;
-      font-weight: 500;
-    }
-  }
-
-  input[type="submit"],
-  input[type="button"] {
-    margin-left: 10px;
-    margin-right: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-}
-</style>

@@ -13,6 +13,8 @@ import userRolesRouter from './routes/user-roles.mjs';
 import booksRouter from './routes/books.mjs';
 import authorsRouter from './routes/authors.mjs';
 import genresRouter from './routes/genres.mjs';
+import rentalListRouter from './routes/rental-lists.mjs';
+import wishListsRouter from './routes/wish-lists.mjs';
 
 const BASE_URL = '/api/';
 const MySQLStore = MySQLSession(session);
@@ -55,6 +57,10 @@ router.use('/books', booksRouter);
 router.use('/authors', authorsRouter);
 
 router.use('/genres', genresRouter);
+
+router.use('/rental-lists', rentalListRouter);
+
+router.use('/wish-lists', wishListsRouter);
 
 app.listen(process.env.SERVER_PORT, () => {
   console.log(`Listening to port ${ process.env.SERVER_PORT }`);

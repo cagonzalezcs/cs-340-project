@@ -1,9 +1,53 @@
 <script setup>
+import { reactive, watch } from 'vue';
 import AppModal from '../../components/AppModal.vue';
+import { getAuthToken } from '../../utils/cookies';
+
+const baseUrl = import.meta.env.VITE_SERVER_URI;
+
+let state = reactive({
+  userWishList: [],
+})
+
 const props = defineProps({
   'isUserWishListModalActive': Boolean,
+  user: {
+    type: Object, default: () => {
+    }, required: false,
+  },
 });
+
 const emit = defineEmits(['toggleUserWishListModal']);
+
+function setUserWishLIst(items) {
+  if(items?.length) {
+    state.userWishList = items;
+  }
+};
+
+watch(() => props.isUserWishListModalActive, async () => {
+  if(!props.isUserWishListModalActive) {
+    state.userWishList = [];
+    return;
+  }
+  let userId = props.user.id;
+  try {
+    const response = await fetch(`${baseUrl}users/wish-list/${userId}`, {
+      method: 'GET', 
+      headers: {
+        'Content-type': 'application/json', 
+        Authorization: `Bearer ${ getAuthToken() }`,
+      },
+    });
+    const data = await response.json();
+    if(!data.length) {
+      return;
+    }
+    setUserWishLIst(data);
+  } catch (error) {
+    console.error(error);
+  }
+});
 
 const toggleUserWishListModal = () => {
   emit('toggleUserWishListModal');
@@ -12,33 +56,16 @@ const toggleUserWishListModal = () => {
 
 <template>
   <app-modal :is-modal-active='props.isUserWishListModalActive' @toggle-active-status='toggleUserWishListModal'>
-    <div id='viewWishList'>
-      <p><strong>All Wish List Books for user_id: 1</strong></p>
+    <div v-if='props.user' id='viewWishList'>
+      <p><strong>All Wish List Books for user_id: {{ props.user.id }}</strong></p>
       <table border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;'>
         <tr>
           <th>book_id</th>
           <th>title</th>
-          <th></th>
         </tr>
-        <tr>
-          <td>3</td>
-          <td>nisi venenatis tristique fusce</td>
-          <td><a href='#'>Delete</a></td>
-        </tr>
-        <tr>
-          <td>9</td>
-          <td>auctor gravida sem praesent id</td>
-          <td><a href='#'>Delete</a></td>
-        </tr>
-        <tr>
-          <td>7</td>
-          <td>in leo maecenas pulvinar lobortis est phasellus</td>
-          <td><a href='#'>Delete</a></td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>bibendum imperdiet nullam orci pede venenatis non ...</td>
-          <td><a href='#'>Delete</a></td>
+        <tr v-for='item in state.userWishList' :key='item.user_id'>
+          <td>{{ item.id }}</td>
+          <td>{{ item.title }}</td>
         </tr>
       </table>
     </div><!-- viewWishList by User -->

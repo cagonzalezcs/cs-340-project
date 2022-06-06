@@ -63,7 +63,7 @@ async function getGenres() {
   } catch (error) {
     console.error(error);
   }
-}
+};
 
 const currentlySeletedGenre = computed(() => {
   if (state.currentlySelectedGenreIndex < 0) {
@@ -89,16 +89,18 @@ const handleGenreDeleted = () => {
 <template>
   <div id='header'>
     <h1>Genres</h1>
+    <button @click='toggleAddGenreModal'>Add New Genre</button>
   </div>
+  <br />
   <div id='browseGenres'>
     <table 
-      v-if='state.genres && state.genres.length' border='1' cellpadding='5' 
+      v-if='state.genres?.length' border='1' cellpadding='5' 
       style='margin-left: auto; margin-right: auto;'>
       <tr>
         <th>id</th>
         <th>name</th>
         <th></th>
-        <th><button @click='toggleAddGenreModal'>Add New Genre</button></th>
+        <th></th>
       </tr>
       <tr v-for='(genre, index) in state.genres' :key='genre.id'>
         <td>{{ genre.id }}</td>

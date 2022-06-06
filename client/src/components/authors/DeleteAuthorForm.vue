@@ -24,7 +24,7 @@ const deleteAuthor = async () => {
       },
     });
     if (response.status !== 200) {
-      alert('There was an error delete the author. Please try again.');
+      alert('There was an error delet the author. Please try again.');
       return;
     }
     alert('Successfully Deleted');
