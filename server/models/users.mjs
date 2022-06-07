@@ -146,7 +146,7 @@ const updateUser = async (userId, userRoleId, firstName, lastName, email, addres
   const updatedAddressLine2 = addressLine2 || userRecord.address_line_2;
   const updatedCity = city || userRecord.city;
   const updatedState = state || userRecord.state;
-  const updatedPassword = password ? encryptString(password) : userRecord.password;
+  const updatedPassword = password !== '' ? encryptString(password) : userRecord.password;
 
   await dbQuery(
     `UPDATE users
