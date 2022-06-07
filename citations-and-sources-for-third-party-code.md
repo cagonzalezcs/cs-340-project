@@ -9,7 +9,7 @@ Largely any code that exists as implemented within the source files of the serve
 - For the user password and JWT token encryption, we leveraged a [found gist on Github](https://gist.github.com/vlucas/2bd40f62d20c1d49237a109d491974eb). This gist provided an implementation using the crypto package that comes natively with node js. This can be seen within the file at `/server/utils/encryption.mjs`. 
   - Source: https://gist.github.com/vlucas/2bd40f62d20c1d49237a109d491974eb
 - For the JSON web token implementation, we based our work largely on a [Digital Ocean tutorial](https://www.digitalocean.com/community/tutorials/nodejs-jwt-expressjs) that provided the basic framework for our middleware. The work for this mainly encompasses the implementation for the `checkAuthToken` middleware function in the file `/server/utils/middleware.mjs`. The other two functions we implemented on our own through research on the express documentation.
-  - https://www.digitalocean.com/community/tutorials/nodejs-jwt-expressjs
+  - Source: https://www.digitalocean.com/community/tutorials/nodejs-jwt-expressjs
 - Outside these two examples, we used a variety of standard node libraries including packages like `express`, `mysql`, `cors`, and other open source packages. All the code leveraged here was implemented through help of the documentation for each of these packages. These include:
   - [cors](https://github.com/expressjs/cors)
   - [dotenv](https://github.com/motdotla/dotenv)
