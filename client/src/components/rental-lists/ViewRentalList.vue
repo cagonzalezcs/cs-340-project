@@ -88,14 +88,15 @@ const toggleViewRentalListModal = () => {
   emit('toggleViewRentalListModal');
 };
 
-const handleToggleRemoveModal = (itemId) => {
-  let foundData = {};
-  state.userRentalList?.find(data => {
-    if (data?.id === itemId) {
-      foundData = { bookId: data.book_id, bookTitle: data.title };
-    }
-  });
-  state.rentalBookForDelete = foundData;
+const handleToggleRemoveModal = (item) => {
+  // state.userRentalList?.find(data => {
+  //   if (data?.id === itemId) {
+  //     foundData = { bookId: data.book_id, bookTitle: data.title };
+  //   }
+  // });
+  console.log(item);
+  state.rentalBookForDelete = item;
+  console.log(state.rentalBookForDelete);
   state.isRemoveFromRentalListModalActive = true;
 };
 
@@ -123,7 +124,7 @@ v-if='props.user && props.isViewRentalListModalActive && !state.isRemoveFromRent
             <td>{{ item.book_id }}</td>
             <td>{{ item.title }}</td>
             <td>
-              <button @click='handleToggleRemoveModal(item.id)'>Delete</button>
+              <button @click='handleToggleRemoveModal(item)'>Delete</button>
             </td>
           </tr>
         </table>
@@ -133,14 +134,14 @@ v-if='props.user && props.isViewRentalListModalActive && !state.isRemoveFromRent
           <legend><strong>Delete Book from Rental List</strong></legend>
           <fieldset class='fields'>
             <p>Are you sure you wish to delete the following Rental List item?</p>
-            <input id='deleteRentalListBook' type='hidden' name='bookID' :value='state.rentalBookForDelete.bookId'>
+            <input id='deleteRentalListBook' type='hidden' name='bookID' :value='state.rentalBookForDelete.book_id'>
             <label><strong>user_id:</strong></label> {{ props.user.id }}
-            <label><strong>book_id:</strong></label> {{ state.rentalBookForDelete.bookId }}
-            <label><strong>title:</strong> </label> {{ state.rentalBookForDelete.bookTitle }}
+            <label><strong>book_id:</strong></label> {{ state.rentalBookForDelete.book_id }}
+            <label><strong>title:</strong> </label> {{ state.rentalBookForDelete.title }}
           </fieldset>
           <input
 id='DeleteBook' class='app-button app-button--accept' type='submit'
-                 value='Delete Book From Rental List' @click='deleteRentalListItem(state.rentalBookForDelete.bookId)'>
+                 value='Delete Book From Rental List' @click='deleteRentalListItem(state.rentalBookForDelete.book_id)'>
           <input class='app-button app-button--cancel' type='button' value='Cancel' @click='cancelDelete()'>
         </form>
       </div>

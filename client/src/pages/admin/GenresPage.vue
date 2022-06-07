@@ -6,6 +6,9 @@ import EditGenreForm from '../../components/genres/EditGenreForm.vue';
 import DeleteGenreForm from '../../components/genres/DeleteGenreForm.vue';
 import { getAuthToken } from '../../utils/cookies';
 import AdminLayout from '../../components/layouts/AdminLayout.vue';
+import { useAdminStore } from '../../stores/admin';
+
+const adminStore = useAdminStore();
 
 onMounted(async () => {
   await checkUserIsAdmin();
@@ -16,7 +19,7 @@ let state = reactive({
   isAddGenreModalActive: false,
   isEditGenreModalActive: false,
   isDeleteGenreModalActive: false,
-  genres: [], 
+  genres: [],
   currentlySelectedGenreIndex: 0,
 });
 
@@ -41,16 +44,14 @@ const toggleDeleteGenreModal = (genreIndex) => {
 };
 
 function setGenre(genres) {
-  if (genres?.length) {
-    state.genres = genres;
-  }
+  adminStore.genres = genres?.length ? genres : [];
 };
 
 async function getGenres() {
   const genreUrl = `${ baseUrl }genres`;
   try {
     const response = await fetch(genreUrl, {
-      method: 'GET', 
+      method: 'GET',
       headers: {
         'Content-type': 'application/json',
         Authorization: `Bearer ${ getAuthToken() }`,
@@ -70,7 +71,7 @@ const currentlySeletedGenre = computed(() => {
   if (state.currentlySelectedGenreIndex < 0) {
     return [];
   }
-  return state.genres[state.currentlySelectedGenreIndex];
+  return adminStore.genres[state.currentlySelectedGenreIndex];
 });
 
 const handleGenreAdded = () => {
@@ -89,9 +90,9 @@ const handleGenreDeleted = () => {
 
 <template>
   <admin-layout>
-    <header class="app-header">
-      <h1 class="app-header__heading">Genres</h1>
-      <div class="app-header__actions">
+    <header class='app-header'>
+      <h1 class='app-header__heading'>Genres</h1>
+      <div class='app-header__actions'>
         <button class='app-header__button' @click='toggleAddGenreModal'>Add New Genre</button>
       </div>
     </header>
@@ -99,7 +100,7 @@ const handleGenreDeleted = () => {
 
     <div id='browseGenres'>
       <table
-        v-if='state.genres?.length' border='1' cellpadding='5'
+        v-if='adminStore.genres?.length' border='1' cellpadding='5'
         style='margin-left: auto; margin-right: auto;'
         class='app-table'
       >
@@ -109,12 +110,13 @@ const handleGenreDeleted = () => {
           <th></th>
           <th></th>
         </tr>
-        <tr v-for='(genre, index) in state.genres' :key='genre.id'>
+        <tr v-for='(genre, index) in adminStore.genres' :key='genre.id'>
           <td>{{ genre.id }}</td>
           <td>{{ genre.name }}</td>
           <td colspan='2'>
             <div class='app-table__actions'>
-              <button @click='toggleEditGenreModal(index)'>Edit Genre</button> <button class='red-button' @click='toggleDeleteGenreModal(index)'>Delete Genre</button>
+              <button @click='toggleEditGenreModal(index)'>Edit Genre</button>
+              <button class='red-button' @click='toggleDeleteGenreModal(index)'>Delete Genre</button>
             </div>
           </td>
         </tr>

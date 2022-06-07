@@ -4,6 +4,10 @@ import { checkUserIsAdmin } from '../../router/middleware.js';
 import ViewRentalList from '../../components/rental-lists/ViewRentalList.vue';
 import { getAuthToken } from '../../utils/cookies';
 import AdminLayout from '../../components/layouts/AdminLayout.vue';
+import AddToRentalList from '../../components/rental-lists/AddToRentalList.vue';
+import { useAdminStore } from '../../stores/admin';
+
+const adminStore = useAdminStore();
 
 onMounted(async () => {
   await checkUserIsAdmin();
@@ -12,7 +16,7 @@ onMounted(async () => {
 
 let state = reactive({
   isViewRentalListModalActive: false,
-  rentalLists: [],
+  isAddRentalListModalActive: false,
   currentlySelectedRentalIndex: 0,
 });
 
@@ -26,9 +30,7 @@ const toggleViewModal = (userIndex) => {
 };
 
 function setRentals(items) {
-  if (items?.length) {
-    state.rentalLists = items;
-  }
+  adminStore.rentalLists = items?.length ? items : [];
 };
 
 async function getRentalLists() {
@@ -52,11 +54,24 @@ async function getRentalLists() {
 };
 
 const currentUser = computed(() => {
-  if (state.currentlySelectedRentalIndex < 0) {
+  if (!adminStore.rentalLists || state.currentlySelectedRentalIndex < 0) {
     return [];
   }
-  return state.rentalLists[state.currentlySelectedRentalIndex];
+  return adminStore.rentalLists[state.currentlySelectedRentalIndex];
 });
+
+const toggleAddToRentalListModal = () => {
+  state.isAddRentalListModalActive = !state.isAddRentalListModalActive;
+};
+
+const handleRentalListItemAdded = async () => {
+  toggleAddToRentalListModal();
+  await getRentalLists();
+};
+
+const handleRentalListItemDeleted = async () => {
+  await getRentalLists();
+};
 
 </script>
 
@@ -69,18 +84,19 @@ const currentUser = computed(() => {
           to='/admin/users'
           class='app-header__link'>Back to Users
         </router-link>
+        <button class='app-header__button' @click='toggleAddToRentalListModal'>Add Items to User Rental List</button>
       </div>
     </header>
 
     <div id='browseRentalLists'>
       <table
-        v-if='state.rentalLists?.length' border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;'
+        v-if='adminStore.rentalLists?.length' border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;'
         class='app-table'>
         <tr>
           <th>user id</th>
           <th></th>
         </tr>
-        <tr v-for='(user, index) in state.rentalLists' :key='user.user_id'>
+        <tr v-for='(user, index) in adminStore.rentalLists' :key='user.user_id'>
           <td>{{ user.user_id }}</td>
           <td class='text-right'>
             <button @click='toggleViewModal(index)'>View Rental List Items</button>
@@ -93,6 +109,18 @@ const currentUser = computed(() => {
       :is-view-rental-list-modal-active='state.isViewRentalListModalActive'
       :user='currentUser'
       @toggle-view-rental-list-modal='toggleViewModal'
+      @item-deleted='handleRentalListItemDeleted'
     />
+    <add-to-rental-list
+      :is-add-to-rental-list-modal-active='state.isAddRentalListModalActive'
+      @toggle-add-to-rental-list-modal='toggleAddToRentalListModal'
+      @rental-list-item-added='handleRentalListItemAdded'
+    ></add-to-rental-list>
   </admin-layout>
 </template>
+
+<style scoped lang='scss'>
+.app-header__button {
+  width: 300px;
+}
+</style>

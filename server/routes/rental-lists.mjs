@@ -19,6 +19,11 @@ rentalListsRouter.get('/user/:userId', checkAuthToken, checkIsCurrentCustomer, r
 rentalListsRouter.post('/rent-book', checkAuthToken, checkIsCurrentCustomer, rentalListsController.rentBookForUser);
 
 /**
+ * Add a book to a user's wish list
+ */
+rentalListsRouter.post('/add-book', checkAuthToken, checkIsCurrentCustomer, rentalListsController.createRentalListItem)
+
+/**
  * Delete rental list item
  */
 rentalListsRouter.delete('/', checkAuthToken, checkIsCurrentCustomer, rentalListsController.deleteRentalListItem);

@@ -38,9 +38,14 @@ const rentBookForUser = async (request, response) => {
     const bookId = bookRentalInfo.book_id;
 
     const existingRentals = await rentalListsModel.getAllRentalListItemsForUser(userId);
-    const alreadyRentedBook = existingRentals.filter((rental) => rental.user_id === userId && rental.book_id === bookId);
-    if (alreadyRentedBook.length || existingRentals.length >= 3) {
-      response.status(422).json({ message: 'Cannot process rental, user has the max number of available rentals.' });
+    if (existingRentals.length >= 3) {
+      response.status(422).json({ message: 'Cannot process rental, user cannot rent more than three items at a time.' });
+      return;
+    }
+
+    const alreadyRentedBook = existingRentals.filter((rental) => rental.book_id === bookId);
+    if (alreadyRentedBook.length) {
+      response.status(422).json({ message: 'Cannot process rental, user currently has this in their rental list.' });
       return;
     }
 

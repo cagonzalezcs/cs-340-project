@@ -21,7 +21,6 @@ export const useUserStore = defineStore({
   actions: {
     async logout() {
       try {
-        deleteAuthToken();
         this.$patch({
           id: '',
           roleId: '',
@@ -36,7 +35,7 @@ export const useUserStore = defineStore({
           isLoggedIn: false,
           isAdmin: false,
         });
-
+        deleteAuthToken();
         await fetch(`${import.meta.env.VITE_SERVER_URI}auth/logout`, {
           method: 'POST',
           headers: {

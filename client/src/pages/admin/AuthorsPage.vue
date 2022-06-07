@@ -7,6 +7,7 @@ import DeleteAuthorForm from '../../components/authors/DeleteAuthorForm.vue';
 import AuthorBookList from '../../components/authors/AuthorBookList.vue';
 import { getAuthToken } from '../../utils/cookies';
 import AdminLayout from '../../components/layouts/AdminLayout.vue';
+import { useAdminStore } from '../../stores/admin';
 
 onMounted(async () => {
   await checkUserIsAdmin();
@@ -18,10 +19,10 @@ let state = reactive({
   isEditAuthorModalActive: false,
   isDeleteAuthorModalActive: false,
   isAuthorBookListModalActive: false,
-  authors: [],
   currentlySelectedAuthorIndex: 0,
 });
 
+const adminStore = useAdminStore();
 const baseUrl = import.meta.env.VITE_SERVER_URI;
 
 const toggleAddAuthorModal = () => {
@@ -50,9 +51,7 @@ const toggleAuthorBookListModal = (authorIndex) => {
 };
 
 function setAuthor(authors) {
-  if (authors?.length) {
-    state.authors = authors;
-  }
+  adminStore.authors = authors?.length ? authors : [];
 };
 
 async function getAuthors() {
@@ -80,7 +79,7 @@ const currentlySelectedAuthor = computed(() => {
     return [];
   }
 
-  return state.authors[state.currentlySelectedAuthorIndex];
+  return adminStore.authors[state.currentlySelectedAuthorIndex];
 });
 
 const handleAuthorAdded = () => {
@@ -92,7 +91,7 @@ const handleAuthorUpdated = () => {
 };
 
 const handleAuthorDeleted = () => {
-  state.authors.splice(state.currentlySelectedAuthorIndex, 1);
+  adminStore.authors.splice(state.currentlySelectedAuthorIndex, 1);
   state.currentlySelectedAuthorIndex = 0;
 };
 
@@ -100,13 +99,13 @@ const handleAuthorDeleted = () => {
 
 <template>
   <admin-layout>
-    <header class="app-header">
-      <h1 class="app-header__heading">Authors</h1>
-      <div class="app-header__actions">
+    <header class='app-header'>
+      <h1 class='app-header__heading'>Authors</h1>
+      <div class='app-header__actions'>
         <button class='app-header__button' @click='toggleAddAuthorModal'>Add New Author</button>
       </div>
     </header>
-    <div v-if='state.authors?.length' id='browseAuthors'>
+    <div v-if='adminStore.authors?.length' id='browseAuthors'>
       <table border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;' class='app-table'>
         <tr>
           <th>id</th>
@@ -116,7 +115,7 @@ const handleAuthorDeleted = () => {
           <th></th>
           <th></th>
         </tr>
-        <tr v-for='(author, index) in state.authors' :key='author.id'>
+        <tr v-for='(author, index) in adminStore.authors' :key='author.id'>
           <td>{{ author.id }}</td>
           <td>{{ author.name }}</td>
           <td>{{ author.birth_date }}</td>

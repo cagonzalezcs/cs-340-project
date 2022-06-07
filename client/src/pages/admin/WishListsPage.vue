@@ -4,6 +4,10 @@ import { checkUserIsAdmin } from '../../router/middleware.js';
 import ViewWishList from '../../components/wish-lists/ViewWishList.vue';
 import AdminLayout from '../../components/layouts/AdminLayout.vue';
 import { getAuthToken } from '../../utils/cookies';
+import AddToWishList from '../../components/wish-lists/AddToWishList.vue';
+import { useAdminStore } from '../../stores/admin';
+
+const adminStore = useAdminStore();
 
 onMounted(async () => {
   await checkUserIsAdmin();
@@ -12,7 +16,7 @@ onMounted(async () => {
 
 let state = reactive({
   isViewWishListModalActive: false,
-  wishLists: [],
+  isAddWishListModalActive: false,
   currentlySelectedWishListIndex: 0,
 });
 
@@ -25,10 +29,8 @@ const toggleViewModal = (userIndex) => {
   state.isViewWishListModalActive = !state.isViewWishListModalActive;
 };
 
-function setWishs(items) {
-  if (items?.length) {
-    state.wishLists = items;
-  }
+function setWishListItems(items) {
+  adminStore.wishLists = items?.length ? items : [];
 };
 
 async function getWishLists() {
@@ -42,23 +44,34 @@ async function getWishLists() {
       },
     });
     const wishListData = await response.json();
-    if(!wishListData.length) {
+    if (!wishListData.length) {
       return;
     }
-    setWishs(wishListData);
+    setWishListItems(wishListData);
   } catch (error) {
     console.error(error);
   }
-};
+}
 
 const currentUser = computed(() => {
-  if (state.currentlySelectedWishListIndex < 0) {
+  if (!adminStore.wishLists || state.currentlySelectedWishListIndex < 0) {
     return [];
   }
-  const found = state.wishLists[state.currentlySelectedWishListIndex];
-  return found;
+  return adminStore.wishLists[state.currentlySelectedWishListIndex];
 });
 
+const toggleAddToWishListModal = () => {
+  state.isAddWishListModalActive = !state.isAddWishListModalActive;
+};
+
+const handleWishListItemAdded = async () => {
+  toggleAddToWishListModal();
+  await getWishLists();
+};
+
+const handleWishListItemDeleted = async () => {
+  await getWishLists();
+};
 </script>
 
 <template>
@@ -70,18 +83,18 @@ const currentUser = computed(() => {
           to='/admin/users'
           class='app-header__link'>Back to Users
         </router-link>
+        <button class='app-header__button' @click='toggleAddToWishListModal'>Add Items to User Wish List</button>
       </div>
     </header>
-
-
-
     <div id='browseWishLists'>
-      <table v-if='state.wishLists?.length' border='1' cellpadding='5' style='margin-left: auto; margin-right: auto;' class='app-table'>
+      <table
+        v-if='adminStore.wishLists?.length' border='1' cellpadding='5'
+        style='margin-left: auto; margin-right: auto;' class='app-table'>
         <tr>
           <th>user id</th>
           <th></th>
         </tr>
-        <tr v-for='(user, index) in state.wishLists' :key='user.user_id'>
+        <tr v-for='(user, index) in adminStore.wishLists' :key='user.user_id'>
           <td>{{ user.user_id }}</td>
           <td class='text-right'>
             <button @click='toggleViewModal(index)'>View Wish List Items</button>
@@ -90,10 +103,22 @@ const currentUser = computed(() => {
       </table>
     </div><!-- browseWishList -->
 
-  <view-wish-list
-    :is-view-wish-list-modal-active='state.isViewWishListModalActive'
-    :user='currentUser'
-    @toggle-view-wish-list-modal='toggleViewModal'
-  />
+    <view-wish-list
+      :is-view-wish-list-modal-active='state.isViewWishListModalActive'
+      :user='currentUser'
+      @toggle-view-wish-list-modal='toggleViewModal'
+      @item-deleted='handleWishListItemDeleted'
+    />
+    <add-to-wish-list
+      :is-add-to-wish-list-modal-active='state.isAddWishListModalActive'
+      @toggle-add-to-wish-list-modal='toggleAddToWishListModal'
+      @wish-list-item-added='handleWishListItemAdded'
+    ></add-to-wish-list>
   </admin-layout>
 </template>
+
+<style scoped lang='scss'>
+.app-header__button {
+  width: 300px;
+}
+</style>

@@ -5,19 +5,24 @@ import SearchBookResults from '../../components/books/SearchBookResults.vue';
 import { getAuthToken } from '../../utils/cookies';
 import AdminLayout from '../../components/layouts/AdminLayout.vue';
 import { useToast } from 'vue-toastification';
+import { useAdminStore } from '../../stores/admin';
 
+const adminStore = useAdminStore();
 
 onMounted(async () => {
   await checkUserIsAdmin();
-  await getAuthors();
-  await getGenres();
+  if (!adminStore.authors.length) {
+    await getAuthors();
+
+  }
+  if (!adminStore.genres.length) {
+    await getGenres();
+  }
 });
 
 let state = reactive({
   isBooksResultsModalActive: false,
   foundBooks: [],
-  authors: [],
-  genres: [],
   selectedTitle: '',
   selectedGenreId: 0,
   selectedAuthorId: 0,
@@ -31,22 +36,22 @@ const toggleBookResultsModal = () => {
   state.isBooksResultsModalActive = !state.isBooksResultsModalActive;
 };
 
-function setBooks(books) {
+function setFoundBooks(books) {
   if (books?.length) {
-    state.books = books;
+    state.foundBooks = books;
   }
 }
 
 function setAuthors(authors) {
   if (authors?.length) {
-    state.authors = authors;
+    adminStore.authors = authors;
     state.selectedAuthorId = authors[0].id;
   }
 }
 
 function setGenres(genres) {
   if (genres?.length) {
-    state.genres = genres;
+    adminStore.genres = genres;
     state.selectedGenreId = genres[0].id;
   }
 }
@@ -97,7 +102,7 @@ const searchByTitle = async () => {
     return;
   }
 
-  const searchTitleUrl = `${ baseUrl }books/search/title/${encodeURIComponent(state.selectedTitle)}`;
+  const searchTitleUrl = `${ baseUrl }books/search/title/${ encodeURIComponent(state.selectedTitle) }`;
   try {
     const response = await fetch(searchTitleUrl, {
       method: 'GET',
@@ -112,7 +117,7 @@ const searchByTitle = async () => {
       return;
     }
 
-    setBooks(bookData);
+    setFoundBooks(bookData);
     toggleBookResultsModal();
   } catch (error) {
     console.error(error);
@@ -120,7 +125,7 @@ const searchByTitle = async () => {
 };
 
 const searchByAuthor = async () => {
-  const searchAuthorUrl = `${ baseUrl }books/search/author/${state.selectedAuthorId}`;
+  const searchAuthorUrl = `${ baseUrl }books/search/author/${ state.selectedAuthorId }`;
   try {
     const response = await fetch(searchAuthorUrl, {
       method: 'GET',
@@ -134,7 +139,7 @@ const searchByAuthor = async () => {
       return;
     }
 
-    setBooks(bookData);
+    setFoundBooks(bookData);
     toggleBookResultsModal();
   } catch (error) {
     console.error(error);
@@ -142,7 +147,7 @@ const searchByAuthor = async () => {
 };
 
 const searchByGenre = async () => {
-  const searchGenreUrl = `${ baseUrl }books/search/genre/${state.selectedGenreId}`;
+  const searchGenreUrl = `${ baseUrl }books/search/genre/${ state.selectedGenreId }`;
   try {
     const response = await fetch(searchGenreUrl, {
       method: 'GET',
@@ -156,7 +161,7 @@ const searchByGenre = async () => {
       return;
     }
 
-    setBooks(bookData);
+    setFoundBooks(bookData);
     toggleBookResultsModal();
   } catch (error) {
     console.error(error);
@@ -166,8 +171,8 @@ const searchByGenre = async () => {
 
 <template>
   <admin-layout>
-    <header class="app-header">
-      <h1 class="app-header__heading">Search Books</h1>
+    <header class='app-header'>
+      <h1 class='app-header__heading'>Search Books</h1>
     </header>
 
     <div id='search-title' style='display: block' class='text-left'>
@@ -177,37 +182,45 @@ const searchByGenre = async () => {
           <label for='book-title'> Title: </label>
           <input id='book-title' v-model='state.selectedTitle' type='text' name='book-title'>
         </fieldset>
-        <input id='BookSearchTitle' class='btn' type='submit' style='margin-left: 0'  value='Search for Books by Title' @click='searchByTitle'>
+        <input
+id='BookSearchTitle' class='btn' type='submit' style='margin-left: 0' value='Search for Books by Title'
+               @click='searchByTitle'>
       </form>
     </div><!-- search by title -->
     <br />
-    <div v-if='state?.authors' id='search-author' style='display: block' class='text-left'>
+    <div v-if='adminStore.authors' id='search-author' style='display: block' class='text-left'>
       <form id='searchBookTitles' class='app-form ml-0 mb-10' style='margin-left: 0' method='POST' @submit.prevent>
         <legend><strong>Choose an Author</strong></legend>
         <fieldset class='fields'>
           <label for='author_id'> Genre: </label>
           <select id='author_id' v-model='state.selectedAuthorId'>
-            <option v-for='author of state.authors' :key='`author-${author.id}`' :value='author.id'>{{ author.name }}
+            <option v-for='author of adminStore.authors' :key='`author-${author.id}`' :value='author.id'>{{ author.name }}
             </option>
           </select>
         </fieldset>
-        <input id='BookSearchAuthor' class='btn' style='margin-left: 0' type='submit' value='Search for Books by Author' @click='searchByAuthor'>
+        <input
+id='BookSearchAuthor' class='btn' style='margin-left: 0' type='submit' value='Search for Books by Author'
+               @click='searchByAuthor'>
       </form>
     </div><!-- search by author -->
     <br />
-    <div v-if='state?.genres' id='search-genre' style='display: block' class='text-left'>
+    <div v-if='adminStore.genres' id='search-genre' style='display: block' class='text-left'>
       <form id='searchBookGenres' class='app-form ml-0 mb-10' style='margin-left: 0' method='POST' @submit.prevent>
         <legend><strong>Select a Genre</strong></legend>
         <fieldset class='fields'>
           <label for='genre-id'> Genre: </label>
           <select id='genre-id' v-model='state.selectedGenreId'>
-            <option v-for='genre of state.genres' :key='`genre-${genre.id}`' :value='genre.id'>{{ genre.name }}</option>
+            <option v-for='genre of adminStore.genres' :key='`genre-${genre.id}`' :value='genre.id'>{{ genre.name }}</option>
           </select>
         </fieldset>
-        <input id='BookSearchGenre' class='btn' type='submit' style='margin-left: 0'  value='Search for Books by Genre' @click='searchByGenre'>
+        <input
+id='BookSearchGenre' class='btn' type='submit' style='margin-left: 0' value='Search for Books by Genre'
+               @click='searchByGenre'>
       </form>
     </div><!-- search by genre -->
-    <search-book-results :books='state.books' :is-books-results-modal-active='state.isBooksResultsModalActive' @toggle-book-results-modal='toggleBookResultsModal' />
+    <search-book-results
+:books='state.foundBooks' :is-books-results-modal-active='state.isBooksResultsModalActive'
+                         @toggle-book-results-modal='toggleBookResultsModal' />
   </admin-layout>
 </template>
 

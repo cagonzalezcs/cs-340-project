@@ -112,7 +112,6 @@ const addItemToWishList = async () => {
 
     if (response.status === 422) {
       const responseData = await response.json();
-      console.log(responseData);
       toast.error(responseData.message, {
         position: POSITION.BOTTOM_CENTER,
       });

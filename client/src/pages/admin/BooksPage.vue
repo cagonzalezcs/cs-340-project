@@ -6,13 +6,20 @@ import UpdateBookForm from '../../components/books/UpdateBookForm.vue';
 import DeleteBookForm from '../../components/books/DeleteBookForm.vue';
 import { getAuthToken } from '../../utils/cookies';
 import AdminLayout from '../../components/layouts/AdminLayout.vue';
+import { useAdminStore } from '../../stores/admin';
+
+const adminStore = useAdminStore();
 
 onMounted(() => {
   checkUserIsAdmin()
     .then(() => {
       getBooks().then(() => {
-        getAuthors();
-        getGenres();
+        if (!adminStore.authors.length) {
+          getAuthors();
+        }
+        if (!adminStore.genres.length) {
+          getGenres();
+        }
       });
     });
 });
@@ -21,9 +28,6 @@ let state = reactive({
   isAddBookModalActive: false,
   isUpdateBookModalActive: false,
   isDeleteBookModalActive: false,
-  books: [],
-  authors: [],
-  genres: [],
   currentlySelectedBookIndex: 0,
 });
 
@@ -48,21 +52,15 @@ const toggleDeleteBookModal = (bookIndex) => {
 };
 
 function setBooks(books) {
-  if (books?.length) {
-    state.books = books;
-  }
+  adminStore.books = books?.length ? books : [];
 }
 
 function setAuthors(authors) {
-  if (authors?.length) {
-    state.authors = authors;
-  }
+  adminStore.authors = authors?.length ? authors : [];
 }
 
 function setGenres(genres) {
-  if (genres?.length) {
-    state.genres = genres;
-  }
+  adminStore.genres = genres?.length ? genres : [];
 }
 
 async function getBooks() {
@@ -130,7 +128,7 @@ const currentlySelectedBook = computed(() => {
     return [];
   }
 
-  return state.books[state.currentlySelectedBookIndex];
+  return adminStore.books[state.currentlySelectedBookIndex];
 });
 
 const handleBookAdded = () => {
@@ -139,7 +137,7 @@ const handleBookAdded = () => {
 };
 
 const handleBookDeleted = () => {
-  state.books.splice(state.currentlySelectedBookIndex, 1);
+  adminStore.books.splice(state.currentlySelectedBookIndex, 1);
   state.currentlySelectedBookIndex = 0;
 };
 
@@ -151,12 +149,12 @@ const handleBookUpdated = () => {
 
 <template>
   <admin-layout>
-    <header class="app-header">
-      <h1 class="app-header__heading">Books</h1>
-      <div class="app-header__actions">
+    <header class='app-header'>
+      <h1 class='app-header__heading'>Books</h1>
+      <div class='app-header__actions'>
         <router-link
           to='/admin/search-books'
-          class="app-header__link">Search All Books
+          class='app-header__link'>Search All Books
         </router-link>
         <button class='app-header__button' @click='toggleAddBookModal'>Add New Book</button>
       </div>
@@ -165,7 +163,7 @@ const handleBookUpdated = () => {
 
     <div id='browse'>
       <table
-        v-if='state.books && state.books.length' border='1' cellpadding='5'
+        v-if='adminStore.books && adminStore.books.length' border='1' cellpadding='5'
         style='margin-left: auto; margin-right: auto;'
         class='app-table'
       >
@@ -181,13 +179,13 @@ const handleBookUpdated = () => {
           <th></th>
           <th></th>
         </tr>
-        <tr v-for='(book, index) in state.books' :key='`book-${book.id}`'>
+        <tr v-for='(book, index) in adminStore.books' :key='`book-${book.id}`'>
           <td> {{ book.id }}</td>
           <td> {{ book.title }}</td>
           <td> {{ book.authors }}</td>
           <td> {{ book.genre }}</td>
           <td> {{ book.isbn }}</td>
-          <td><img :src="book.cover_image" width='45' class='mx-auto'/></td>
+          <td><img :src='book.cover_image' width='45' class='mx-auto' /></td>
           <td> {{ book.quantity_available }}</td>
           <td> {{ book.quantity_rented }}</td>
           <td colspan='2'>
@@ -202,16 +200,16 @@ const handleBookUpdated = () => {
 
     <add-book-form
       :is-add-book-modal-active='state.isAddBookModalActive'
-      :authors='state.authors'
-      :genres='state.genres'
+      :authors='adminStore.authors'
+      :genres='adminStore.genres'
       @toggle-add-book-modal='toggleAddBookModal'
       @book-added='handleBookAdded'
     />
     <update-book-form
       :is-update-book-modal-active='state.isUpdateBookModalActive'
       :book='currentlySelectedBook'
-      :authors='state.authors'
-      :genres='state.genres'
+      :authors='adminStore.authors'
+      :genres='adminStore.genres'
       @toggle-update-book-modal='toggleUpdateBookModal'
       @book-updated='handleBookUpdated' />
     <delete-book-form

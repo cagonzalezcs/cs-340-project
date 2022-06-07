@@ -6,6 +6,9 @@ import EditRoleForm from '../../components/roles/EditRoleForm.vue';
 import DeleteRoleForm from '../../components/roles/DeleteRoleForm.vue';
 import { getAuthToken } from '../../utils/cookies';
 import AdminLayout from '../../components/layouts/AdminLayout.vue';
+import { useAdminStore } from '../../stores/admin';
+
+const adminStore = useAdminStore();
 
 onMounted(async () => {
   await checkUserIsAdmin();
@@ -16,7 +19,6 @@ let state = reactive({
   isAddRoleModalActive: false,
   isEditRoleModalActive: false,
   isDeleteRoleModalActive: false,
-  userRoles: [],
   currentlySelectedUserRoleIndex: 0,
 });
 
@@ -41,11 +43,7 @@ const toggleDeleteRoleModal = (userRoleIndex) => {
 };
 
 const setUserRoles = (userRoles) => {
-  if (!userRoles?.length) {
-    return;
-  }
-
-  state.userRoles = userRoles;
+  adminStore.userRoles = userRoles?.length ? userRoles : [];
 };
 
 const getUserRoles = async () => {
@@ -73,7 +71,7 @@ const currentlySelectedUserRole = computed(() => {
     return [];
   }
 
-  return state.userRoles[state.currentlySelectedUserRoleIndex];
+  return adminStore.userRoles[state.currentlySelectedUserRoleIndex];
 });
 
 const handleUserRoleAdded = () => {
@@ -85,16 +83,16 @@ const handleUserRoleUpdated = () => {
 };
 
 const handleUserRoleDeleted = () => {
-  state.userRoles.splice(state.currentlySelectedUserRoleIndex, 1);
+  adminStore.userRoles.splice(state.currentlySelectedUserRoleIndex, 1);
   state.currentlySelectedUserRoleIndex = 0;
 };
 </script>
 
 <template>
   <admin-layout>
-    <header class="app-header">
-      <h1 class="app-header__heading">Roles</h1>
-      <div class="app-header__actions">
+    <header class='app-header'>
+      <h1 class='app-header__heading'>Roles</h1>
+      <div class='app-header__actions'>
         <button class='app-header__button' @click='toggleAddRoleModal'>Add New Role</button>
       </div>
     </header>
@@ -106,7 +104,7 @@ const handleUserRoleDeleted = () => {
           <th></th>
           <th></th>
         </tr>
-        <tr v-for='(userRole, index) in state.userRoles' :key='`user-role-${userRole.id}`'>
+        <tr v-for='(userRole, index) in adminStore.userRoles' :key='`user-role-${userRole.id}`'>
           <td>{{ userRole.id }}</td>
           <td>{{ userRole.type }}</td>
           <td colspan='2'>

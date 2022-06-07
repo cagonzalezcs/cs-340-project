@@ -88,14 +88,8 @@ const toggleViewWishListModal = () => {
   emit('toggleViewWishListModal');
 };
 
-const handleToggleRemoveModal = (itemId) => {
-  let foundData = {};
-  state.userWishList?.find(data => {
-    if (data?.id === itemId) {
-      foundData = { bookId: data.book_id, bookTitle: data.title };
-    }
-  });
-  state.wishListBookForDelete = foundData;
+const handleToggleRemoveModal = (item) => {
+  state.wishListBookForDelete = item;
   state.isRemoveFromWishListModalActive = true;
 };
 
@@ -119,7 +113,7 @@ const cancelDelete = () => {
           <tr v-for='(item) in state.userWishList' :key='item.user_id'>
             <td>{{ item.book_id }}</td>
             <td>{{ item.title }}</td>
-            <td><button @click='handleToggleRemoveModal(item.id)'>Delete</button></td>
+            <td><button @click='handleToggleRemoveModal(item)'>Delete</button></td>
           </tr>
         </table>
       </div>
@@ -128,12 +122,12 @@ const cancelDelete = () => {
           <legend><strong>Delete Book from Wish List</strong></legend>
           <fieldset class='fields'>
           <p>Are you sure you wish to delete the following Wish List item?</p>
-          <input id='deleteWishListBook' type='hidden' name='bookID' :value='state.wishListBookForDelete.bookId'>
+          <input id='deleteWishListBook' type='hidden' name='bookID' :value='state.wishListBookForDelete.book_id'>
           <label><strong>user_id:</strong></label> {{ props.user.id }}
-          <label><strong>book_id:</strong></label> {{ state.wishListBookForDelete.bookId }}
-          <label><strong>title:</strong> </label> {{ state.wishListBookForDelete.bookTitle }}
+          <label><strong>book_id:</strong></label> {{ state.wishListBookForDelete.book_id }}
+          <label><strong>title:</strong> </label> {{ state.wishListBookForDelete.title }}
         </fieldset>
-        <input id='DeleteBook' class='app-button app-button--accept' type='submit' value='Delete Book From Wish List' @click='deleteWishListItem(state.wishListBookForDelete.bookId)'>
+        <input id='DeleteBook' class='app-button app-button--accept' type='submit' value='Delete Book From Wish List' @click='deleteWishListItem(state.wishListBookForDelete.book_id)'>
         <input class='app-button app-button--cancel' type='button' value='Cancel' @click='cancelDelete()'>
         </form>
       </div>

@@ -8,11 +8,17 @@ import DeleteUserForm from '../../components/users/DeleteUserForm.vue';
 import UserWishList from '../../components/users/UserWishList.vue';
 import UserRentalList from '../../components/users/UserRentalList.vue';
 import { getAuthToken } from '../../utils/cookies';
+import { useAdminStore} from '../../stores/admin';
+
+const adminStore = useAdminStore();
 
 onMounted(async () => {
   await checkUserIsAdmin();
   await getUsers();
-  await getUserRoles();
+
+  if (!adminStore.userRoles.length) {
+    await getUserRoles();
+  }
 });
 
 let state = reactive({
@@ -21,8 +27,6 @@ let state = reactive({
   isDeleteUserModalActive: false,
   isUserWishListModalActive: false,
   isUserRentalListModalActive: false,
-  users: [],
-  userRoles: [],
   currentlySelectedUserIndex: 0,
 });
 
@@ -61,19 +65,11 @@ const toggleUserRentalListModal = (userIndex) => {
 };
 
 const setUsers = (users) => {
-  if (!users?.length) {
-    return;
-  }
-
-  state.users = users;
+  adminStore.users = users?.length ? users : [];
 };
 
 const setUserRoles = (userRoles) => {
-  if (!userRoles?.length) {
-    return;
-  }
-
-  state.userRoles = userRoles;
+  adminStore.userRoles = userRoles?.length ? userRoles : [];
 };
 
 const getUsers = async () => {
@@ -121,7 +117,7 @@ const currentlySelectedUser = computed(() => {
     return [];
   }
 
-  return state.users[state.currentlySelectedUserIndex];
+  return adminStore.users[state.currentlySelectedUserIndex];
 });
 
 const handleUserAdded = () => {
@@ -133,7 +129,7 @@ const handleUserUpdated = () => {
 };
 
 const handleUserDeleted = () => {
-  state.users.splice(state.currentlySelectedUserIndex, 1);
+  adminStore.users.splice(state.currentlySelectedUserIndex, 1);
   state.currentlySelectedUserIndex = 0;
 };
 
@@ -173,7 +169,7 @@ const handleUserDeleted = () => {
           <th></th>
           <th></th>
         </tr>
-        <tr v-for='(user, index) in state.users' :key='`user-${user.id}`'>
+        <tr v-for='(user, index) in adminStore.users' :key='`user-${user.id}`'>
           <td>{{ user.id }}</td>
           <td>{{ user.user_role_id }}</td>
           <td>{{ user.first_name }}</td>
@@ -197,12 +193,12 @@ const handleUserDeleted = () => {
 
     <add-user-form
       :is-add-user-modal-active='state.isAddUserModalActive'
-      :user-roles='state.userRoles'
+      :user-roles='adminStore.userRoles'
       @toggle-add-user-modal='toggleAddUserModal'
       @user-added='handleUserAdded' />
     <update-user-form
       :user='currentlySelectedUser'
-      :user-roles='state.userRoles'
+      :user-roles='adminStore.userRoles'
       :is-update-user-modal-active='state.isUpdateUserModalActive'
       @toggle-update-user-modal='toggleUpdateUserModal'
       @user-updated='handleUserUpdated' />
